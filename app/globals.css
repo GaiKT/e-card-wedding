@@ -1,26 +1,257 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playpen+Sans+Thai:wght@100..800&display=swap');
 @import "tailwindcss";
 
+/* Custom CSS Variables for Luxury Theme */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --gold: #FFD700;
+  --rose-gold: #E8B4A0;
+  --cream: #F5F5DC;
+  --soft-pink: #FFF0F5;
+  --warm-orange: #FFA366;
+  --warm-peach: #FFCC99;
+  --warm-rose: #FFB3BA;
+  --warm-coral: #FFB07A;
+  --warm-apricot: #FFCCCB;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: linear-gradient(135deg, 
+    rgba(255, 248, 240, 0.8) 0%, 
+    rgba(255, 240, 245, 0.8) 25%,
+    rgba(254, 248, 255, 0.8) 50%,
+    rgba(255, 245, 238, 0.8) 75%,
+    rgba(255, 250, 240, 0.8) 100%);
+  min-height: 100vh;
+}
+
+/* Parallax container */
+.parallax-container {
+  height: 100vh;
+  overflow-x: hidden;
+  overflow-y: auto;
+  perspective: 1px;
+}
+
+/* Parallax layers */
+.parallax-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.parallax-layer-back {
+  transform: translateZ(-1px) scale(2);
+}
+
+.parallax-layer-base {
+  transform: translateZ(0);
+}
+
+/* Warm gradient backgrounds */
+.bg-warm-gradient-1 {
+  background: linear-gradient(135deg, 
+    rgba(255, 179, 186, 0.3) 0%, 
+    rgba(255, 204, 153, 0.3) 100%);
+}
+
+.bg-warm-gradient-2 {
+  background: linear-gradient(45deg, 
+    rgba(255, 160, 122, 0.2) 0%, 
+    rgba(255, 182, 193, 0.2) 100%);
+}
+
+.bg-warm-gradient-3 {
+  background: radial-gradient(circle, 
+    rgba(255, 218, 185, 0.3) 0%, 
+    rgba(255, 239, 213, 0.1) 100%);
+}
+
+/* Custom scrollbar */
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: var(--gold) transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: linear-gradient(to bottom, #f9a8d4, #ec4899);
+  border-radius: 3px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(to bottom, #ec4899, #be185d);
+}
+
+/* Text shadow for luxury effect */
+.text-shadow-luxury {
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Gold gradient text */
+.text-gold {
+  background: linear-gradient(45deg, #FFD700, #FFA500);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Luxury backdrop blur effect */
+.backdrop-blur-luxury {
+  backdrop-filter: blur(10px) saturate(180%);
+  -webkit-backdrop-filter: blur(10px) saturate(180%);
+}
+
+/* Animation for floating elements */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+@keyframes floatSlow {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-30px) rotate(5deg);
+  }
+}
+
+@keyframes petal-fall {
+  0% {
+    transform: translateY(-100vh) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+@keyframes flower-bloom {
+  0% {
+    transform: scale(0) rotate(0deg);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1) rotate(180deg);
+    opacity: 0.7;
+  }
+}
+
+@keyframes gentle-sway {
+  0%, 100% {
+    transform: translateX(0px) rotate(0deg);
+  }
+  25% {
+    transform: translateX(10px) rotate(2deg);
+  }
+  75% {
+    transform: translateX(-10px) rotate(-2deg);
+  }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-float-slow {
+  animation: floatSlow 8s ease-in-out infinite;
+}
+
+.animate-petal-fall {
+  animation: petal-fall 15s linear infinite;
+}
+
+.animate-flower-bloom {
+  animation: flower-bloom 20s ease-in-out infinite;
+}
+
+.animate-gentle-sway {
+  animation: gentle-sway 12s ease-in-out infinite;
+}
+
+/* Gradient border effect */
+.gradient-border {
+  background: linear-gradient(white, white) padding-box,
+              linear-gradient(45deg, #f9a8d4, #ec4899) border-box;
+  border: 2px solid transparent;
+}
+
+/* Parallax effect helper */
+.parallax {
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+/* Custom fonts */
+.font-playfair {
+  font-family: "Playpen Sans Thai", cursive;
+}
+
+.font-inter {
+  font-family: "Playpen Sans Thai", cursive;
+}
+
+/* Hide default scrollbar in some browsers */
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Smooth transitions for all interactive elements */
+* {
+  transition: color 0.3s ease, background-color 0.3s ease, transform 0.3s ease, opacity 0.3s ease;
+}
+
+/* Focus styles for accessibility */
+button:focus,
+input:focus,
+textarea:focus {
+  outline: 2px solid #f9a8d4;
+  outline-offset: 2px;
+}
+
+/* Loading animation */
+@keyframes shimmer {
+  0% {
+    background-position: -200px 0;
+  }
+  100% {
+    background-position: calc(200px + 100%) 0;
+  }
+}
+
+.shimmer {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200px 100%;
+  animation: shimmer 1.5s infinite;
 }
