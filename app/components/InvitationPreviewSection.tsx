@@ -27,7 +27,18 @@ const InvitationPreviewSection = () => {
         backdropFilter: "blur(10px)",
       }}
     >
-      <div className="container mx-auto px-4">
+      {/* Bottom Left Pre-wedding Image */}
+      <div
+        className="absolute bottom-0 left-[-100px] h-[720px] w-[720px] lg:z-99 max-md:hidden"
+        style={{
+          backgroundImage: `url('/pre-wedding-no-bg/wedding-without-bg2.png')`,
+          backgroundSize: "contain",
+          backgroundRepeat: "no-repeat",
+          backgroundPosition: "center",
+        }}
+      />
+
+      <div className="container mx-auto px-4 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
@@ -137,7 +148,7 @@ const InvitationPreviewSection = () => {
             transition={{ duration: 0.8, delay: 0.6 }}
             className="text-center mt-12"
           >
-            <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl p-8 max-w-2xl mx-auto border border-rose-100">
+            <div className="bg-white/30 backdrop-blur-sm rounded-2xl shadow-xl p-8 max-w-2xl mx-auto border border-rose-100">
               <h3 className="font-playfair text-2xl md:text-3xl font-bold text-gray-800 mb-4">
                 {t("invitation.saveDate")}
               </h3>

@@ -35,8 +35,131 @@ const OurStorySection = () => {
   return (
     <section
       ref={ref}
-      className="py-20 bg-gradient-to-br from-rose-50 to-pink-100 relative overflow-hidden shadow-xl shadow-black"
+      className="py-20 bg-gradient-to-b from-rose-100 via-orange-50 to-pink-200 relative overflow-hidden shadow-xl shadow-black"
     >
+      {/* Pre-wedding Background Images */}
+      <div className="absolute inset-0 z-0">
+        {/* Top Left Image */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8, rotate: -10 }}
+          animate={
+            inView
+              ? { opacity: 0.15, scale: 1, rotate: -5 }
+              : { opacity: 0, scale: 0.8, rotate: -10 }
+          }
+          transition={{ duration: 1.2, delay: 0.2 }}
+          className="absolute top-10 left-10 w-32 h-32 md:w-48 md:h-48"
+          style={{
+            backgroundImage: `url('/pre-wedding-no-bg/wedding-hero1.JPG')`,
+            backgroundSize: "contain",
+            backgroundRepeat: "no-repeat",
+            backgroundPosition: "center",
+          }}
+        />
+
+        {/* Top Right Image */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8, rotate: 15 }}
+          animate={
+            inView
+              ? { opacity: 0.12, scale: 1, rotate: 10 }
+              : { opacity: 0, scale: 0.8, rotate: 15 }
+          }
+          transition={{ duration: 1.2, delay: 0.4 }}
+          className="absolute top-20 right-16 w-28 h-28 md:w-40 md:h-40"
+          style={{
+            backgroundImage: `url('/pre-wedding-no-bg/wedding-hero2.JPG')`,
+            backgroundSize: "contain",
+            backgroundRepeat: "no-repeat",
+            backgroundPosition: "center",
+          }}
+        />
+
+        {/* Top Center Image */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8, y: -50 }}
+          animate={
+            inView
+              ? { opacity: 0.1, scale: 1, y: 0 }
+              : { opacity: 0, scale: 0.8, y: -50 }
+          }
+          transition={{ duration: 1.2, delay: 0.6 }}
+          className="absolute top-5 left-1/2 transform -translate-x-1/2 w-24 h-24 md:w-36 md:h-36"
+          style={{
+            backgroundImage: `url('/pre-wedding-no-bg/wedding-hero3.jpg')`,
+            backgroundSize: "contain",
+            backgroundRepeat: "no-repeat",
+            backgroundPosition: "center",
+          }}
+        />
+
+        {/* Upper Left - Secondary */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8, rotate: 20 }}
+          animate={
+            inView
+              ? { opacity: 0.08, scale: 1, rotate: 15 }
+              : { opacity: 0, scale: 0.8, rotate: 20 }
+          }
+          transition={{ duration: 1.2, delay: 0.8 }}
+          className="absolute top-32 left-32 w-20 h-20 md:w-32 md:h-32"
+          style={{
+            backgroundImage: `url('/pre-wedding-no-bg/wedding-hero4.jpg')`,
+            backgroundSize: "contain",
+            backgroundRepeat: "no-repeat",
+            backgroundPosition: "center",
+          }}
+        />
+
+        {/* Upper Right - Secondary */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8, rotate: -25 }}
+          animate={
+            inView
+              ? { opacity: 0.1, scale: 1, rotate: -20 }
+              : { opacity: 0, scale: 0.8, rotate: -25 }
+          }
+          transition={{ duration: 1.2, delay: 1.0 }}
+          className="absolute top-40 right-40 w-24 h-24 md:w-36 md:h-36"
+          style={{
+            backgroundImage: `url('/pre-wedding-no-bg/wedding-hero5.jpg')`,
+            backgroundSize: "contain",
+            backgroundRepeat: "no-repeat",
+            backgroundPosition: "center",
+          }}
+        />
+
+        {/* Far Top Right */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8, rotate: 10 }}
+          animate={
+            inView
+              ? { opacity: 0.06, scale: 1, rotate: 5 }
+              : { opacity: 0, scale: 0.8, rotate: 10 }
+          }
+          transition={{ duration: 1.2, delay: 1.2 }}
+          className="absolute top-8 right-4 w-16 h-16 md:w-24 md:h-24"
+          style={{
+            backgroundImage: `url('/pre-wedding-no-bg/wedding-hero6.jpg')`,
+            backgroundSize: "contain",
+            backgroundRepeat: "no-repeat",
+            backgroundPosition: "center",
+          }}
+        />
+
+        <div
+          className="absolute bottom-[-100px] right-[-100px] w-[720px] h-[1080px] opacity-85 z-50"
+          style={{
+            backgroundImage: `url('/pre-wedding-no-bg/wedding-withOut-bg.PNG')`,
+            backgroundSize: "contain",
+            backgroundRepeat: "no-repeat",
+            backgroundPosition: "center",
+          }}
+        />
+      </div>
+
+      {/* Subtle Color Blobs */}
+
       <div className="absolute inset-0 opacity-10">
         <div className="absolute top-20 left-10 w-32 h-32 bg-rose-300 rounded-full blur-3xl" />
         <div className="absolute bottom-20 right-10 w-40 h-40 bg-pink-300 rounded-full blur-3xl" />
@@ -94,6 +217,7 @@ const OurStorySection = () => {
               <div className="md:w-1/2 flex justify-center items-center p-8">
                 <motion.div
                   whileHover={{ scale: 1.1, rotate: 5 }}
+                  hidden={index === 2}
                   className="w-48 h-48 md:w-64 md:h-64 bg-gradient-to-br from-rose-200 to-pink-300 rounded-full flex items-center justify-center shadow-2xl"
                 >
                   <div className="text-6xl md:text-7xl">
@@ -109,7 +233,7 @@ const OurStorySection = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
           transition={{ duration: 0.8, delay: 1 }}
-          className="text-center mt-16"
+          className="text-center mt-16 z-99"
         >
           <div className="bg-white rounded-2xl shadow-xl p-12 max-w-3xl mx-auto border border-rose-100">
             <h3 className="font-playfair text-3xl md:text-4xl font-bold text-gray-800 mb-6">

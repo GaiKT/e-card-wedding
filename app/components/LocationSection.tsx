@@ -18,7 +18,7 @@ const LocationSection = () => {
       address: t("location.address"),
       time: t("location.time"),
       description: t("location.description"),
-      icon: "⛪",
+      icon: "",
       mapUrl: "https://maps.app.goo.gl/waLEsnL2mae4L4Et7",
     },
   ];
@@ -29,8 +29,8 @@ const LocationSection = () => {
       className="py-20 bg-gradient-to-br from-gray-50 to-rose-50 relative overflow-hidden"
     >
       <div className="absolute inset-0 opacity-5">
-        <div className="absolute top-20 left-20 w-64 h-64 bg-rose-300 rounded-full blur-3xl" />
-        <div className="absolute bottom-20 right-20 w-80 h-80 bg-pink-300 rounded-full blur-3xl" />
+        {/* <div className="absolute top-20 left-20 w-64 h-64 bg-rose-300 rounded-full blur-3xl" />
+        <div className="absolute bottom-20 right-20 w-80 h-80 bg-pink-300 rounded-full blur-3xl" /> */}
       </div>
 
       <div className="container mx-auto px-4 relative z-10">
@@ -63,7 +63,14 @@ const LocationSection = () => {
                   whileHover={{ y: -10, scale: 1.02 }}
                   className="bg-white rounded-3xl shadow-xl overflow-hidden border border-rose-100 h-full"
                 >
-                  <div className="relative h-64 bg-gradient-to-br from-rose-100 to-pink-200 flex items-center justify-center">
+                  <div
+                    className="relative h-64 flex items-center justify-center"
+                    style={{
+                      backgroundImage: `url('/map/map.png')`,
+                      backgroundSize: "cover",
+                      backgroundPosition: "center",
+                    }}
+                  >
                     <motion.div
                       whileHover={{ scale: 1.2, rotate: 10 }}
                       transition={{ duration: 0.3 }}

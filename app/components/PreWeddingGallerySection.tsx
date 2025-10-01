@@ -15,6 +15,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/effect-coverflow";
+import Image from "next/image";
 
 const PreWeddingGallerySection = () => {
   const { t } = useLanguage();
@@ -25,63 +26,245 @@ const PreWeddingGallerySection = () => {
 
   const [viewMode, setViewMode] = useState<"carousel" | "grid">("carousel");
 
-  // Enhanced gallery images with more details
+  // Your actual gallery images with beautiful captions and descriptions
   const galleryImages = [
     {
       id: 1,
-      alt: "Engagement Photo 1",
-      caption: "Our engagement day",
-      description: "The moment when forever began",
-      gradient: "from-rose-200 via-pink-100 to-rose-300",
+      src: "/gallery/IMG_1026.JPG",
+      alt: "Wedding Photo 1",
+      caption: "ช่วงเวลาแห่งความสุข",
+      description: "วันที่เราได้เฉลิมฉลองความรักที่งดงามของเรา",
     },
     {
       id: 2,
-      alt: "Engagement Photo 2",
-      caption: "A romantic moment",
-      description: "Lost in each other's eyes",
-      gradient: "from-purple-200 via-pink-100 to-purple-300",
+      src: "/gallery/IMG_1027.JPG",
+      alt: "Wedding Photo 2",
+      caption: "แสงแรกของรัก",
+      description: "เมื่อแสงแดดส่องผ่านใจเราที่เต็มไปด้วยความสุข",
     },
     {
       id: 3,
-      alt: "Engagement Photo 3",
-      caption: "Laughter and joy",
-      description: "Pure happiness captured",
-      gradient: "from-pink-200 via-rose-100 to-pink-300",
+      src: "/gallery/IMG_1028.JPG",
+      alt: "Wedding Photo 3",
+      caption: "มือที่เกี่ยวกัน",
+      description: "สัญญาแห่งความรักที่จะเดินทางไปด้วยกันตลอดไป",
     },
     {
       id: 4,
-      alt: "Engagement Photo 4",
-      caption: "Love in nature",
-      description: "Surrounded by beauty",
-      gradient: "from-green-200 via-pink-100 to-green-300",
+      src: "/gallery/IMG_1335.JPG",
+      alt: "Wedding Photo 4",
+      caption: "รอยยิ้มที่หวานใส",
+      description: "ความสุขที่แท้จริงเมื่อได้อยู่เคียงข้างกัน",
     },
     {
       id: 5,
-      alt: "Engagement Photo 5",
-      caption: "Golden hour magic",
-      description: "Perfect lighting, perfect love",
-      gradient: "from-yellow-200 via-orange-100 to-yellow-300",
+      src: "/gallery/IMG_0882.jpg",
+      alt: "Wedding Photo 5",
+      caption: "จูบแห่งสัญญา",
+      description: "คำมั่นสัญญาที่ปิดผนึกด้วยความรักอันแสนหวาน",
     },
     {
       id: 6,
-      alt: "Engagement Photo 6",
-      caption: "Pure happiness",
-      description: "Celebrating our love story",
-      gradient: "from-blue-200 via-purple-100 to-blue-300",
+      src: "/gallery/IMG_0929.jpg",
+      alt: "Wedding Photo 6",
+      caption: "อ้อมกอดแห่งรัก",
+      description: "ความอบอุ่นที่ครอบคลุมหัวใจของเราทั้งสอง",
     },
     {
       id: 7,
-      alt: "Engagement Photo 7",
-      caption: "Tender moments",
-      description: "Quiet intimacy between us",
-      gradient: "from-indigo-200 via-pink-100 to-indigo-300",
+      src: "/gallery/IMG_0935.jpg",
+      alt: "Wedding Photo 7",
+      caption: "เสียงหัวเราะใส",
+      description: "เสียงหัวเราะที่ดังก้องเต็มไปด้วยความสุขใจ",
     },
     {
       id: 8,
-      alt: "Engagement Photo 8",
-      caption: "Adventure together",
-      description: "Ready for life's journey",
-      gradient: "from-teal-200 via-blue-100 to-teal-300",
+      src: "/gallery/IMG_0983.jpg",
+      alt: "Wedding Photo 8",
+      caption: "สายตาที่เปี่ยมรัก",
+      description: "เมื่อมองตากัน เห็นอนาคตที่สวยงามรออยู่",
+    },
+    {
+      id: 9,
+      src: "/gallery/IMG_1003.jpg",
+      alt: "Wedding Photo 9",
+      caption: "ความสุขที่ล้นเหลือ",
+      description: "ความสุขที่ไม่สามารถซ่อนเอาไว้ได้",
+    },
+    {
+      id: 10,
+      src: "/gallery/IMG_1006.jpg",
+      alt: "Wedding Photo 10",
+      caption: "การสัมผัสอันอ่อนโยน",
+      description: "ทุกการสัมผัสบอกเล่าเรื่องราวแห่งความรัก",
+    },
+    {
+      id: 11,
+      src: "/gallery/IMG_1008.jpg",
+      alt: "Wedding Photo 11",
+      caption: "ช่วงเวลาแห่งความฝัน",
+      description: "เหมือนกับเราได้เข้าไปอยู่ในเทพนิยายจริง ๆ",
+    },
+    {
+      id: 12,
+      src: "/gallery/IMG_1009.jpg",
+      alt: "Wedding Photo 12",
+      caption: "ความกลมกลืนที่สมบูรณ์",
+      description: "สองดวงใจที่ผสานรวมเป็นหนึ่งเดียว",
+    },
+    {
+      id: 13,
+      src: "/gallery/IMG_1011.jpg",
+      alt: "Wedding Photo 13",
+      caption: "ความรักที่บริสุทธิ์",
+      description: "ความรักที่บริสุทธิ์และแท้จริงของเราทั้งสอง",
+    },
+    {
+      id: 14,
+      src: "/gallery/IMG_1012.jpg",
+      alt: "Wedding Photo 14",
+      caption: "การเต้นรำแห่งรัก",
+      description: "เต้นรำไปในจังหวะเดียวกันของหัวใจ",
+    },
+    {
+      id: 15,
+      src: "/gallery/IMG_1289.jpg",
+      alt: "Wedding Photo 15",
+      caption: "บรรยากาศแห่งความรัก",
+      description: "รอบตัวเราเต็มไปด้วยอากาศแห่งความรัก",
+    },
+    {
+      id: 16,
+      src: "/gallery/IMG_1294.jpg",
+      alt: "Wedding Photo 16",
+      caption: "รอยยิ้มที่ประทับใจ",
+      description: "รอยยิ้มที่จะอยู่ในความทรงจำตลอดไป",
+    },
+    {
+      id: 17,
+      src: "/gallery/IMG_1295.jpg",
+      alt: "Wedding Photo 17",
+      caption: "ความสุขที่แบ่งปัน",
+      description: "ความสุขของเราที่แบ่งปันให้กับทุกคน",
+    },
+    {
+      id: 18,
+      src: "/gallery/IMG_1296.jpg",
+      alt: "Wedding Photo 18",
+      caption: "มุมมองแห่งความสุข",
+      description: "มุมมองที่เปี่ยมไปด้วยความสุขและความหวัง",
+    },
+    {
+      id: 19,
+      src: "/gallery/IMG_1297.jpg",
+      alt: "Wedding Photo 19",
+      caption: "ความอ่อนโยนที่สุดในโลก",
+      description: "ความอ่อนโยนที่เราให้กันและกัน",
+    },
+    {
+      id: 20,
+      src: "/gallery/IMG_1298.jpg",
+      alt: "Wedding Photo 20",
+      caption: "ช่วงเวลาที่เงียบสงบ",
+      description: "ช่วงเวลาแห่งความสงบและความเข้าใจกัน",
+    },
+    {
+      id: 21,
+      src: "/gallery/IMG_1299.jpg",
+      alt: "Wedding Photo 21",
+      caption: "แสงที่นำทาง",
+      description: "แสงแห่งความรักที่นำทางเราสู่อนาคต",
+    },
+    {
+      id: 22,
+      src: "/gallery/IMG_1312.jpg",
+      alt: "Wedding Photo 22",
+      caption: "การเดินทางร่วมกัน",
+      description: "การเริ่มต้นเดินทางไปในเส้นทางแห่งความรัก",
+    },
+    {
+      id: 23,
+      src: "/gallery/IMG_1313.jpg",
+      alt: "Wedding Photo 23",
+      caption: "ความทรงจำที่งดงาม",
+      description: "ความทรงจำที่จะเก็บไว้ในใจตลอดไป",
+    },
+    {
+      id: 24,
+      src: "/gallery/IMG_1314.jpg",
+      alt: "Wedding Photo 24",
+      caption: "ความรักที่แผ่ซ่าน",
+      description: "ความรักที่แผ่ซ่านไปทั่วทุกมุมของภาพ",
+    },
+    {
+      id: 25,
+      src: "/gallery/IMG_1321.jpg",
+      alt: "Wedding Photo 25",
+      caption: "ช่วงเวลาพิเศษ",
+      description: "ทุกวินาทีในวันนี้ล้วนมีความหมายพิเศษ",
+    },
+    {
+      id: 26,
+      src: "/gallery/IMG_1322.jpg",
+      alt: "Wedding Photo 26",
+      caption: "ความสุขที่แท้จริง",
+      description: "ความสุขที่เกิดจากการได้อยู่ด้วยกัน",
+    },
+    {
+      id: 27,
+      src: "/gallery/IMG_1323.jpg",
+      alt: "Wedding Photo 27",
+      caption: "การฉลองความรัก",
+      description: "วันฉลองความรักที่เรารอคอยมานาน",
+    },
+    {
+      id: 28,
+      src: "/gallery/IMG_1324.jpg",
+      alt: "Wedding Photo 28",
+      caption: "ปีกแห่งความหวัง",
+      description: "ความหวังที่บินสูงไปสู่อนาคตที่สดใส",
+    },
+    {
+      id: 29,
+      src: "/gallery/IMG_1329.jpg",
+      alt: "Wedding Photo 29",
+      caption: "ความสวยงามที่เป็นธรรมชาติ",
+      description: "ความสวยงามที่เกิดขึ้นเองจากความรัก",
+    },
+    {
+      id: 30,
+      src: "/gallery/IMG_1331.jpg",
+      alt: "Wedding Photo 30",
+      caption: "ความอบอุ่นในใจ",
+      description: "ความอบอุ่นที่ไหลเวียนอยู่ในใจของเรา",
+    },
+    {
+      id: 31,
+      src: "/gallery/IMG_1336.jpg",
+      alt: "Wedding Photo 31",
+      caption: "ช่วงเวลาที่เปี่ยมสุข",
+      description: "เวลาที่เต็มไปด้วยความสุขและรอยยิ้ม",
+    },
+    {
+      id: 32,
+      src: "/gallery/IMG_1337.jpg",
+      alt: "Wedding Photo 32",
+      caption: "การส่ายไหวแห่งรัก",
+      description: "หัวใจที่เต้นแรงด้วยความรักที่มีต่อกัน",
+    },
+    {
+      id: 33,
+      src: "/gallery/IMG_1339.jpg",
+      alt: "Wedding Photo 33",
+      caption: "ความเปิ่งปลั่งของรัก",
+      description: "ความสุขที่เปี่ยมล้นออกมาจากภายใน",
+    },
+    {
+      id: 34,
+      src: "/gallery/IMG_1345.jpg",
+      alt: "Wedding Photo 34",
+      caption: "บทสรุปแห่งความรัก",
+      description: "บทสรุปที่สวยงามของเรื่องราวความรักของเรา",
     },
   ];
 
@@ -224,17 +407,16 @@ const PreWeddingGallerySection = () => {
                       className="group cursor-pointer"
                     >
                       <div className="relative bg-white rounded-3xl shadow-xl overflow-hidden border border-rose-100 h-96">
-                        <div
-                          className={`relative h-80 bg-gradient-to-br ${image.gradient} flex flex-col items-center justify-center`}
-                        >
-                          <motion.div
-                            whileHover={{ scale: 1.2, rotate: 10 }}
-                            transition={{ duration: 0.3 }}
-                            className="text-8xl opacity-40 mb-4"
-                          >
-                            📸
-                          </motion.div>
+                        <div className="relative h-80 overflow-hidden">
+                          <Image
+                            src={image.src}
+                            alt={image.alt}
+                            fill
+                            className="object-cover"
+                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                          />
 
+                          {/* Overlay Effects */}
                           <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
                           <motion.div
@@ -257,7 +439,7 @@ const PreWeddingGallerySection = () => {
                           </motion.div>
 
                           <div className="absolute bottom-4 left-4 right-4 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                            <p className="text-sm font-inter">
+                            <p className="text-sm font-inter drop-shadow-lg">
                               {image.description}
                             </p>
                           </div>
@@ -310,67 +492,135 @@ const PreWeddingGallerySection = () => {
             </motion.div>
           )}
 
-          {/* Grid View */}
+          {/* Grid View - Masonry Layout */}
           {viewMode === "grid" && (
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.5 }}
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+              className="grid grid-masonry gap-4 md:gap-6 auto-rows-max"
             >
-              {galleryImages.map((image, index) => (
-                <motion.div
-                  key={image.id}
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
-                  className="group cursor-pointer"
-                >
+              {galleryImages.map((image, index) => {
+                // Define different heights for masonry effect
+                const getGridClass = (idx: number) => {
+                  const patterns = [
+                    "row-span-2", // tall
+                    "row-span-1", // normal
+                    "row-span-3", // extra tall
+                    "row-span-1", // normal
+                    "row-span-2", // tall
+                    "row-span-1", // normal
+                    "row-span-1", // normal
+                    "row-span-2", // tall
+                  ];
+                  return patterns[idx % patterns.length];
+                };
+
+                const getHeightClass = (idx: number) => {
+                  const heights = [
+                    "h-64", // normal
+                    "h-56", // medium-short
+                    "h-80", // tall
+                    "h-60", // medium
+                    "h-72", // tall
+                    "h-52", // short
+                    "h-68", // medium-tall
+                    "h-56", // medium-short
+                  ];
+                  return heights[idx % heights.length];
+                };
+
+                // Special large cards for featured photos
+                const isFeatureCard =
+                  index === 0 || index === 8 || index === 16 || index === 24;
+
+                return (
                   <motion.div
-                    whileHover={{ y: -10, scale: 1.03 }}
-                    className="relative bg-white rounded-2xl shadow-lg overflow-hidden border border-rose-100"
+                    key={image.id}
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.6, delay: index * 0.05 }}
+                    className={`group cursor-pointer ${
+                      isFeatureCard ? "col-span-2 row-span-2" : ""
+                    }`}
                   >
-                    <div
-                      className={`relative h-64 bg-gradient-to-br ${image.gradient} flex items-center justify-center`}
+                    <motion.div
+                      whileHover={{ y: -8, scale: 1.02 }}
+                      className="relative bg-white rounded-2xl shadow-lg overflow-hidden border border-rose-100 h-full min-h-[250px]"
                     >
-                      <motion.div
-                        whileHover={{ scale: 1.1 }}
-                        transition={{ duration: 0.3 }}
-                        className="text-6xl opacity-30"
+                      <div
+                        className={`relative overflow-hidden w-full ${
+                          isFeatureCard ? "h-80 md:h-96" : getHeightClass(index)
+                        }`}
                       >
-                        📸
-                      </motion.div>
+                        <Image
+                          src={image.src}
+                          alt={image.alt}
+                          fill
+                          className="object-cover object-center w-full h-full transition-transform duration-500 group-hover:scale-110"
+                          sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
+                          priority={index < 8}
+                        />
 
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                        {/* Enhanced Overlay Effects */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500" />
 
-                      <motion.div
-                        className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm rounded-full p-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                        whileHover={{ scale: 1.1 }}
-                      >
-                        <svg
-                          className="w-5 h-5 text-rose-500"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
+                        {/* Floating Caption */}
+                        <div className="absolute bottom-4 left-4 right-4 text-white opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-4 group-hover:translate-y-0">
+                          <h4 className="font-inter font-semibold text-sm md:text-base drop-shadow-lg mb-1">
+                            {image.caption}
+                          </h4>
+                          <p className="text-xs md:text-sm drop-shadow-md opacity-90 line-clamp-2">
+                            {image.description}
+                          </p>
+                        </div>
+
+                        {/* Corner Icon */}
+                        <motion.div
+                          className="absolute top-3 right-3 bg-white/90 backdrop-blur-sm rounded-full p-2 opacity-0 group-hover:opacity-100 transition-all duration-300"
+                          whileHover={{ scale: 1.2, rotate: 15 }}
                         >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                          />
-                        </svg>
-                      </motion.div>
-                    </div>
+                          <svg
+                            className="w-4 h-4 text-rose-500"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                            />
+                          </svg>
+                        </motion.div>
 
-                    <div className="p-4">
-                      <h3 className="font-inter font-semibold text-gray-800 text-center text-sm">
-                        {image.caption}
-                      </h3>
-                    </div>
+                        {/* Feature Card Badge */}
+                        {isFeatureCard && (
+                          <div className="absolute top-3 left-3 bg-gradient-to-r from-rose-400 to-pink-400 text-white px-3 py-1 rounded-full text-xs font-medium">
+                            ✨ Featured
+                          </div>
+                        )}
+
+                        {/* Decorative Elements */}
+                        <div className="absolute top-0 left-0 w-full h-full opacity-0 group-hover:opacity-20 transition-opacity duration-700">
+                          <div className="absolute top-4 left-4 w-8 h-8 border-l-2 border-t-2 border-white/50"></div>
+                          <div className="absolute bottom-4 right-4 w-8 h-8 border-r-2 border-b-2 border-white/50"></div>
+                        </div>
+                      </div>
+
+                      {/* Card Footer (only for non-feature cards) */}
+                      {!isFeatureCard && (
+                        <div className="p-3">
+                          <h3 className="font-inter font-medium text-gray-800 text-center text-xs md:text-sm truncate">
+                            {image.caption}
+                          </h3>
+                        </div>
+                      )}
+                    </motion.div>
                   </motion.div>
-                </motion.div>
-              ))}
+                );
+              })}
             </motion.div>
           )}
         </div>
@@ -408,7 +658,7 @@ const PreWeddingGallerySection = () => {
         </motion.div>
       </div>
 
-      {/* Custom CSS for Swiper */}
+      {/* Custom CSS for Swiper and Grid */}
       <style jsx global>{`
         .swiper-pagination-bullet {
           background: #f43f5e !important;
@@ -421,6 +671,47 @@ const PreWeddingGallerySection = () => {
         .swiper-button-prev-custom:hover,
         .swiper-button-next-custom:hover {
           transform: scale(1.1);
+        }
+
+        /* Line clamp utility for text truncation */
+        .line-clamp-2 {
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+        }
+
+        /* Enhanced grid responsive behavior */
+        .grid-masonry {
+          display: grid;
+          grid-auto-rows: minmax(200px, auto);
+        }
+
+        .grid-masonry > div {
+          min-height: 250px;
+        }
+
+        .grid-masonry img {
+          width: 100% !important;
+          height: 100% !important;
+          object-fit: cover !important;
+        }
+
+        @media (max-width: 640px) {
+          .grid-masonry {
+            grid-template-columns: repeat(2, 1fr);
+          }
+        }
+        @media (min-width: 641px) and (max-width: 1024px) {
+          .grid-masonry {
+            grid-template-columns: repeat(3, 1fr);
+          }
+        }
+
+        @media (min-width: 1025px) {
+          .grid-masonry {
+            grid-template-columns: repeat(4, 1fr);
+          }
         }
       `}</style>
     </section>
