@@ -17,18 +17,42 @@ const OurStorySection = () => {
       date: t("story.firstMeetDate"),
       story: t("story.firstMeetDesc"),
       position: "left",
+      url: "/our-story/firstchat.jpg",
+    },
+    {
+      title: t("story.feeling"),
+      date: t("story.feelingDate"),
+      story: t("story.feelingDesc"),
+      position: "right",
+      url: "/our-story/gaming.jpg",
     },
     {
       title: t("story.firstDate"),
       date: t("story.firstDateDate"),
       story: t("story.firstDateDesc"),
+      position: "left",
+      url: "/our-story/firstdate.JPG",
+    },
+    {
+      title: t("story.pet"),
+      date: t("story.petDate"),
+      story: t("story.petDesc"),
       position: "right",
+      url: "/our-story/pet.jpg",
+    },
+    {
+      title: t("story.bigtrip"),
+      date: t("story.bigtripDate"),
+      story: t("story.bigtripDesc"),
+      position: "left",
+      url: "/our-story/bigtrip.jpg",
     },
     {
       title: t("story.proposal"),
       date: t("story.proposalDate"),
       story: t("story.proposalDesc"),
-      position: "left",
+      position: "right",
+      url: "/our-story/proposal.gif",
     },
   ];
 
@@ -48,7 +72,7 @@ const OurStorySection = () => {
               : { opacity: 0, scale: 0.8, rotate: -10 }
           }
           transition={{ duration: 1.2, delay: 0.2 }}
-          className="absolute top-10 left-10 w-32 h-32 md:w-48 md:h-48"
+          className="absolute top-10 left-10 w-32 h-32 md:w-48 md:h-48 border-4"
           style={{
             backgroundImage: `url('/pre-wedding-no-bg/wedding-hero1.JPG')`,
             backgroundSize: "contain",
@@ -66,27 +90,9 @@ const OurStorySection = () => {
               : { opacity: 0, scale: 0.8, rotate: 15 }
           }
           transition={{ duration: 1.2, delay: 0.4 }}
-          className="absolute top-20 right-16 w-28 h-28 md:w-40 md:h-40"
+          className="absolute top-14 right-16 w-28 h-28 md:w-40 md:h-40"
           style={{
             backgroundImage: `url('/pre-wedding-no-bg/wedding-hero2.JPG')`,
-            backgroundSize: "contain",
-            backgroundRepeat: "no-repeat",
-            backgroundPosition: "center",
-          }}
-        />
-
-        {/* Top Center Image */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8, y: -50 }}
-          animate={
-            inView
-              ? { opacity: 0.1, scale: 1, y: 0 }
-              : { opacity: 0, scale: 0.8, y: -50 }
-          }
-          transition={{ duration: 1.2, delay: 0.6 }}
-          className="absolute top-5 left-1/2 transform -translate-x-1/2 w-24 h-24 md:w-36 md:h-36"
-          style={{
-            backgroundImage: `url('/pre-wedding-no-bg/wedding-hero3.jpg')`,
             backgroundSize: "contain",
             backgroundRepeat: "no-repeat",
             backgroundPosition: "center",
@@ -102,7 +108,7 @@ const OurStorySection = () => {
               : { opacity: 0, scale: 0.8, rotate: 20 }
           }
           transition={{ duration: 1.2, delay: 0.8 }}
-          className="absolute top-32 left-32 w-20 h-20 md:w-32 md:h-32"
+          className="absolute top-64 left-32 w-20 h-20 md:w-32 md:h-32"
           style={{
             backgroundImage: `url('/pre-wedding-no-bg/wedding-hero4.jpg')`,
             backgroundSize: "contain",
@@ -120,7 +126,7 @@ const OurStorySection = () => {
               : { opacity: 0, scale: 0.8, rotate: -25 }
           }
           transition={{ duration: 1.2, delay: 1.0 }}
-          className="absolute top-40 right-40 w-24 h-24 md:w-36 md:h-36"
+          className="absolute top-56 right-56 w-24 h-24 md:w-36 md:h-36"
           style={{
             backgroundImage: `url('/pre-wedding-no-bg/wedding-hero5.jpg')`,
             backgroundSize: "contain",
@@ -138,7 +144,7 @@ const OurStorySection = () => {
               : { opacity: 0, scale: 0.8, rotate: 10 }
           }
           transition={{ duration: 1.2, delay: 1.2 }}
-          className="absolute top-8 right-4 w-16 h-16 md:w-24 md:h-24"
+          className="absolute top-8 right-60 w-16 h-16 md:w-24 md:h-24"
           style={{
             backgroundImage: `url('/pre-wedding-no-bg/wedding-hero6.jpg')`,
             backgroundSize: "contain",
@@ -148,9 +154,9 @@ const OurStorySection = () => {
         />
 
         <div
-          className="absolute bottom-[-100px] right-[-100px] w-[720px] h-[1080px] opacity-85 z-50"
+          className="absolute bottom-[-100px] right-[-100px] w-[720px] h-[1080px] opacity-100 z-50"
           style={{
-            backgroundImage: `url('/pre-wedding-no-bg/wedding-withOut-bg.PNG')`,
+            backgroundImage: `url('/pre-wedding-no-bg/wedding-withOut-bg.png')`,
             backgroundSize: "contain",
             backgroundRepeat: "no-repeat",
             backgroundPosition: "center",
@@ -217,12 +223,13 @@ const OurStorySection = () => {
               <div className="md:w-1/2 flex justify-center items-center p-8">
                 <motion.div
                   whileHover={{ scale: 1.1, rotate: 5 }}
-                  hidden={index === 2}
-                  className="w-48 h-48 md:w-64 md:h-64 bg-gradient-to-br from-rose-200 to-pink-300 rounded-full flex items-center justify-center shadow-2xl"
+                  className="w-48 h-48 md:w-64 md:h-64 bg-gradient-to-br from-rose-200 to-pink-300 rounded-full flex items-center justify-center shadow-2xl p-4"
                 >
-                  <div className="text-6xl md:text-7xl">
-                    {index === 0 ? "☕" : index === 1 ? "🌅" : "💍"}
-                  </div>
+                  {/* Image is set as background */}
+                  <div
+                    className="w-full h-full bg-cover bg-center rounded-4xl overflow-hidden shadow-lg"
+                    style={{ backgroundImage: `url('${item.url}')` }}
+                  />
                 </motion.div>
               </div>
             </motion.div>

@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
 import { useLanguage } from "../contexts/LanguageContext";
 import LanguageToggle from "./LanguageToggle";
+import Image from "next/image";
 
 const Navigation = () => {
   const { t } = useLanguage();
@@ -61,11 +62,12 @@ const Navigation = () => {
                 isScrolled ? "text-gray-800" : "text-white"
               }`}
             >
-              G <span className="text-red-800"> ❤︎ </span> N
+              G <span className="text-red-800"> ❤︎ </span> D
             </span>
             <span className="hidden md:inline-block text-red-800 text-xs">
               19.11.2025
             </span>
+            {/* <Image src="/logo/logo.png" alt="Logo" width={100} height={100} /> */}
           </motion.div>
 
           {/* Desktop Navigation */}
@@ -87,7 +89,9 @@ const Navigation = () => {
               </motion.button>
             ))}
           </div>
-          <LanguageToggle isScrolled={isScrolled} />
+          <div className="max-md:hidden">
+            <LanguageToggle isScrolled={isScrolled} />
+          </div>
 
           {/* Mobile Menu Button and Language Toggle */}
           <div className="flex items-center space-x-2">

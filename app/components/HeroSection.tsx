@@ -5,6 +5,12 @@ import { useInView } from "react-intersection-observer";
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import { useLanguage } from "../contexts/LanguageContext";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Pagination, Autoplay, EffectFlip } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import "swiper/css/effect-flip";
 
 const HeroSection = () => {
   const { t } = useLanguage();
@@ -13,7 +19,6 @@ const HeroSection = () => {
     triggerOnce: true,
   });
 
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [scrollY, setScrollY] = useState(0);
 
   useEffect(() => {
@@ -31,17 +36,6 @@ const HeroSection = () => {
     "/pre-wedding-no-bg/wedding-hero6.jpg",
     "/pre-wedding-no-bg/wedding-hero7.jpg",
   ];
-
-  // Auto-slide between images
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentImageIndex((prevIndex) =>
-        prevIndex === preWeddingImages.length - 1 ? 0 : prevIndex + 1
-      );
-    }, 5000); // Change image every 5 seconds
-
-    return () => clearInterval(interval);
-  }, [preWeddingImages.length]);
 
   return (
     <section
@@ -81,7 +75,7 @@ const HeroSection = () => {
         />
       </div>
 
-      <div className="container mx-auto px-4 h-screen flex items-center relative z-30">
+      <div className="container mx-auto px-4 h-screen flex items-center relative z-30 max-md:mt-40">
         <div className="grid lg:grid-cols-2 gap-12 items-center w-full">
           {/* Left side - Text Content */}
           <motion.div
@@ -100,19 +94,28 @@ const HeroSection = () => {
               style={{
                 transform: `translateY(${scrollY * 0.05}px)`,
               }}
+              className="max-md:hidden"
             >
               <div className="inline-block bg-white/90 backdrop-blur-sm rounded-full px-6 py-2 mb-6 shadow-lg border border-rose-100">
                 <span className="font-inter text-sm font-semibold text-rose-600 tracking-widest uppercase">
                   {t("hero.saveTheDate")}
                 </span>
               </div>
-
-              <h1 className="font-playfair text-4xl md:text-6xl lg:text-7xl font-bold text-gray-800 leading-tight mb-4">
-                {t("hero.weAreGetting")}
-                <span className="block text-transparent bg-clip-text bg-gradient-to-r from-rose-500 via-pink-500 to-rose-600">
-                  {t("hero.married")}
-                </span>
-              </h1>
+              <div className="className flex justify-around">
+                <h1 className="font-playfair text-4xl md:text-6xl lg:text-7xl font-bold text-gray-800 leading-tight mb-4">
+                  {t("hero.weAreGetting")}
+                  <span className="block text-transparent bg-clip-text bg-gradient-to-r from-rose-500 via-pink-500 to-rose-600">
+                    {t("hero.married")}
+                  </span>
+                </h1>
+                <Image
+                  src="/logo/logo.png"
+                  className="object-contain"
+                  alt="logo"
+                  width={250}
+                  height={250}
+                />
+              </div>
             </motion.div>
 
             <motion.div
@@ -196,7 +199,7 @@ const HeroSection = () => {
             </motion.div>
           </motion.div>
 
-          {/* Right side - Image Carousel */}
+          {/* Right side - Image Swiper */}
           <motion.div
             initial={{ opacity: 0, x: 50 }}
             animate={inView ? { opacity: 1, x: 0 } : { opacity: 0, x: 50 }}
@@ -207,70 +210,115 @@ const HeroSection = () => {
             className="relative flex justify-center items-center"
           >
             <div className="relative w-full max-w-lg">
-              {/* Main image container */}
-              <motion.div
-                key={currentImageIndex}
-                initial={{ opacity: 0, scale: 0.8, rotateY: 90 }}
-                animate={{ opacity: 1, scale: 1, rotateY: 0 }}
-                transition={{ duration: 0.8, ease: "easeOut" }}
-                className="relative"
+              {/* Swiper Container */}
+              <Swiper
+                modules={[Navigation, Pagination, Autoplay, EffectFlip]}
+                spaceBetween={30}
+                slidesPerView={1}
+                autoplay={{
+                  delay: 5000,
+                  disableOnInteraction: false,
+                }}
+                // pagination={{
+                //   clickable: true,
+                //   bulletClass: "swiper-pagination-bullet custom-bullet",
+                //   bulletActiveClass:
+                //     "swiper-pagination-bullet-active custom-bullet-active",
+                // }}
+                effect="flip"
+                flipEffect={{
+                  slideShadows: true,
+                  limitRotation: true,
+                }}
+                loop={true}
+                className="wedding-swiper rounded-3xl shadow-2xl rotate-3"
               >
-                <div className="relative rounded-3xl overflow-hidden shadow-2xl border-8 border-white/80 backdrop-blur-sm">
-                  <Image
-                    src={preWeddingImages[currentImageIndex]}
-                    alt={`Pre-wedding photo ${currentImageIndex + 1}`}
-                    width={500}
-                    height={600}
-                    className="w-full h-auto object-cover"
-                    priority
-                  />
+                {preWeddingImages.map((image, index) => (
+                  <SwiperSlide key={index}>
+                    <motion.div
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ duration: 0.8, ease: "easeOut" }}
+                      className="relative"
+                    >
+                      <div className="relative rounded-3xl overflow-hidden shadow-2xl border-8 border-white/80 backdrop-blur-sm">
+                        <Image
+                          src={image}
+                          alt={`Pre-wedding photo ${index + 1}`}
+                          width={500}
+                          height={600}
+                          className="w-full h-auto object-cover"
+                          priority={index === 0}
+                        />
 
-                  {/* Overlay gradient */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
+                        {/* Overlay gradient */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
 
-                  {/* Floating hearts */}
-                  <motion.div
-                    animate={{
-                      y: [0, -10, 0],
-                      opacity: [0.5, 1, 0.5],
-                    }}
-                    transition={{ duration: 3, repeat: Infinity }}
-                    className="absolute top-4 right-4 text-2xl"
-                  >
-                    💕
-                  </motion.div>
-                  <motion.div
-                    animate={{
-                      y: [0, -15, 0],
-                      opacity: [0.3, 0.8, 0.3],
-                    }}
-                    transition={{ duration: 4, repeat: Infinity, delay: 1 }}
-                    className="absolute bottom-4 left-4 text-xl"
-                  >
-                    💖
-                  </motion.div>
-                </div>
+                        {/* Floating hearts */}
+                        <motion.div
+                          animate={{
+                            y: [0, -10, 0],
+                            opacity: [0.5, 1, 0.5],
+                          }}
+                          transition={{ duration: 3, repeat: Infinity }}
+                          className="absolute top-4 right-4 text-2xl"
+                        >
+                          💕
+                        </motion.div>
+                        <motion.div
+                          animate={{
+                            y: [0, -15, 0],
+                            opacity: [0.3, 0.8, 0.3],
+                          }}
+                          transition={{
+                            duration: 4,
+                            repeat: Infinity,
+                            delay: 1,
+                          }}
+                          className="absolute bottom-4 left-4 text-xl"
+                        >
+                          💖
+                        </motion.div>
+                      </div>
 
-                {/* Decorative frame */}
-                <div className="absolute -inset-4 bg-gradient-to-r from-rose-200 via-pink-200 to-rose-200 rounded-3xl opacity-30 -z-10 blur-lg" />
-              </motion.div>
-
-              {/* Image navigation dots */}
-              <div className="flex justify-center space-x-3 mt-6">
-                {preWeddingImages.map((_, index) => (
-                  <motion.button
-                    key={index}
-                    onClick={() => setCurrentImageIndex(index)}
-                    whileHover={{ scale: 1.2 }}
-                    whileTap={{ scale: 0.9 }}
-                    className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                      index === currentImageIndex
-                        ? "bg-gradient-to-r from-rose-500 to-pink-500 scale-110"
-                        : "bg-rose-300 hover:bg-rose-400"
-                    }`}
-                  />
+                      {/* Decorative frame */}
+                      <div className="absolute -inset-4 bg-gradient-to-r from-rose-200 via-pink-200 to-rose-200 rounded-3xl opacity-30 -z-10 blur-lg" />
+                    </motion.div>
+                  </SwiperSlide>
                 ))}
+              </Swiper>
+
+              {/* Custom Navigation Buttons */}
+              {/* <div className="swiper-button-prev-custom absolute left-4 top-1/2 transform -translate-y-1/2 z-10 bg-white/80 backdrop-blur-sm rounded-full p-3 shadow-lg cursor-pointer hover:bg-white transition-all duration-300 group">
+                <svg
+                  className="w-5 h-5 text-rose-600 group-hover:text-rose-700"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M15 19l-7-7 7-7"
+                  />
+                </svg>
               </div>
+              <div className="swiper-button-next-custom absolute right-4 top-1/2 transform -translate-y-1/2 z-10 bg-white/80 backdrop-blur-sm rounded-full p-3 shadow-lg cursor-pointer hover:bg-white transition-all duration-300 group">
+                <svg
+                  className="w-5 h-5 text-rose-600 group-hover:text-rose-700"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9 5l7 7-7 7"
+                  />
+                </svg>
+              </div> */}
 
               {/* Side decorative elements */}
               <motion.div

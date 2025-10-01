@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Gai & Donut Wedding | ไก่ & โดนัท งานแต่งงาน",
+  title: "Gai & Donut Wedding",
   description:
     "Join us as we celebrate the beginning of our forever journey | ร่วมเฉลิมฉลองการเริ่มต้นเส้นทางแห่งความรักนิรันดร์ของเรา",
 };

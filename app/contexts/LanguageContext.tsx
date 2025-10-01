@@ -100,10 +100,21 @@ const translations = {
     "story.firstMeetDate": "Winter 2016",
     "story.firstMeetDesc":
       "It was a beautiful winter day when we first met at a mutual friend's party. Our connection was instant, and we spent the entire evening talking and laughing together.",
-    "story.firstDate": "First Date",
+    "story.feeling": "Feeling in Love",
+    "story.feelingDate": "Every Day",
+    "story.feelingDesc":
+      "We share so many interests like gaming, watching anime, and singing. What used to be solo activities became so much more joyful with her in my life.",
     "story.firstDateDate": "Before Valentine's Day 2017",
     "story.firstDateDesc":
       "Our first date was a magical evening filled with laughter and connection. We explored the city together, sharing stories and dreams over a candlelit dinner.",
+    "story.pet": "Pets",
+    "story.petDate": "Summer 2018",
+    "story.petDesc":
+      "We both love pets very much, having rabbits, hamsters, and cats. They bring so much life to our home. We couldn't include pictures of all of them, but we love each one dearly (the cats in the picture are named 'Sunny and Mary' from the pirate ship in One Piece).",
+    "story.bigtrip": "Our First Big Trip",
+    "story.bigtripDate": "Rainy 2024",
+    "story.bigtripDesc":
+      "We are both introverts who enjoy spending time together in quiet places. This trip was a great opportunity to create new memories. We went to Koh Larn for 3 days and 2 nights, and it was a trip full of fun and adventure. It was a very good memory.",
     "story.proposal": "The Proposal",
     "story.proposalDate": "27th November 2024",
     "story.proposalDesc":
@@ -120,7 +131,7 @@ const translations = {
     "invitation.saveDate": "Save the Date",
     "invitation.saveDateDesc":
       "We look forward to celebrating with you on this special day.",
-    "invitation.date": "Tuesday, 19th November 2025",
+    "invitation.date": "Wednesday, 19th November 2025",
     "invitation.time": "06:30 AM",
 
     // Wedding Location Section
@@ -259,10 +270,22 @@ const translations = {
     "story.firstMeetDate": "ฤดูหนาว 2016",
     "story.firstMeetDesc":
       "เราเจอกันครั้งแรกในเช้าวันเกิดของเธอ หลังจากที่เรารู้จักกันทาง Facebook ผมตั้งใจนำของขวัญวันเกิดไปให้เธอที่บ้าน และการเจอครั้งนั้นผมเขินมากๆ ทำให้ความสัมพันธ์ของเราดีขึ้นเรื่อยๆ จนกลายเป็นความรักในที่สุด",
+    "story.feeling": "ความรู้สึกรัก",
+    "story.feelingDate": "ตลอดเวลา",
+    "story.feelingDesc":
+      "เราชอบอะไรคล้ายๆกัน เล่นเกม ดูการ์ตูน ร้องเพลง จากที่เคยทำคนเดียว พอมีเธอเข้ามาในชีวิตก็ทำให้มีความสุขมากขึ้นไปอีกมากๆ",
     "story.firstDate": "เดทครั้งแรก",
     "story.firstDateDate": "ก่อนวันวาเลนไทน์ 2017",
     "story.firstDateDesc":
       "เดทอย่างเป็นทางการครั้งแรกของเราคือร้านคาเฟ่ชื่อ 'ร้านนั่งเล่น' เราใช้เวลาทั้งวันคุยกัน หัวเราะ และแบ่งปันความฝัน ถึงปัจจุบันร้านนี้จะปิดทำการไปแล้ว แต่ความทรงจำของเรายังคงอยู่ครบ",
+    "story.pet": "สัตว์เลี้ยงของเรา",
+    "story.petDate": "ฤดูร้อน 2018",
+    "story.petDesc":
+      "เราสองคนชอบเลี้ยงสัตว์เลี้ยงมากๆ มีทั้ง กระต่าย หนู และแมว พวกมันทำให้บ้านของเรามีชีวิตชีวามากขึ้น เอารูปทุกตัวมาใส่ไม่ได้ทั้งหมด แต่เราก็รักพวกมันทุกตัว (แมวในรูปชื่อว่า 'ซันนี่ และ แมรี่' มาจากเรือของกลุ่มโจรสลัด วันพีช)",
+    "story.bigtrip": "การเที่ยวใหญ่ครั้งแรกของเรา",
+    "story.bigtripDate": "ฤดูฝน 2024",
+    "story.bigtripDesc":
+      "เราสองคนเป็น introvert ที่ชอบใช้เวลาร่วมกันในที่เงียบสงบ การเดินทางครั้งนี้จึงเป็นโอกาสที่ดีในการสร้างความทรงจำใหม่ๆ เราไปเที่ยวที่เกาะล้านกัน 3 วัน 2 คืน เป็นทริปที่เต็มไปด้วยความสนุกสนานและการผจญภัย เป็นความทรงจำที่ดีมากๆ",
     "story.proposal": "การขอแต่งงาน",
     "story.proposalDate": "27 พฤศจิกายน 2024",
     "story.proposalDesc":
@@ -279,7 +302,7 @@ const translations = {
     "invitation.saveDate": "จดวันที่ไว้",
     "invitation.saveDateDesc":
       "เราตั้งตารอที่จะได้เฉลิมฉลองกับคุณในวันพิเศษนี้",
-    "invitation.date": "วันอังคาร ที่ 19 พฤศจิกายน 2568",
+    "invitation.date": "วันพุธ ที่ 19 พฤศจิกายน 2568",
     "invitation.time": "06:30 น.",
 
     // wedding location Section

@@ -48,6 +48,71 @@ body {
   bottom: 0;
 }
 
+/* Custom Swiper Styles */
+.wedding-swiper {
+  width: 100%;
+  height: auto;
+  padding: 20px;
+}
+
+.wedding-swiper .swiper-wrapper {
+  align-items: center;
+}
+
+.wedding-swiper .swiper-slide {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 24px;
+  background: transparent;
+}
+
+/* Flip Effect Styling */
+.wedding-swiper .swiper-slide-shadow-flip.swiper-slide-shadow-left {
+  background-image: linear-gradient(to right, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.1));
+}
+
+.wedding-swiper .swiper-slide-shadow-flip.swiper-slide-shadow-right {
+  background-image: linear-gradient(to left, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.1));
+}
+
+/* Custom Pagination Bullets */
+.wedding-swiper .swiper-pagination {
+  bottom: -40px !important;
+  position: relative !important;
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.custom-bullet {
+  width: 12px !important;
+  height: 12px !important;
+  background: rgb(251 113 133) !important; /* rose-400 */
+  opacity: 0.6 !important;
+  border-radius: 50% !important;
+  transition: all 0.3s ease !important;
+  cursor: pointer !important;
+}
+
+.custom-bullet:hover {
+  opacity: 0.8 !important;
+  transform: scale(1.1) !important;
+}
+
+.custom-bullet-active {
+  background: linear-gradient(45deg, rgb(244 63 94), rgb(236 72 153)) !important; /* rose-500 to pink-500 */
+  opacity: 1 !important;
+  transform: scale(1.2) !important;
+}
+
+/* Hide default navigation arrows */
+.wedding-swiper .swiper-button-next,
+.wedding-swiper .swiper-button-prev {
+  display: none;
+}
+
 .parallax-layer-back {
   transform: translateZ(-1px) scale(2);
 }
