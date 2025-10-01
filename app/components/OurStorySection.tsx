@@ -31,7 +31,7 @@ const OurStorySection = () => {
       date: t("story.firstDateDate"),
       story: t("story.firstDateDesc"),
       position: "left",
-      url: "/our-story/firstdate.JPG",
+      url: "/our-story/firstdate.jpg",
     },
     {
       title: t("story.pet"),

@@ -110,7 +110,7 @@ const HeroSection = () => {
                 </h1>
                 <Image
                   src="/logo/logo.png"
-                  className="object-contain"
+                  // className="w-32 h-32"
                   alt="logo"
                   width={250}
                   height={250}
