@@ -24,7 +24,6 @@ const PreWeddingGallerySection = () => {
   });
 
   const [viewMode, setViewMode] = useState<"carousel" | "grid">("carousel");
-  const [selectedImage, setSelectedImage] = useState<number | null>(null);
 
   // Enhanced gallery images with more details
   const galleryImages = [
@@ -218,12 +217,11 @@ const PreWeddingGallerySection = () => {
                 }}
                 className="pb-12"
               >
-                {galleryImages.map((image, index) => (
+                {galleryImages.map((image) => (
                   <SwiperSlide key={image.id}>
                     <motion.div
                       whileHover={{ scale: 1.05 }}
                       className="group cursor-pointer"
-                      onClick={() => setSelectedImage(index)}
                     >
                       <div className="relative bg-white rounded-3xl shadow-xl overflow-hidden border border-rose-100 h-96">
                         <div
@@ -327,7 +325,6 @@ const PreWeddingGallerySection = () => {
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.6, delay: index * 0.1 }}
                   className="group cursor-pointer"
-                  onClick={() => setSelectedImage(index)}
                 >
                   <motion.div
                     whileHover={{ y: -10, scale: 1.03 }}
