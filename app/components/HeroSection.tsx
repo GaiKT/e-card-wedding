@@ -19,14 +19,13 @@ const HeroSection = () => {
   });
 
   const preWeddingImages = [
-    "/pre-wedding-no-bg/wedding-hero2.jpg",
-    "/pre-wedding-no-bg/wedding-hero1.jpg",
-    "/pre-wedding-no-bg/wedding-hero3.JPG",
-    "/pre-wedding-no-bg/wedding-hero4.JPG",
-    "/pre-wedding-no-bg/wedding-hero6.jpg",
-    "/pre-wedding-no-bg/wedding-hero5.jpg",
-    "/pre-wedding-no-bg/wedding-hero7.jpg",
-    // "/pre-wedding-no-bg/wedding-hero8.jpg",
+    "/hero/wedding-hero2.jpg",
+    "/hero/wedding-hero1.jpg",
+    "/hero/wedding-hero3.jpg",
+    "/hero/wedding-hero4.jpg",
+    "/hero/wedding-hero6.jpg",
+    "/hero/wedding-hero5.jpg",
+    "/hero/wedding-hero7.jpg",
   ];
 
   return (
