@@ -67,14 +67,14 @@ const HeroSection = () => {
         />
       </div>
 
-      <div className="container mx-auto px-4 min-h-screen flex items-center relative z-30 py-8 md:py-16">
-        <div className="grid lg:grid-cols-2 gap-8 md:gap-12 items-center w-full">
+      <div className="container mx-auto px-4 min-h-screen flex items-center relative z-30 py-4 sm:py-8 md:py-16">
+        <div className="grid lg:grid-cols-2 gap-4 sm:gap-8 md:gap-12 items-center w-full">
           {/* Left side - Text Content */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             animate={inView ? { opacity: 1, x: 0 } : { opacity: 0, x: -50 }}
             transition={{ duration: 1, ease: "easeOut" }}
-            className="text-center lg:text-left space-y-4 md:space-y-6 lg:space-y-8 order-2 lg:order-1"
+            className="text-center lg:text-left space-y-3 sm:space-y-4 md:space-y-6 lg:space-y-8 order-2 lg:order-1"
           >
             <motion.div
               initial={{ opacity: 0, y: 30 }}
@@ -82,13 +82,13 @@ const HeroSection = () => {
               transition={{ duration: 1, delay: 0.3 }}
               className=""
             >
-              <div className="inline-block bg-white/90 backdrop-blur-sm rounded-full px-6 py-2 mb-6 shadow-lg border border-rose-100">
+              <div className="inline-block bg-white/90 backdrop-blur-sm rounded-full px-4 py-1 sm:px-6 sm:py-2 mb-4 sm:mb-6 shadow-lg border border-rose-100">
                 <span className="font-inter text-sm font-semibold text-rose-600 tracking-widest uppercase">
                   {t("hero.saveTheDate")}
                 </span>
               </div>
               <div className="flex justify-center lg:justify-start">
-                <h1 className="font-playfair text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-gray-800 leading-tight mb-4 text-center lg:text-left">
+                <h1 className="font-playfair text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl font-bold text-gray-800 leading-tight mb-3 sm:mb-4 text-center lg:text-left">
                   {t("hero.weAreGetting")}
                   <span className="block text-transparent bg-clip-text bg-gradient-to-r from-rose-500 via-pink-500 to-rose-600">
                     {t("hero.married")}
@@ -108,10 +108,10 @@ const HeroSection = () => {
               initial={{ opacity: 0, y: 30 }}
               animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
               transition={{ duration: 1, delay: 0.6 }}
-              className="space-y-4 md:space-y-6"
+              className="space-y-3 sm:space-y-4 md:space-y-6"
             >
-              <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-4 md:p-6 shadow-xl border border-rose-100">
-                <h2 className="font-playfair text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 mb-2">
+              <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-3 sm:p-4 md:p-6 shadow-xl border border-rose-100">
+                <h2 className="font-playfair text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-gray-800 mb-2">
                   {t("hero.names")}
                 </h2>
                 <div className="flex items-center justify-center lg:justify-start space-x-4 text-gray-600">
@@ -154,22 +154,22 @@ const HeroSection = () => {
                 </div>
               </div>
 
-              <p className="font-inter text-base md:text-lg text-gray-600 leading-relaxed px-4 md:px-0">
+              <p className="font-inter text-sm sm:text-base md:text-lg text-gray-600 leading-relaxed px-2 sm:px-4 md:px-0">
                 {t("hero.description")}
               </p>
 
-              <motion.div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center lg:justify-start">
+              <motion.div className="flex flex-col sm:flex-row gap-2 sm:gap-3 md:gap-4 justify-center lg:justify-start px-2 sm:px-0">
                 <motion.button
                   whileHover={{ scale: 1.05, y: -2 }}
                   whileTap={{ scale: 0.95 }}
-                  className="bg-gradient-to-r from-rose-500 to-pink-500 text-white px-6 py-3 md:px-8 md:py-4 rounded-full font-inter font-semibold text-base md:text-lg shadow-xl hover:shadow-2xl transition-all duration-300"
+                  className="bg-gradient-to-r from-rose-500 to-pink-500 text-white px-4 py-2 sm:px-6 sm:py-3 md:px-8 md:py-4 rounded-full font-inter font-semibold text-sm sm:text-base md:text-lg shadow-xl hover:shadow-2xl transition-all duration-300"
                 >
                   {t("hero.viewInvitation")}
                 </motion.button>
                 <motion.button
                   whileHover={{ scale: 1.05, y: -2 }}
                   whileTap={{ scale: 0.95 }}
-                  className="border-2 border-rose-300 text-rose-600 bg-white/80 backdrop-blur-sm px-6 py-3 md:px-8 md:py-4 rounded-full font-inter font-semibold text-base md:text-lg hover:bg-rose-50 transition-all duration-300"
+                  className="border-2 border-rose-300 text-rose-600 bg-white/80 backdrop-blur-sm px-4 py-2 sm:px-6 sm:py-3 md:px-8 md:py-4 rounded-full font-inter font-semibold text-sm sm:text-base md:text-lg hover:bg-rose-50 transition-all duration-300"
                 >
                   {t("hero.rsvp")}
                 </motion.button>
@@ -182,7 +182,7 @@ const HeroSection = () => {
             initial={{ opacity: 0, x: 50 }}
             animate={inView ? { opacity: 1, x: 0 } : { opacity: 0, x: 50 }}
             transition={{ duration: 1, delay: 0.4 }}
-            className="relative order-1 lg:order-2 mb-8 lg:mb-0"
+            className="relative order-1 lg:order-2 mb-4 sm:mb-8 lg:mb-0"
           >
             <div className="relative w-full">
               {/* Swiper Container */}
@@ -215,8 +215,8 @@ const HeroSection = () => {
                           src={image}
                           alt={`Pre-wedding photo ${index + 1}`}
                           width={500}
-                          height={1200}
-                          className="w-full h-[550px] object-cover"
+                          height={500}
+                          className="w-full h-[300px] sm:h-[400px] md:h-[550px] object-cover"
                           priority={index === 0}
                         />
 
@@ -278,7 +278,7 @@ const HeroSection = () => {
         initial={{ opacity: 0 }}
         animate={inView ? { opacity: 1 } : { opacity: 0 }}
         transition={{ duration: 1, delay: 1.2 }}
-        className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
+        className="absolute bottom-4 sm:bottom-8 left-1/2 transform -translate-x-1/2"
       >
         <motion.div
           animate={{ y: [0, 10, 0] }}

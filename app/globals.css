@@ -31,6 +31,25 @@ body {
   min-height: 100vh;
 }
 
+/* Small mobile screens optimization */
+@media (max-width: 375px) {
+  body {
+    font-size: 14px;
+  }
+  
+  .container {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+}
+
+/* Very small screens */
+@media (max-width: 320px) {
+  body {
+    font-size: 13px;
+  }
+}
+
 /* Parallax container */
 .parallax-container {
   height: 100vh;
@@ -50,8 +69,22 @@ body {
 
 /* Custom Swiper Styles */
 .wedding-swiper {
-  width: 450px;
+  width: 100%;
+  max-width: 450px;
   height: auto;
+}
+
+/* Small mobile optimization */
+@media (max-width: 375px) {
+  .wedding-swiper {
+    max-width: 280px;
+  }
+}
+
+@media (min-width: 376px) and (max-width: 640px) {
+  .wedding-swiper {
+    max-width: 350px;
+  }
 }
 
 .wedding-swiper .swiper-wrapper {

@@ -59,20 +59,20 @@ const OurStorySection = () => {
   return (
     <section
       ref={ref}
-      className="py-20 bg-gradient-to-b from-rose-100 via-orange-50 to-pink-200 relative overflow-hidden shadow-xl shadow-black"
+      className="py-20 bg-gradient-to-b from-rose-50 via-orange-50 to-pink-100 relative overflow-hidden"
     >
-      {/* Pre-wedding Background Images */}
-      <div className="absolute inset-0 z-0">
+      {/* Pre-wedding Background Images - Mobile Optimized */}
+      <div className="absolute inset-0 z-0 hidden md:block">
         {/* Top Left Image */}
         <motion.div
           initial={{ opacity: 0, scale: 0.8, rotate: -10 }}
           animate={
             inView
-              ? { opacity: 0.15, scale: 1, rotate: -5 }
+              ? { opacity: 0.1, scale: 1, rotate: -5 }
               : { opacity: 0, scale: 0.8, rotate: -10 }
           }
           transition={{ duration: 1.2, delay: 0.2 }}
-          className="absolute top-10 left-10 w-32 h-32 md:w-48 md:h-48"
+          className="absolute top-10 left-10 w-24 h-24 md:w-32 md:h-32 lg:w-48 lg:h-48"
           style={{
             backgroundImage: `url('/pre-wedding-no-bg/wedding-hero1.JPG')`,
             backgroundSize: "contain",
@@ -86,11 +86,11 @@ const OurStorySection = () => {
           initial={{ opacity: 0, scale: 0.8, rotate: 15 }}
           animate={
             inView
-              ? { opacity: 0.12, scale: 1, rotate: 10 }
+              ? { opacity: 0.08, scale: 1, rotate: 10 }
               : { opacity: 0, scale: 0.8, rotate: 15 }
           }
           transition={{ duration: 1.2, delay: 0.4 }}
-          className="absolute top-14 right-16 w-28 h-28 md:w-40 md:h-40"
+          className="absolute top-14 right-16 w-20 h-20 md:w-28 md:h-28 lg:w-40 lg:h-40"
           style={{
             backgroundImage: `url('/pre-wedding-no-bg/wedding-hero2.JPG')`,
             backgroundSize: "contain",
@@ -154,7 +154,7 @@ const OurStorySection = () => {
         />
 
         <div
-          className="absolute bottom-[-100px] right-[-100px] w-[720px] h-[1080px] opacity-100 z-50"
+          className="absolute bottom-[-100px] right-[-100px] w-[720px] h-[1080px] opacity-50 z-50 hidden lg:block"
           style={{
             backgroundImage: `url('/pre-wedding-no-bg/wedding-withOut-bg.png')`,
             backgroundSize: "contain",
@@ -164,14 +164,13 @@ const OurStorySection = () => {
         />
       </div>
 
-      {/* Subtle Color Blobs */}
-
-      <div className="absolute inset-0 opacity-10">
-        <div className="absolute top-20 left-10 w-32 h-32 bg-rose-300 rounded-full blur-3xl" />
-        <div className="absolute bottom-20 right-10 w-40 h-40 bg-pink-300 rounded-full blur-3xl" />
+      {/* Simplified decorative elements for mobile performance */}
+      <div className="absolute inset-0 opacity-5 md:opacity-10">
+        <div className="absolute top-20 left-10 w-16 h-16 md:w-32 md:h-32 bg-rose-300 rounded-full" />
+        <div className="absolute bottom-20 right-10 w-20 h-20 md:w-40 md:h-40 bg-pink-300 rounded-full" />
       </div>
 
-      <div className="container mx-auto px-4 relative z-10">
+      <div className="container mx-auto px-4 md:px-6 lg:px-4 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
@@ -198,32 +197,36 @@ const OurStorySection = () => {
                   : { opacity: 0, x: item.position === "left" ? -100 : 100 }
               }
               transition={{ duration: 0.8, delay: index * 0.3 }}
-              className={`flex flex-col md:flex-row items-center mb-5 md:mb-16 ${
-                item.position === "right" ? "md:flex-row-reverse" : ""
+              className={`flex flex-col items-center mb-8 md:mb-16 ${
+                item.position === "right"
+                  ? "md:flex-row-reverse"
+                  : "md:flex-row"
               }`}
             >
-              <div className="md:w-1/2 p-8">
+              <div className="w-full md:w-1/2 p-4 md:p-8">
                 <motion.div
-                  whileHover={{ scale: 1.02 }}
-                  className="bg-white rounded-2xl shadow-xl p-8 relative overflow-hidden"
+                  whileHover={{ scale: 1.01 }}
+                  className="bg-white rounded-2xl shadow-lg md:shadow-xl p-6 md:p-8 relative overflow-hidden"
                 >
                   <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-rose-400 to-pink-400" />
-                  <h3 className="font-playfair text-2xl md:text-3xl font-bold text-gray-800 mb-2">
+                  <h3 className="font-playfair text-xl md:text-2xl lg:text-3xl font-bold text-gray-800 mb-2">
                     {item.title}
                   </h3>
-                  <p className="font-inter text-rose-600 font-semibold mb-4 text-lg">
+                  <p className="font-inter text-rose-600 font-semibold mb-4 text-base md:text-lg">
                     {item.date}
                   </p>
-                  <p className="font-inter text-gray-600 leading-relaxed">
+                  <p className="font-inter text-gray-600 leading-relaxed text-sm md:text-base">
                     {item.story}
                   </p>
                 </motion.div>
               </div>
 
-              <div className={`md:w-1/2 flex justify-center items-center p-8`}>
+              <div
+                className={`w-full md:w-1/2 flex justify-center items-center p-4 md:p-8`}
+              >
                 <motion.div
-                  whileHover={{ scale: 1.1, rotate: 5 }}
-                  className="w-64 h-64 bg-gradient-to-br from-rose-200 to-pink-300 rounded-full flex items-center justify-center shadow-2xl p-4"
+                  whileHover={{ scale: 1.05, rotate: 2 }}
+                  className="w-48 h-48 md:w-56 md:h-56 lg:w-64 lg:h-64 bg-gradient-to-br from-rose-200 to-pink-300 rounded-full flex items-center justify-center shadow-lg md:shadow-2xl p-3 md:p-4"
                 >
                   {/* Image is set as background */}
                   <div
@@ -242,16 +245,16 @@ const OurStorySection = () => {
           transition={{ duration: 0.8, delay: 1 }}
           className="text-center mt-16 z-99"
         >
-          <div className="bg-white rounded-2xl shadow-xl p-12 max-w-3xl mx-auto border border-rose-100">
-            <h3 className="font-playfair text-3xl md:text-4xl font-bold text-gray-800 mb-6">
+          <div className="bg-white rounded-2xl shadow-lg md:shadow-xl p-6 md:p-12 max-w-3xl mx-auto border border-rose-100">
+            <h3 className="font-playfair text-2xl md:text-3xl lg:text-4xl font-bold text-gray-800 mb-4 md:mb-6">
               {t("story.andNow")}
             </h3>
-            <p className="font-inter text-lg text-gray-600 leading-relaxed mb-6">
+            <p className="font-inter text-base md:text-lg text-gray-600 leading-relaxed mb-4 md:mb-6">
               {t("story.nextChapter")}
             </p>
-            <div className="flex items-center justify-center space-x-4 text-2xl">
+            <div className="flex items-center justify-center space-x-3 md:space-x-4 text-xl md:text-2xl">
               <span>💕</span>
-              <span className="font-playfair text-xl text-rose-600 font-semibold">
+              <span className="font-playfair text-lg md:text-xl text-rose-600 font-semibold">
                 {t("story.forever")}
               </span>
               <span>💕</span>
