@@ -16,7 +16,6 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/effect-coverflow";
 import OptimizedImage from "./OptimizedImage";
-import VirtualScrollGallery from "./VirtualScrollGallery";
 import SimpleVirtualScrollGallery from "./SimpleVirtualScrollGallery";
 
 const PreWeddingGallerySection = () => {
@@ -29,7 +28,6 @@ const PreWeddingGallerySection = () => {
   const [viewMode, setViewMode] = useState<"carousel" | "grid" | "virtual">(
     "carousel"
   );
-  const [loadedImages, setLoadedImages] = useState<Set<number>>(new Set());
 
   // Your actual gallery images with beautiful captions and descriptions
   const galleryImages = [
@@ -352,11 +350,6 @@ const PreWeddingGallerySection = () => {
   // Memoize gallery images for better performance
   const galleryImagesMemo = useMemo(() => galleryImages, []);
 
-  // Handle image load tracking for performance
-  const handleImageLoad = (imageId: number) => {
-    setLoadedImages((prev) => new Set([...prev, imageId]));
-  };
-
   const carouselImages = useMemo(() => galleryImagesMemo, [galleryImagesMemo]);
 
   // All images for grid view
@@ -534,7 +527,6 @@ const PreWeddingGallerySection = () => {
                             quality={85}
                             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                             className="object-cover object-center w-full h-full transition-transform duration-500 group-hover:scale-110"
-                            onLoad={() => handleImageLoad(image.id)}
                           />
                           {/* Overlay Effects */}
                           <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
@@ -628,7 +620,6 @@ const PreWeddingGallerySection = () => {
                               : "(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
                           }
                           className="object-cover object-center w-full h-full transition-transform duration-500 group-hover:scale-110"
-                          onLoad={() => handleImageLoad(image.id)}
                         />
 
                         {/* Enhanced Overlay Effects */}

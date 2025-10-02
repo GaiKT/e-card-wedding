@@ -2,7 +2,6 @@
 
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
-import { useState, useEffect } from "react";
 import Image from "next/image";
 import { useLanguage } from "../contexts/LanguageContext";
 import { Swiper, SwiperSlide } from "swiper/react";

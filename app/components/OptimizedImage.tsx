@@ -65,7 +65,7 @@ const OptimizedImage = ({
     onLoad?.();
   };
 
-  const handleError = (error: any) => {
+  const handleError = (error: unknown) => {
     console.warn(`Failed to load image: ${src}`, error);
     setError(true);
     setIsLoading(false);
