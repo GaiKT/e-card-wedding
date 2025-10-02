@@ -2,8 +2,9 @@
 
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useLanguage } from "../contexts/LanguageContext";
+import { Blessing, ApiResponse } from "@/types/blessing";
 
 const BlessUsSection = () => {
   const { t } = useLanguage();
@@ -19,6 +20,32 @@ const BlessUsSection = () => {
   });
 
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [blessings, setBlessings] = useState<Blessing[]>([]);
+  const [isLoadingBlessings, setIsLoadingBlessings] = useState(true);
+
+  // Fetch blessings on component mount
+  useEffect(() => {
+    fetchBlessings();
+  }, []);
+
+  const fetchBlessings = async () => {
+    try {
+      setIsLoadingBlessings(true);
+      const response = await fetch("/api/blessings");
+      const result: ApiResponse<Blessing[]> = await response.json();
+
+      if (result.success && result.data) {
+        setBlessings(result.data);
+      } else {
+        console.error("Failed to fetch blessings:", result.error);
+      }
+    } catch (error) {
+      console.error("Error fetching blessings:", error);
+    } finally {
+      setIsLoadingBlessings(false);
+    }
+  };
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -29,35 +56,39 @@ const BlessUsSection = () => {
     });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Here you would typically send the data to your backend
-    console.log("Blessing submitted:", formData);
-    setIsSubmitted(true);
-    setTimeout(() => setIsSubmitted(false), 3000);
-    setFormData({ name: "", email: "", message: "" });
-  };
 
-  const sampleBlessings = [
-    {
-      name: "Sarah & John",
-      message:
-        "Wishing you a lifetime of love and happiness. May your marriage be blessed with joy, laughter, and endless adventures together!",
-      date: "2 days ago",
-    },
-    {
-      name: "The Johnson Family",
-      message:
-        "Congratulations on your special day! We're so excited to celebrate with you and can't wait to see what the future holds for you both.",
-      date: "3 days ago",
-    },
-    {
-      name: "Lisa Marie",
-      message:
-        "You two are perfect for each other! May your love story continue to inspire everyone around you. Congratulations! 💕",
-      date: "5 days ago",
-    },
-  ];
+    try {
+      setIsLoading(true);
+
+      const response = await fetch("/api/blessings", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const result: ApiResponse<Blessing> = await response.json();
+
+      if (result.success) {
+        setIsSubmitted(true);
+        setFormData({ name: "", email: "", message: "" });
+
+        // Refresh blessings list
+        await fetchBlessings();
+      } else {
+        console.error("Failed to submit blessing:", result.error);
+        alert("Failed to submit blessing. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error submitting blessing:", error);
+      alert("Failed to submit blessing. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <section
@@ -179,11 +210,23 @@ const BlessUsSection = () => {
 
                   <motion.button
                     type="submit"
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="w-full bg-gradient-to-r from-rose-400 to-pink-400 text-white py-4 rounded-xl font-inter font-semibold text-lg hover:shadow-lg transition-all duration-300"
+                    disabled={isLoading}
+                    whileHover={{ scale: isLoading ? 1 : 1.05 }}
+                    whileTap={{ scale: isLoading ? 1 : 0.95 }}
+                    className={`w-full py-4 rounded-xl font-inter font-semibold text-lg transition-all duration-300 ${
+                      isLoading
+                        ? "bg-gray-400 cursor-not-allowed"
+                        : "bg-gradient-to-r from-rose-400 to-pink-400 text-white hover:shadow-lg"
+                    }`}
                   >
-                    {t("blessings.send")}
+                    {isLoading ? (
+                      <div className="flex items-center justify-center space-x-2">
+                        <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                        <span>Sending...</span>
+                      </div>
+                    ) : (
+                      t("blessings.send")
+                    )}
                   </motion.button>
                 </form>
               )}
@@ -202,29 +245,56 @@ const BlessUsSection = () => {
               </h3>
 
               <div className="space-y-6 max-h-96 overflow-y-auto custom-scrollbar">
-                {sampleBlessings.map((blessing, index) => (
-                  <motion.div
-                    key={index}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={
-                      inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }
-                    }
-                    transition={{ duration: 0.6, delay: 0.6 + index * 0.1 }}
-                    className="bg-gradient-to-br from-rose-50 to-pink-50 p-6 rounded-2xl border border-rose-100"
-                  >
-                    <div className="flex items-start justify-between mb-3">
-                      <h4 className="font-inter font-semibold text-gray-800">
-                        {blessing.name}
-                      </h4>
-                      <span className="text-sm text-gray-500 font-inter">
-                        {blessing.date}
-                      </span>
-                    </div>
-                    <p className="font-inter text-gray-600 leading-relaxed">
-                      {blessing.message}
+                {isLoadingBlessings ? (
+                  // Loading skeleton
+                  <div className="space-y-4">
+                    {[1, 2, 3].map((i) => (
+                      <div
+                        key={i}
+                        className="bg-gradient-to-br from-rose-50 to-pink-50 p-6 rounded-2xl border border-rose-100 animate-pulse"
+                      >
+                        <div className="flex items-start justify-between mb-3">
+                          <div className="h-4 bg-gray-300 rounded w-1/3"></div>
+                          <div className="h-3 bg-gray-200 rounded w-16"></div>
+                        </div>
+                        <div className="space-y-2">
+                          <div className="h-3 bg-gray-200 rounded w-full"></div>
+                          <div className="h-3 bg-gray-200 rounded w-4/5"></div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ) : blessings.length > 0 ? (
+                  blessings.map((blessing, index) => (
+                    <motion.div
+                      key={blessing.id}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={
+                        inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }
+                      }
+                      transition={{ duration: 0.6, delay: 0.6 + index * 0.1 }}
+                      className="bg-gradient-to-br from-rose-50 to-pink-50 p-6 rounded-2xl border border-rose-100"
+                    >
+                      <div className="flex items-start justify-between mb-3">
+                        <h4 className="font-inter font-semibold text-gray-800">
+                          {blessing.name}
+                        </h4>
+                        <span className="text-sm text-gray-500 font-inter">
+                          {new Date(blessing.createdAt).toLocaleDateString()}
+                        </span>
+                      </div>
+                      <p className="font-inter text-gray-600 leading-relaxed">
+                        {blessing.message}
+                      </p>
+                    </motion.div>
+                  ))
+                ) : (
+                  <div className="text-center py-8 text-gray-500">
+                    <p className="font-inter">
+                      No blessings yet. Be the first to send your wishes!
                     </p>
-                  </motion.div>
-                ))}
+                  </div>
+                )}
               </div>
 
               <div className="text-center mt-6">
