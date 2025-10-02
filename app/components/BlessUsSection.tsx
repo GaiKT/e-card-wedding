@@ -95,7 +95,7 @@ const BlessUsSection = () => {
       ref={ref}
       className="py-20 bg-gradient-to-br from-rose-50 to-pink-100 relative overflow-hidden"
       style={{
-        backgroundImage: `url('/bg/bg-3.png')`,
+        backgroundImage: `url('/bg/bg-cloud.jpg')`,
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundAttachment: "fixed",

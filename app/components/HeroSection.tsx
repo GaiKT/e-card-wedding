@@ -20,13 +20,14 @@ const HeroSection = () => {
   });
 
   const preWeddingImages = [
-    "/pre-wedding-no-bg/wedding-hero1.JPG",
-    "/pre-wedding-no-bg/wedding-hero2.JPG",
-    "/pre-wedding-no-bg/wedding-hero3.jpg",
-    "/pre-wedding-no-bg/wedding-hero4.jpg",
-    "/pre-wedding-no-bg/wedding-hero5.jpg",
+    "/pre-wedding-no-bg/wedding-hero2.jpg",
+    "/pre-wedding-no-bg/wedding-hero1.jpg",
+    "/pre-wedding-no-bg/wedding-hero3.JPG",
+    "/pre-wedding-no-bg/wedding-hero4.JPG",
     "/pre-wedding-no-bg/wedding-hero6.jpg",
+    "/pre-wedding-no-bg/wedding-hero5.jpg",
     "/pre-wedding-no-bg/wedding-hero7.jpg",
+    // "/pre-wedding-no-bg/wedding-hero8.jpg",
   ];
 
   return (
@@ -34,7 +35,7 @@ const HeroSection = () => {
       ref={ref}
       className="relative min-h-screen overflow-hidden py-16 md:pt-20"
       style={{
-        backgroundImage: `url('/bg/bg-2.png')`,
+        backgroundImage: `url('/bg/bg-bless.jpg')`,
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundAttachment: "scroll",
@@ -87,20 +88,13 @@ const HeroSection = () => {
                   {t("hero.saveTheDate")}
                 </span>
               </div>
-              <div className="flex justify-center lg:justify-start">
-                <h1 className="font-playfair text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl font-bold text-gray-800 leading-tight mb-3 sm:mb-4 text-center lg:text-left">
+              <div className="flex max-md:flex-col justify-center items-center lg:justify-between">
+                <h1 className="font-playfair text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl font-bold text-gray-800 leading-tight text-center lg:text-left">
                   {t("hero.weAreGetting")}
                   <span className="block text-transparent bg-clip-text bg-gradient-to-r from-rose-500 via-pink-500 to-rose-600">
                     {t("hero.married")}
                   </span>
                 </h1>
-                {/* <Image
-                  src="/logo/logo.png"
-                  // className="w-32 h-32"
-                  alt="logo"
-                  width={250}
-                  height={250}
-                /> */}
               </div>
             </motion.div>
 
@@ -162,6 +156,19 @@ const HeroSection = () => {
                 <motion.button
                   whileHover={{ scale: 1.05, y: -2 }}
                   whileTap={{ scale: 0.95 }}
+                  onClick={() => {
+                    const element = document.querySelector(
+                      "#invitation"
+                    ) as HTMLElement;
+                    if (element) {
+                      const headerHeight = 80;
+                      const elementPosition = element.offsetTop - headerHeight;
+                      window.scrollTo({
+                        top: elementPosition,
+                        behavior: "smooth",
+                      });
+                    }
+                  }}
                   className="bg-gradient-to-r from-rose-500 to-pink-500 text-white px-4 py-2 sm:px-6 sm:py-3 md:px-8 md:py-4 rounded-full font-inter font-semibold text-sm sm:text-base md:text-lg shadow-xl hover:shadow-2xl transition-all duration-300"
                 >
                   {t("hero.viewInvitation")}
@@ -169,6 +176,19 @@ const HeroSection = () => {
                 <motion.button
                   whileHover={{ scale: 1.05, y: -2 }}
                   whileTap={{ scale: 0.95 }}
+                  onClick={() => {
+                    const element = document.querySelector(
+                      "#blessings"
+                    ) as HTMLElement;
+                    if (element) {
+                      const headerHeight = 80;
+                      const elementPosition = element.offsetTop - headerHeight;
+                      window.scrollTo({
+                        top: elementPosition,
+                        behavior: "smooth",
+                      });
+                    }
+                  }}
                   className="border-2 border-rose-300 text-rose-600 bg-white/80 backdrop-blur-sm px-4 py-2 sm:px-6 sm:py-3 md:px-8 md:py-4 rounded-full font-inter font-semibold text-sm sm:text-base md:text-lg hover:bg-rose-50 transition-all duration-300"
                 >
                   {t("hero.rsvp")}
@@ -191,12 +211,13 @@ const HeroSection = () => {
                 spaceBetween={30}
                 slidesPerView={1}
                 autoplay={{
-                  delay: 5000,
+                  delay: 4000,
                   disableOnInteraction: false,
+                  pauseOnMouseEnter: true,
                 }}
                 effect="flip"
                 flipEffect={{
-                  slideShadows: true,
+                  slideShadows: false,
                   limitRotation: true,
                 }}
                 loop={true}
@@ -217,7 +238,11 @@ const HeroSection = () => {
                           width={500}
                           height={500}
                           className="w-full h-[300px] sm:h-[400px] md:h-[550px] object-cover"
+                          loading={index === 0 ? "eager" : "lazy"}
                           priority={index === 0}
+                          placeholder="blur"
+                          blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWEREiMxUf/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyojznyDzR+ya2Z3qBXSrKf8"
+                          sizes="(max-width: 640px) 300px, (max-width: 768px) 400px, 550px"
                         />
 
                         {/* Overlay gradient */}
