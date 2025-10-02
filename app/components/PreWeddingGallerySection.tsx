@@ -613,7 +613,7 @@ const PreWeddingGallerySection = () => {
                           height={isFeatureCard ? 400 : 250}
                           fill
                           priority={index < 8}
-                          quality={isFeatureCard ? 90 : 80}
+                          quality={isFeatureCard ? 75 : 50}
                           sizes={
                             isFeatureCard
                               ? "(max-width: 768px) 100vw, (max-width: 1200px) 66vw, 50vw"

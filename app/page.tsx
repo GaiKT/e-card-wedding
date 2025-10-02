@@ -10,10 +10,12 @@ import LocationSection from "./components/LocationSection";
 import PreWeddingGallerySection from "./components/PreWeddingGallerySection";
 import BlessUsSection from "./components/BlessUsSection";
 import SmoothScroll from "./components/SmoothScroll";
+import BrowserExtensionHandler from "./components/BrowserExtensionHandler";
 
 export default function Home() {
   return (
     <main className="min-h-screen relative">
+      <BrowserExtensionHandler />
       <Navigation />
       <SmoothScroll />
 
