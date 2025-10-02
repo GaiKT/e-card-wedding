@@ -246,7 +246,7 @@ const WeddingPlanSection = () => {
                   {t("plan.dressCodeDesc")}
                 </p>
                 {/* Color indicators */}
-                <div className="flex justify-center flex-wrap gap-8">
+                <div className="flex justify-center flex-wrap md:gap-8 gap-3">
                   <div className="flex items-center space-x-1">
                     <div className="w-8 h-8 bg-amber-700 border border-amber-950 rounded-full"></div>
                     <span className="text-xs text-gray-500"></span>

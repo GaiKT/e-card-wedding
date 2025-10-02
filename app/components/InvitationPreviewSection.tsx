@@ -176,14 +176,6 @@ const InvitationPreviewSection = () => {
                   </span>
                 </div>
               </div>
-
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="mt-6 bg-gradient-to-r from-rose-400 to-pink-400 text-white px-8 py-3 rounded-full font-inter font-semibold hover:shadow-lg transition-all duration-300"
-              >
-                Download Invitation
-              </motion.button>
             </div>
           </motion.div>
         </div>

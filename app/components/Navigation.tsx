@@ -24,19 +24,52 @@ const Navigation = () => {
       setIsScrolled(window.scrollY > 50);
     };
 
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as Element;
+      if (isMobileMenuOpen && !target.closest("nav")) {
+        setIsMobileMenuOpen(false);
+      }
+    };
+
     window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+    document.addEventListener("click", handleClickOutside);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, [isMobileMenuOpen]);
+
+  // Prevent body scroll when mobile menu is open
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+
+    // Cleanup on unmount
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [isMobileMenuOpen]);
 
   const scrollToSection = (href: string) => {
     setIsMobileMenuOpen(false);
-    const element = document.querySelector(href);
-    if (element) {
-      element.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
-    }
+
+    // Add a small delay to allow menu to close first
+    setTimeout(() => {
+      const element = document.querySelector(href) as HTMLElement;
+      if (element) {
+        const headerHeight = 80; // Account for fixed header
+        const elementPosition = element.offsetTop - headerHeight;
+
+        window.scrollTo({
+          top: elementPosition,
+          behavior: "smooth",
+        });
+      }
+    }, 100);
   };
 
   return (
@@ -101,31 +134,30 @@ const Navigation = () => {
             <motion.button
               whileTap={{ scale: 0.95 }}
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className={`md:hidden p-2 ${
-                isScrolled ? "text-gray-700" : "text-white"
+              className={`md:hidden p-2 rounded-lg transition-colors duration-300 ${
+                isScrolled
+                  ? "text-gray-700 hover:bg-gray-100"
+                  : "text-white hover:bg-white/20"
               }`}
+              aria-label="Toggle mobile menu"
             >
               <svg
-                className="w-6 h-6"
+                className="w-6 h-6 transition-transform duration-300"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
               >
-                {isMobileMenuOpen ? (
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                ) : (
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M4 6h16M4 12h16M4 18h16"
-                  />
-                )}
+                <motion.path
+                  animate={{
+                    d: isMobileMenuOpen
+                      ? "M6 18L18 6M6 6l12 12"
+                      : "M4 6h16M4 12h16M4 18h16",
+                  }}
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  transition={{ duration: 0.3 }}
+                />
               </svg>
             </motion.button>
           </div>
@@ -135,27 +167,41 @@ const Navigation = () => {
       {/* Mobile Menu */}
       <AnimatePresence>
         {isMobileMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-white/95 backdrop-blur-md border-t border-rose-100"
-          >
-            <div className="container mx-auto px-4 py-4">
-              {navItems.map((item, index) => (
-                <motion.button
-                  key={item.name}
-                  onClick={() => scrollToSection(item.href)}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: index * 0.1 }}
-                  className="block w-full text-left py-3 font-inter font-medium text-gray-700 hover:text-rose-500 transition-colors duration-300"
-                >
-                  {item.name}
-                </motion.button>
-              ))}
-            </div>
-          </motion.div>
+          <>
+            {/* Mobile Menu Overlay */}
+            {/* <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 bg-black/20 md:hidden"
+              style={{ zIndex: 39 }}
+              onClick={() => setIsMobileMenuOpen(false)}
+            /> */}
+
+            {/* Mobile Menu Content */}
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              className="md:hidden bg-white/98 backdrop-blur-md border-t border-rose-100 shadow-lg"
+              style={{ zIndex: 40 }}
+            >
+              <div className="container mx-auto px-4 py-4 space-y-2">
+                {navItems.map((item, index) => (
+                  <motion.button
+                    key={item.name}
+                    onClick={() => scrollToSection(item.href)}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: index * 0.1 }}
+                    className="block w-full text-left py-3 px-4 font-inter font-medium text-gray-700 hover:text-rose-500 hover:bg-rose-50 rounded-lg transition-all duration-300 z-40"
+                  >
+                    {item.name}
+                  </motion.button>
+                ))}
+              </div>
+            </motion.div>
+          </>
         )}
       </AnimatePresence>
     </motion.nav>

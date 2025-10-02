@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { useLanguage } from "../contexts/LanguageContext";
 import { Swiper, SwiperSlide } from "swiper/react";
 import {
@@ -15,7 +15,8 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/effect-coverflow";
-import Image from "next/image";
+import OptimizedImage from "./OptimizedImage";
+import VirtualScrollGallery from "./VirtualScrollGallery";
 
 const PreWeddingGallerySection = () => {
   const { t } = useLanguage();
@@ -24,7 +25,10 @@ const PreWeddingGallerySection = () => {
     triggerOnce: true,
   });
 
-  const [viewMode, setViewMode] = useState<"carousel" | "grid">("carousel");
+  const [viewMode, setViewMode] = useState<"carousel" | "grid" | "virtual">(
+    "carousel"
+  );
+  const [loadedImages, setLoadedImages] = useState<Set<number>>(new Set());
 
   // Your actual gallery images with beautiful captions and descriptions
   const galleryImages = [
@@ -344,6 +348,23 @@ const PreWeddingGallerySection = () => {
     },
   ];
 
+  // Memoize gallery images for better performance
+  const galleryImagesMemo = useMemo(() => galleryImages, []);
+
+  // Handle image load tracking for performance
+  const handleImageLoad = (imageId: number) => {
+    setLoadedImages((prev) => new Set([...prev, imageId]));
+  };
+
+  // Get images for carousel (first 8 for performance)
+  const carouselImages = useMemo(
+    () => galleryImagesMemo.slice(0, 8),
+    [galleryImagesMemo]
+  );
+
+  // All images for grid view
+  const gridImages = galleryImagesMemo;
+
   return (
     <section
       ref={ref}
@@ -377,17 +398,17 @@ const PreWeddingGallerySection = () => {
             transition={{ duration: 0.8, delay: 0.3 }}
             className="flex justify-center mt-8"
           >
-            <div className="bg-white rounded-lg p-2 shadow-lg border border-rose-100 flex gap-3 md:w-96 w-full">
+            <div className="bg-white rounded-lg p-2 shadow-lg border border-rose-100 flex gap-2 md:w-auto w-full">
               <button
                 onClick={() => setViewMode("carousel")}
-                className={`px-6 py-3 rounded-lg font-inter font-semibold transition-all duration-300 flex items-center space-x-2 w-full ${
+                className={`px-4 py-3 rounded-lg font-inter font-semibold transition-all duration-300 flex items-center space-x-2 flex-1 md:flex-none ${
                   viewMode === "carousel"
                     ? "bg-gradient-to-r from-rose-400 to-pink-400 text-white shadow-lg"
                     : "text-gray-600 hover:text-rose-500"
                 }`}
               >
                 <svg
-                  className="w-5 h-5"
+                  className="w-4 h-4"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -399,18 +420,20 @@ const PreWeddingGallerySection = () => {
                     d="M7 4V2a1 1 0 011-1h8a1 1 0 011 1v2m-9 3v16l4-4 4 4V7H7z"
                   />
                 </svg>
-                <span>{t("gallery.carousel")}</span>
+                <span className="hidden md:inline">
+                  {t("gallery.carousel")}
+                </span>
               </button>
               <button
                 onClick={() => setViewMode("grid")}
-                className={`px-6 py-3 rounded-lg font-inter font-semibold transition-all duration-300 flex items-center space-x-2 w-full ${
+                className={`px-4 py-3 rounded-lg font-inter font-semibold transition-all duration-300 flex items-center space-x-2 flex-1 md:flex-none ${
                   viewMode === "grid"
                     ? "bg-gradient-to-r from-rose-400 to-pink-400 text-white shadow-lg"
                     : "text-gray-600 hover:text-rose-500"
                 }`}
               >
                 <svg
-                  className="w-5 h-5"
+                  className="w-4 h-4"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -422,7 +445,30 @@ const PreWeddingGallerySection = () => {
                     d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"
                   />
                 </svg>
-                <span>{t("gallery.grid")}</span>
+                <span className="hidden md:inline">{t("gallery.grid")}</span>
+              </button>
+              <button
+                onClick={() => setViewMode("virtual")}
+                className={`px-4 py-3 rounded-lg font-inter font-semibold transition-all duration-300 flex items-center space-x-2 flex-1 md:flex-none ${
+                  viewMode === "virtual"
+                    ? "bg-gradient-to-r from-rose-400 to-pink-400 text-white shadow-lg"
+                    : "text-gray-600 hover:text-rose-500"
+                }`}
+              >
+                <svg
+                  className="w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M13 10V3L4 14h7v7l9-11h-7z"
+                  />
+                </svg>
+                <span className="hidden md:inline">รูปทั้งหมด</span>
               </button>
             </div>
           </motion.div>
@@ -476,40 +522,26 @@ const PreWeddingGallerySection = () => {
                 }}
                 className="pb-12"
               >
-                {galleryImages.map((image) => (
+                {carouselImages.map((image, index) => (
                   <SwiperSlide key={image.id}>
                     <motion.div className="group cursor-pointer">
                       <div className="relative bg-white md:rounded-3xl shadow-xl overflow-hidden border border-rose-100 h-[600px]">
                         <div className="relative h-[550px] overflow-hidden">
-                          <Image
+                          <OptimizedImage
                             src={image.src}
                             alt={image.alt}
+                            width={400}
+                            height={550}
                             fill
-                            className="object-cover"
+                            priority={index < 3}
+                            quality={85}
                             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                            className="object-cover transition-transform duration-500 group-hover:scale-105"
+                            onLoad={() => handleImageLoad(image.id)}
                           />
 
                           {/* Overlay Effects */}
                           <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-
-                          {/* <motion.div
-                            className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm rounded-full p-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                            whileHover={{ scale: 1.1 }}
-                          >
-                            <svg
-                              className="w-5 h-5 text-rose-500"
-                              fill="none"
-                              stroke="currentColor"
-                              viewBox="0 0 24 24"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                              />
-                            </svg>
-                          </motion.div> */}
 
                           <div className="absolute bottom-4 left-4 right-4 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                             <p className="text-sm font-inter drop-shadow-lg">
@@ -531,6 +563,34 @@ const PreWeddingGallerySection = () => {
             </motion.div>
           )}
 
+          {/* Virtual Scrolling View - แสดงรูปทั้งหมดอย่างมีประสิทธิภาพ */}
+          {viewMode === "virtual" && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5 }}
+              className="mb-8"
+            >
+              <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-6 mb-6 border border-rose-100">
+                <div className="text-center mb-4">
+                  <h3 className="font-playfair text-xl font-bold text-gray-800 mb-2">
+                    รูปภาพทั้งหมด {galleryImagesMemo.length} รูป
+                  </h3>
+                  <p className="text-sm text-gray-600">
+                    โหลดเฉพาะรูปที่ต้องการเท่านั้น ประหยัด bandwidth และเร็วกว่า
+                  </p>
+                </div>
+              </div>
+
+              <VirtualScrollGallery
+                images={galleryImagesMemo}
+                itemHeight={280}
+                containerHeight={700}
+                className="rounded-2xl border border-rose-100 bg-white/50 backdrop-blur-sm"
+              />
+            </motion.div>
+          )}
+
           {/* Grid View - Masonry Layout */}
           {viewMode === "grid" && (
             <motion.div
@@ -539,7 +599,7 @@ const PreWeddingGallerySection = () => {
               transition={{ duration: 0.5 }}
               className="grid grid-masonry gap-4 md:gap-6 auto-rows-max"
             >
-              {galleryImages.map((image, index) => {
+              {gridImages.map((image, index) => {
                 // Special large cards for featured photos
                 const isFeatureCard = image.isFeature;
 
@@ -548,7 +608,10 @@ const PreWeddingGallerySection = () => {
                     key={image.id}
                     initial={{ opacity: 0, scale: 0.8 }}
                     animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.6, delay: index * 0.05 }}
+                    transition={{
+                      duration: 0.6,
+                      delay: Math.min(index * 0.02, 2),
+                    }}
                     className={`group cursor-pointer ${
                       isFeatureCard ? "col-span-2 row-span-2" : ""
                     }`}
@@ -558,13 +621,21 @@ const PreWeddingGallerySection = () => {
                       className="relative bg-white rounded-2xl shadow-lg overflow-hidden border border-rose-100 h-full min-h-[250px]"
                     >
                       <div className={`relative overflow-hidden w-full h-full`}>
-                        <Image
+                        <OptimizedImage
                           src={image.src}
                           alt={image.alt}
+                          width={isFeatureCard ? 600 : 300}
+                          height={isFeatureCard ? 400 : 250}
                           fill
-                          className="object-cover object-center w-full h-full transition-transform duration-500 group-hover:scale-110"
-                          sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
                           priority={index < 8}
+                          quality={isFeatureCard ? 90 : 80}
+                          sizes={
+                            isFeatureCard
+                              ? "(max-width: 768px) 100vw, (max-width: 1200px) 66vw, 50vw"
+                              : "(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
+                          }
+                          className="object-cover object-center w-full h-full transition-transform duration-500 group-hover:scale-110"
+                          onLoad={() => handleImageLoad(image.id)}
                         />
 
                         {/* Enhanced Overlay Effects */}
@@ -635,20 +706,10 @@ const PreWeddingGallerySection = () => {
               {t("gallery.memoriesDesc")}
             </p>
             <div className="flex items-center justify-center space-x-4">
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="bg-gradient-to-r from-rose-400 to-pink-400 text-white px-6 py-3 rounded-full font-inter font-semibold hover:shadow-lg transition-all duration-300"
-              >
-                {t("gallery.viewFull")}
-              </motion.button>
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="border-2 border-rose-300 text-rose-600 px-6 py-3 rounded-full font-inter font-semibold hover:bg-rose-50 transition-all duration-300"
-              >
-                {t("gallery.download")}
-              </motion.button>
+              <div className="flex items-center space-x-2 text-sm text-gray-500">
+                <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
+                <span>แสดงรูปทั้งหมด {galleryImagesMemo.length} รูป</span>
+              </div>
             </div>
           </div>
         </motion.div>
