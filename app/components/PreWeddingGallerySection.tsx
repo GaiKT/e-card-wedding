@@ -32,6 +32,7 @@ const PreWeddingGallerySection = () => {
       id: 1,
       src: "/gallery/S__10248200_0.jpg",
       alt: "Wedding Photo 1",
+      isFeature: true,
       caption: "รักแท้มีอยู่จริงนั่นคือคุณ",
       description: "วันที่ความรักแท้ได้เผยตัวในรูปแบบของคุณ",
     },
@@ -102,6 +103,7 @@ const PreWeddingGallerySection = () => {
       id: 11,
       src: "/gallery/S__10248211_0.jpg",
       alt: "Wedding Photo 11",
+      isFeature: true,
       caption: "ชีวิตคู่ที่เต็มไปด้วยความรักและความอบอุ่น",
       description: "ความอบอุ่นที่ล้อมรอบเราทั้งสอง",
     },
@@ -151,6 +153,7 @@ const PreWeddingGallerySection = () => {
       id: 18,
       src: "/gallery/S__10248219_0.jpg",
       alt: "Wedding Photo 18",
+      isFeature: true,
       caption: "คุณคือรักเดียวของฉัน เราคือรักเดียวของกันและกัน",
       description: "รักเดียวในใจที่มีเพียงแค่กันและกัน",
     },
@@ -292,28 +295,31 @@ const PreWeddingGallerySection = () => {
       src: "/gallery/S__10248241_0.jpg",
       alt: "Wedding Photo 38",
       caption: "รอยยิ้มของกันและกัน",
+      isFeature: true,
       description: "รอยยิ้มที่เกิดขึ้นเมื่อได้มองหน้ากัน",
     },
     {
       id: 39,
       src: "/gallery/S__10248242_0.jpg",
       alt: "Wedding Photo 39",
+      isFeature: true,
       caption: "ช่วงเวลาดีๆด้วยกันมากมาย",
       description: "ความทรงจำดีๆ ที่สร้างขึ้นร่วมกัน",
     },
     {
       id: 40,
-      src: "/gallery/S__10248243_0.jpg",
+      src: "/gallery/S__10248244_0.jpg",
       alt: "Wedding Photo 40",
-      caption: "ขอบคุณที่รักในตัวตนของฉันเสมอ",
-      description: "การรับและรักในตัวตนที่แท้จริงของกันและกัน",
+      isFeature: true,
+      caption: "เฉกเช่นรอยยิ้มในภาพเซลฟี่ของเรา",
+      description: "ความสุขที่แท้จริงที่สะท้อนในทุกภาพของเรา",
     },
     {
       id: 41,
-      src: "/gallery/S__10248244_0.jpg",
+      src: "/gallery/S__10248243_0.jpg",
       alt: "Wedding Photo 41",
-      caption: "เฉกเช่นรอยยิ้มในภาพเซลฟี่ของเรา",
-      description: "ความสุขที่แท้จริงที่สะท้อนในทุกภาพของเรา",
+      caption: "ขอบคุณที่รักในตัวตนของฉันเสมอ",
+      description: "การรับและรักในตัวตนที่แท้จริงของกันและกัน",
     },
     {
       id: 42,
@@ -472,11 +478,8 @@ const PreWeddingGallerySection = () => {
               >
                 {galleryImages.map((image) => (
                   <SwiperSlide key={image.id}>
-                    <motion.div
-                      whileHover={{ scale: 1.05 }}
-                      className="group cursor-pointer"
-                    >
-                      <div className="relative bg-white rounded-3xl shadow-xl overflow-hidden border border-rose-100 h-[600px]">
+                    <motion.div className="group cursor-pointer">
+                      <div className="relative bg-white md:rounded-3xl shadow-xl overflow-hidden border border-rose-100 h-[600px]">
                         <div className="relative h-[550px] overflow-hidden">
                           <Image
                             src={image.src}
@@ -489,7 +492,7 @@ const PreWeddingGallerySection = () => {
                           {/* Overlay Effects */}
                           <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
-                          <motion.div
+                          {/* <motion.div
                             className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm rounded-full p-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                             whileHover={{ scale: 1.1 }}
                           >
@@ -506,7 +509,7 @@ const PreWeddingGallerySection = () => {
                                 d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
                               />
                             </svg>
-                          </motion.div>
+                          </motion.div> */}
 
                           <div className="absolute bottom-4 left-4 right-4 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                             <p className="text-sm font-inter drop-shadow-lg">
@@ -515,7 +518,7 @@ const PreWeddingGallerySection = () => {
                           </div>
                         </div>
 
-                        <div className="p-4 text-center">
+                        <div className="pt-1 text-center">
                           <h3 className="font-inter font-semibold text-gray-800">
                             {image.caption}
                           </h3>
@@ -525,40 +528,6 @@ const PreWeddingGallerySection = () => {
                   </SwiperSlide>
                 ))}
               </Swiper>
-
-              {/* Custom Navigation Buttons */}
-              <div className="flex justify-center space-x-4 mt-6">
-                <button className="swiper-button-prev-custom bg-white shadow-lg rounded-full p-3 border border-rose-100 hover:bg-rose-50 transition-colors duration-300">
-                  <svg
-                    className="w-6 h-6 text-rose-500"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M15 19l-7-7 7-7"
-                    />
-                  </svg>
-                </button>
-                <button className="swiper-button-next-custom bg-white shadow-lg rounded-full p-3 border border-rose-100 hover:bg-rose-50 transition-colors duration-300">
-                  <svg
-                    className="w-6 h-6 text-rose-500"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M9 5l7 7-7 7"
-                    />
-                  </svg>
-                </button>
-              </div>
             </motion.div>
           )}
 
@@ -571,38 +540,8 @@ const PreWeddingGallerySection = () => {
               className="grid grid-masonry gap-4 md:gap-6 auto-rows-max"
             >
               {galleryImages.map((image, index) => {
-                // Define different heights for masonry effect
-                const getGridClass = (idx: number) => {
-                  const patterns = [
-                    "row-span-2", // tall
-                    "row-span-1", // normal
-                    "row-span-3", // extra tall
-                    "row-span-1", // normal
-                    "row-span-2", // tall
-                    "row-span-1", // normal
-                    "row-span-1", // normal
-                    "row-span-2", // tall
-                  ];
-                  return patterns[idx % patterns.length];
-                };
-
-                const getHeightClass = (idx: number) => {
-                  const heights = [
-                    "h-64", // normal
-                    "h-56", // medium-short
-                    "h-80", // tall
-                    "h-60", // medium
-                    "h-72", // tall
-                    "h-52", // short
-                    "h-68", // medium-tall
-                    "h-56", // medium-short
-                  ];
-                  return heights[idx % heights.length];
-                };
-
                 // Special large cards for featured photos
-                const isFeatureCard =
-                  index === 0 || index === 8 || index === 16 || index === 24;
+                const isFeatureCard = image.isFeature;
 
                 return (
                   <motion.div
@@ -618,11 +557,7 @@ const PreWeddingGallerySection = () => {
                       whileHover={{ y: -8, scale: 1.02 }}
                       className="relative bg-white rounded-2xl shadow-lg overflow-hidden border border-rose-100 h-full min-h-[250px]"
                     >
-                      <div
-                        className={`relative overflow-hidden w-full ${
-                          isFeatureCard ? "h-80 md:h-96" : getHeightClass(index)
-                        }`}
-                      >
+                      <div className={`relative overflow-hidden w-full h-full`}>
                         <Image
                           src={image.src}
                           alt={image.alt}
@@ -652,7 +587,7 @@ const PreWeddingGallerySection = () => {
                         >
                           <svg
                             className="w-4 h-4 text-rose-500"
-                            fill="none"
+                            fill={isFeatureCard ? "currentColor" : "none"}
                             stroke="currentColor"
                             viewBox="0 0 24 24"
                           >
@@ -678,15 +613,6 @@ const PreWeddingGallerySection = () => {
                           <div className="absolute bottom-4 right-4 w-8 h-8 border-r-2 border-b-2 border-white/50"></div>
                         </div>
                       </div>
-
-                      {/* Card Footer (only for non-feature cards) */}
-                      {!isFeatureCard && (
-                        <div className="p-3">
-                          <h3 className="font-inter font-medium text-gray-800 text-center text-xs md:text-sm truncate">
-                            {image.caption}
-                          </h3>
-                        </div>
-                      )}
                     </motion.div>
                   </motion.div>
                 );

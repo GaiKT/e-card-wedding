@@ -20,14 +20,16 @@ const CountdownSection = () => {
   });
 
   const [isExpired, setIsExpired] = useState(false);
-  const [scrollY, setScrollY] = useState(0);
 
-  // Track scroll for parallax effects
-  useEffect(() => {
-    const handleScroll = () => setScrollY(window.scrollY);
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  // Remove heavy scroll tracking for better performance
+  // const [scrollY, setScrollY] = useState(0);
+
+  // Track scroll for parallax effects - REMOVED FOR PERFORMANCE
+  // useEffect(() => {
+  //   const handleScroll = () => setScrollY(window.scrollY);
+  //   window.addEventListener("scroll", handleScroll, { passive: true });
+  //   return () => window.removeEventListener("scroll", handleScroll);
+  // }, []);
 
   useEffect(() => {
     // Wedding date: November 19, 2025 at 4:00 PM
@@ -74,18 +76,12 @@ const CountdownSection = () => {
   return (
     <section
       ref={ref}
-      className="py-20 relative overflow-hidden shadow-xl shadow-black"
-      style={{
-        backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.95), rgba(255, 10, 90, 0.4))`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundAttachment: "fixed",
-      }}
+      className="py-20 relative overflow-hidden bg-gradient-to-br from-rose-50 via-pink-50 to-rose-100"
     >
-      {/* Decorative elements - reduced */}
-      <div className="absolute inset-0 opacity-5 pointer-events-none">
-        <div className="absolute top-20 left-20 w-24 h-24 bg-rose-300 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute bottom-20 right-20 w-32 h-32 bg-pink-300 rounded-full blur-3xl animate-pulse" />
+      {/* Simplified decorative elements for better performance */}
+      <div className="absolute inset-0 opacity-10 pointer-events-none">
+        <div className="absolute top-20 left-20 w-16 h-16 bg-rose-300 rounded-full" />
+        <div className="absolute bottom-20 right-20 w-20 h-20 bg-pink-300 rounded-full" />
       </div>
 
       <div className="container mx-auto px-4 relative z-30">
@@ -119,30 +115,24 @@ const CountdownSection = () => {
                       : { opacity: 0, scale: 0.5 }
                   }
                   transition={{ duration: 0.6, delay: index * 0.1 }}
-                  style={{
-                    transform: `translateY(${
-                      scrollY * (0.02 + index * 0.01)
-                    }px)`,
-                  }}
                   className="group"
                 >
                   <motion.div
-                    whileHover={{ scale: 1.05, y: -10 }}
-                    className="bg-white rounded-3xl shadow-xl p-6 md:p-8 border border-rose-100 relative overflow-hidden"
+                    whileHover={{ scale: 1.02, y: -5 }}
+                    className="bg-white rounded-3xl shadow-lg p-6 md:p-8 border border-rose-100 relative overflow-hidden"
                   >
-                    {/* Background gradient */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-rose-50 via-pink-50 to-rose-100 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    {/* Simplified background gradient */}
+                    <div className="absolute inset-0 bg-rose-50 opacity-0 group-hover:opacity-50 transition-opacity duration-300" />
 
                     <div className="relative z-10 text-center">
                       <motion.div
                         animate={{
-                          scale: [1, 1.1, 1],
-                          rotate: [0, 5, -5, 0],
+                          scale: [1, 1.05, 1],
                         }}
                         transition={{
-                          duration: 2,
+                          duration: 3,
                           repeat: Infinity,
-                          delay: index * 0.2,
+                          delay: index * 0.5,
                         }}
                         className="text-4xl md:text-5xl mb-4"
                       >
@@ -151,10 +141,12 @@ const CountdownSection = () => {
 
                       <motion.div
                         key={unit.value}
-                        initial={{ scale: 1.2, color: "#ec4899" }}
-                        animate={{ scale: 1, color: "#1f2937" }}
-                        transition={{ duration: 0.3 }}
-                        className="font-playfair text-4xl md:text-6xl font-bold text-gray-800 mb-2"
+                        initial={{ scale: 1.1 }}
+                        animate={{ scale: 1 }}
+                        transition={{ duration: 0.2 }}
+                        className={`font-playfair text-4xl md:text-6xl font-bold ${
+                          index === 3 ? "text-pink-500" : "text-gray-800"
+                        } mb-2`}
                       >
                         {unit.value.toString().padStart(2, "0")}
                       </motion.div>
@@ -164,9 +156,9 @@ const CountdownSection = () => {
                       </p>
                     </div>
 
-                    {/* Decorative corner elements */}
-                    <div className="absolute top-2 right-2 w-8 h-8 bg-gradient-to-br from-rose-200 to-pink-200 rounded-full opacity-20" />
-                    <div className="absolute bottom-2 left-2 w-6 h-6 bg-gradient-to-br from-gold to-yellow-300 rounded-full opacity-20" />
+                    {/* Simplified decorative corner elements */}
+                    <div className="absolute top-2 right-2 w-6 h-6 bg-rose-200 rounded-full opacity-30" />
+                    <div className="absolute bottom-2 left-2 w-4 h-4 bg-pink-200 rounded-full opacity-30" />
                   </motion.div>
                 </motion.div>
               ))}
@@ -178,7 +170,7 @@ const CountdownSection = () => {
               transition={{ duration: 0.8, delay: 0.6 }}
               className="text-center mt-12"
             >
-              <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl p-8 max-w-3xl mx-auto border border-rose-100">
+              <div className="bg-white/90 rounded-2xl shadow-lg p-8 max-w-3xl mx-auto border border-rose-100">
                 <h3 className="font-playfair text-2xl md:text-3xl font-bold text-gray-800 mb-4">
                   Save the Date
                 </h3>
@@ -223,8 +215,8 @@ const CountdownSection = () => {
 
                 <div className="flex items-center justify-center mt-6 space-x-4">
                   <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
                     onClick={() => {
                       const eventDate = "20241119T063000Z"; // November 19, 2024 at 06:30 AM UTC+7
                       const eventTitle = "ไปงานแต่งงาน ไก่ & โดนัท";

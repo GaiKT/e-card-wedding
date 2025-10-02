@@ -248,28 +248,28 @@ const WeddingPlanSection = () => {
                 {/* Color indicators */}
                 <div className="flex justify-center flex-wrap gap-8">
                   <div className="flex items-center space-x-1">
-                    <div className="w-4 h-4 bg-amber-700 border border-amber-950 rounded-full"></div>
-                    <span className="text-xs text-gray-500">น้ำตาล</span>
+                    <div className="w-8 h-8 bg-amber-700 border border-amber-950 rounded-full"></div>
+                    <span className="text-xs text-gray-500"></span>
                   </div>
                   <div className="flex items-center space-x-1">
-                    <div className="w-4 h-4 bg-yellow-500 border border-yellow-950 rounded-full"></div>
-                    <span className="text-xs text-gray-500">เบจ</span>
+                    <div className="w-8 h-8 bg-yellow-500 border border-yellow-950 rounded-full"></div>
+                    <span className="text-xs text-gray-500"></span>
                   </div>
                   <div className="flex items-center space-x-1">
-                    <div className="w-4 h-4 bg-amber-200 border border-amber-400 rounded-full"></div>
-                    <span className="text-xs text-gray-500">ฟ้าอ่อน</span>
+                    <div className="w-8 h-8 bg-amber-200 border border-amber-400 rounded-full"></div>
+                    <span className="text-xs text-gray-500"></span>
                   </div>
                   <div className="flex items-center space-x-1">
-                    <div className="w-4 h-4 bg-pink-100 border border-pink-200 rounded-full"></div>
-                    <span className="text-xs text-gray-500">ชมพูอ่อน</span>
+                    <div className="w-8 h-8 bg-pink-100 border border-pink-200 rounded-full"></div>
+                    <span className="text-xs text-gray-500"></span>
                   </div>
                   <div className="flex items-center space-x-1">
-                    <div className="w-4 h-4 bg-purple-100 border border-purple-200 rounded-full"></div>
-                    <span className="text-xs text-gray-500">ม่วงอ่อน</span>
+                    <div className="w-8 h-8 bg-purple-100 border border-purple-200 rounded-full"></div>
+                    <span className="text-xs text-gray-500"></span>
                   </div>
                 </div>
               </div>
-              <div>
+              {/* <div>
                 <h4 className="font-inter font-semibold text-gray-800 mb-2 flex items-center">
                   <span className="mr-2">🚗</span>
                   {t("plan.transportation")}
@@ -277,7 +277,7 @@ const WeddingPlanSection = () => {
                 <p className="font-inter text-gray-600 text-sm">
                   {t("plan.transportationDesc")}
                 </p>
-              </div>
+              </div> */}
             </div>
           </div>
         </motion.div>

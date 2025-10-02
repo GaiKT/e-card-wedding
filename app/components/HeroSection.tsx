@@ -19,14 +19,6 @@ const HeroSection = () => {
     triggerOnce: true,
   });
 
-  const [scrollY, setScrollY] = useState(0);
-
-  useEffect(() => {
-    const handleScroll = () => setScrollY(window.scrollY);
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
   const preWeddingImages = [
     "/pre-wedding-no-bg/wedding-hero1.JPG",
     "/pre-wedding-no-bg/wedding-hero2.JPG",
@@ -40,16 +32,16 @@ const HeroSection = () => {
   return (
     <section
       ref={ref}
-      className="relative min-h-screen overflow-hidden pt-16 md:pt-20"
+      className="relative min-h-screen overflow-hidden py-16 md:pt-20"
       style={{
         backgroundImage: `url('/bg/bg-2.png')`,
         backgroundSize: "cover",
         backgroundPosition: "center",
-        backgroundAttachment: "fixed",
+        backgroundAttachment: "scroll",
       }}
     >
-      {/* Decorative floating elements - reduced */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-30">
+      {/* Decorative floating elements - responsive */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-20 md:opacity-30">
         <motion.div
           animate={{
             y: [0, -20, 0],
@@ -57,7 +49,7 @@ const HeroSection = () => {
             scale: [1, 1.1, 1],
           }}
           transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute top-20 left-10 w-20 h-20 bg-rose-200 rounded-full opacity-20 blur-xl"
+          className="absolute top-20 left-4 md:left-10 w-12 h-12 md:w-20 md:h-20 bg-rose-200 rounded-full opacity-20 blur-xl"
         />
         <motion.div
           animate={{
@@ -71,50 +63,44 @@ const HeroSection = () => {
             ease: "easeInOut",
             delay: 1,
           }}
-          className="absolute top-40 right-20 w-32 h-32 bg-pink-300 rounded-full opacity-15 blur-2xl"
+          className="absolute top-40 right-4 md:right-20 w-20 h-20 md:w-32 md:h-32 bg-pink-300 rounded-full opacity-15 blur-2xl"
         />
       </div>
 
-      <div className="container mx-auto px-4 h-screen flex items-center relative z-30 max-md:mt-40">
-        <div className="grid lg:grid-cols-2 gap-12 items-center w-full">
+      <div className="container mx-auto px-4 min-h-screen flex items-center relative z-30 py-8 md:py-16">
+        <div className="grid lg:grid-cols-2 gap-8 md:gap-12 items-center w-full">
           {/* Left side - Text Content */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             animate={inView ? { opacity: 1, x: 0 } : { opacity: 0, x: -50 }}
             transition={{ duration: 1, ease: "easeOut" }}
-            style={{
-              transform: `translateY(${scrollY * 0.1}px)`,
-            }}
-            className="text-center lg:text-left space-y-8"
+            className="text-center lg:text-left space-y-4 md:space-y-6 lg:space-y-8 order-2 lg:order-1"
           >
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
               transition={{ duration: 1, delay: 0.3 }}
-              style={{
-                transform: `translateY(${scrollY * 0.05}px)`,
-              }}
-              className="max-md:hidden"
+              className=""
             >
               <div className="inline-block bg-white/90 backdrop-blur-sm rounded-full px-6 py-2 mb-6 shadow-lg border border-rose-100">
                 <span className="font-inter text-sm font-semibold text-rose-600 tracking-widest uppercase">
                   {t("hero.saveTheDate")}
                 </span>
               </div>
-              <div className="className flex justify-around">
-                <h1 className="font-playfair text-4xl md:text-6xl lg:text-7xl font-bold text-gray-800 leading-tight mb-4">
+              <div className="flex justify-center lg:justify-start">
+                <h1 className="font-playfair text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-gray-800 leading-tight mb-4 text-center lg:text-left">
                   {t("hero.weAreGetting")}
                   <span className="block text-transparent bg-clip-text bg-gradient-to-r from-rose-500 via-pink-500 to-rose-600">
                     {t("hero.married")}
                   </span>
                 </h1>
-                <Image
+                {/* <Image
                   src="/logo/logo.png"
                   // className="w-32 h-32"
                   alt="logo"
                   width={250}
                   height={250}
-                />
+                /> */}
               </div>
             </motion.div>
 
@@ -122,13 +108,10 @@ const HeroSection = () => {
               initial={{ opacity: 0, y: 30 }}
               animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
               transition={{ duration: 1, delay: 0.6 }}
-              style={{
-                transform: `translateY(${scrollY * 0.08}px)`,
-              }}
-              className="space-y-6"
+              className="space-y-4 md:space-y-6"
             >
-              <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-xl border border-rose-100">
-                <h2 className="font-playfair text-3xl md:text-4xl font-bold text-gray-800 mb-2">
+              <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-4 md:p-6 shadow-xl border border-rose-100">
+                <h2 className="font-playfair text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 mb-2">
                   {t("hero.names")}
                 </h2>
                 <div className="flex items-center justify-center lg:justify-start space-x-4 text-gray-600">
@@ -171,27 +154,22 @@ const HeroSection = () => {
                 </div>
               </div>
 
-              <p className="font-inter text-lg text-gray-600 leading-relaxed">
+              <p className="font-inter text-base md:text-lg text-gray-600 leading-relaxed px-4 md:px-0">
                 {t("hero.description")}
               </p>
 
-              <motion.div
-                style={{
-                  transform: `translateY(${scrollY * 0.06}px)`,
-                }}
-                className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
-              >
+              <motion.div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center lg:justify-start">
                 <motion.button
                   whileHover={{ scale: 1.05, y: -2 }}
                   whileTap={{ scale: 0.95 }}
-                  className="bg-gradient-to-r from-rose-500 to-pink-500 text-white px-8 py-4 rounded-full font-inter font-semibold text-lg shadow-xl hover:shadow-2xl transition-all duration-300"
+                  className="bg-gradient-to-r from-rose-500 to-pink-500 text-white px-6 py-3 md:px-8 md:py-4 rounded-full font-inter font-semibold text-base md:text-lg shadow-xl hover:shadow-2xl transition-all duration-300"
                 >
                   {t("hero.viewInvitation")}
                 </motion.button>
                 <motion.button
                   whileHover={{ scale: 1.05, y: -2 }}
                   whileTap={{ scale: 0.95 }}
-                  className="border-2 border-rose-300 text-rose-600 bg-white/80 backdrop-blur-sm px-8 py-4 rounded-full font-inter font-semibold text-lg hover:bg-rose-50 transition-all duration-300"
+                  className="border-2 border-rose-300 text-rose-600 bg-white/80 backdrop-blur-sm px-6 py-3 md:px-8 md:py-4 rounded-full font-inter font-semibold text-base md:text-lg hover:bg-rose-50 transition-all duration-300"
                 >
                   {t("hero.rsvp")}
                 </motion.button>
@@ -204,12 +182,9 @@ const HeroSection = () => {
             initial={{ opacity: 0, x: 50 }}
             animate={inView ? { opacity: 1, x: 0 } : { opacity: 0, x: 50 }}
             transition={{ duration: 1, delay: 0.4 }}
-            style={{
-              transform: `translateY(${scrollY * -0.1}px)`,
-            }}
-            className="relative flex justify-center items-center"
+            className="relative order-1 lg:order-2 mb-8 lg:mb-0"
           >
-            <div className="relative w-full max-w-lg">
+            <div className="relative w-full">
               {/* Swiper Container */}
               <Swiper
                 modules={[Navigation, Pagination, Autoplay, EffectFlip]}
@@ -219,19 +194,13 @@ const HeroSection = () => {
                   delay: 5000,
                   disableOnInteraction: false,
                 }}
-                // pagination={{
-                //   clickable: true,
-                //   bulletClass: "swiper-pagination-bullet custom-bullet",
-                //   bulletActiveClass:
-                //     "swiper-pagination-bullet-active custom-bullet-active",
-                // }}
                 effect="flip"
                 flipEffect={{
                   slideShadows: true,
                   limitRotation: true,
                 }}
                 loop={true}
-                className="wedding-swiper rounded-3xl shadow-2xl rotate-3"
+                className="wedding-swiper"
               >
                 {preWeddingImages.map((image, index) => (
                   <SwiperSlide key={index}>
@@ -241,18 +210,18 @@ const HeroSection = () => {
                       transition={{ duration: 0.8, ease: "easeOut" }}
                       className="relative"
                     >
-                      <div className="relative rounded-3xl overflow-hidden shadow-2xl border-8 border-white/80 backdrop-blur-sm">
+                      <div className="relative overflow-hidden border-4 md:border-8 border-white/80 backdrop-blur-sm">
                         <Image
                           src={image}
                           alt={`Pre-wedding photo ${index + 1}`}
                           width={500}
-                          height={600}
-                          className="w-full h-auto object-cover"
+                          height={1200}
+                          className="w-full h-[550px] object-cover"
                           priority={index === 0}
                         />
 
                         {/* Overlay gradient */}
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
+                        {/* <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent rounded-2xl to-transparent" /> */}
 
                         {/* Floating hearts */}
                         <motion.div
@@ -261,7 +230,7 @@ const HeroSection = () => {
                             opacity: [0.5, 1, 0.5],
                           }}
                           transition={{ duration: 3, repeat: Infinity }}
-                          className="absolute top-4 right-4 text-2xl"
+                          className="absolute top-2 right-2 md:top-4 md:right-4 text-lg md:text-2xl"
                         >
                           💕
                         </motion.div>
@@ -275,61 +244,29 @@ const HeroSection = () => {
                             repeat: Infinity,
                             delay: 1,
                           }}
-                          className="absolute bottom-4 left-4 text-xl"
+                          className="absolute bottom-2 left-2 md:bottom-4 md:left-4 text-base md:text-xl"
                         >
                           💖
                         </motion.div>
                       </div>
 
                       {/* Decorative frame */}
-                      <div className="absolute -inset-4 bg-gradient-to-r from-rose-200 via-pink-200 to-rose-200 rounded-3xl opacity-30 -z-10 blur-lg" />
+                      {/* <div className="absolute -inset-4 bg-gradient-to-r from-rose-200 via-pink-200 to-rose-200 rounded-3xl opacity-30 -z-10 blur-lg" /> */}
                     </motion.div>
                   </SwiperSlide>
                 ))}
               </Swiper>
 
-              {/* Custom Navigation Buttons */}
-              {/* <div className="swiper-button-prev-custom absolute left-4 top-1/2 transform -translate-y-1/2 z-10 bg-white/80 backdrop-blur-sm rounded-full p-3 shadow-lg cursor-pointer hover:bg-white transition-all duration-300 group">
-                <svg
-                  className="w-5 h-5 text-rose-600 group-hover:text-rose-700"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M15 19l-7-7 7-7"
-                  />
-                </svg>
-              </div>
-              <div className="swiper-button-next-custom absolute right-4 top-1/2 transform -translate-y-1/2 z-10 bg-white/80 backdrop-blur-sm rounded-full p-3 shadow-lg cursor-pointer hover:bg-white transition-all duration-300 group">
-                <svg
-                  className="w-5 h-5 text-rose-600 group-hover:text-rose-700"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M9 5l7 7-7 7"
-                  />
-                </svg>
-              </div> */}
-
               {/* Side decorative elements */}
               <motion.div
                 animate={{ rotate: [0, 5, 0] }}
                 transition={{ duration: 4, repeat: Infinity }}
-                className="absolute -top-8 -right-8 w-16 h-16 bg-gradient-to-br from-rose-300 to-pink-300 rounded-full opacity-40 blur-sm"
+                className="absolute -top-4 -right-4 md:-top-8 md:-right-8 w-8 h-8 md:w-16 md:h-16 bg-gradient-to-br from-rose-300 to-pink-300 rounded-full opacity-40 blur-sm"
               />
               <motion.div
                 animate={{ rotate: [0, -5, 0] }}
                 transition={{ duration: 5, repeat: Infinity, delay: 1 }}
-                className="absolute -bottom-8 -left-8 w-12 h-12 bg-gradient-to-br from-pink-300 to-rose-300 rounded-full opacity-50 blur-sm"
+                className="absolute -bottom-4 -left-4 md:-bottom-8 md:-left-8 w-6 h-6 md:w-12 md:h-12 bg-gradient-to-br from-pink-300 to-rose-300 rounded-full opacity-50 blur-sm"
               />
             </div>
           </motion.div>
@@ -348,12 +285,12 @@ const HeroSection = () => {
           transition={{ duration: 2, repeat: Infinity }}
           className="flex flex-col items-center cursor-pointer text-gray-600 hover:text-rose-500 transition-colors duration-300"
         >
-          <span className="font-inter text-sm mb-2">
+          <span className="font-inter text-xs md:text-sm mb-2 sm:block">
             {t("hero.exploreStory")}
           </span>
           <motion.div
             whileHover={{ scale: 1.1 }}
-            className="w-8 h-8 border-2 border-current rounded-full flex items-center justify-center"
+            className="w-6 h-6 md:w-8 md:h-8 border-2 border-current rounded-full flex items-center justify-center"
           >
             <svg
               className="w-4 h-4"

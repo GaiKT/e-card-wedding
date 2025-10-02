@@ -182,7 +182,7 @@ const LocationSection = () => {
             {/* Google Maps Embed */}
             <div className="relative h-96 md:h-[500px]">
               <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7659.123456789!2d99.8123456!3d15.2123456!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x30e0123456789!2z4Lio4Liy4Lil4Liy4Lib4Lij4Liw4LiI4Liy4LiE4Lih4Lit4Liz4LmA4Lig4Lit4Lir4LiZ4Lit4LiH4LiJ4Liy4LiH!5e0!3m2!1sen!2sth!4v1234567890"
+                src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d961.6819786165494!2d99.8407005!3d15.391215!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x30e1063c7114cded%3A0x9af56ccc5042b4e6!2z4LiX4Li14LmI4Lin4LmI4Liy4LiB4Liy4Lij4Lit4Liz4LmA4Lig4Lit4Lir4LiZ4Lit4LiH4LiJ4Liy4LiH!5e0!3m2!1sth!2sth!4v1759380180938!5m2!1sth!2sth"
                 width="100%"
                 height="100%"
                 style={{ border: 0 }}
@@ -198,7 +198,7 @@ const LocationSection = () => {
             <div className="p-6 bg-gradient-to-r from-rose-50 to-pink-50">
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <motion.a
-                  href="https://goo.gl/maps/PLACE_ID_FOR_NONG_CHANG_COMMUNITY_HALL"
+                  href="https://maps.app.goo.gl/akfmF8Nj8uVsCZjW8"
                   target="_blank"
                   rel="noopener noreferrer"
                   whileHover={{ scale: 1.05 }}
@@ -230,7 +230,7 @@ const LocationSection = () => {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={() => {
-                    const address = venues[0].address;
+                    const address = "ที่ว่าการอำเภอหนองฉาง, อุทัยธานี";
                     const url = `https://maps.google.com/maps?q=${encodeURIComponent(
                       address
                     )}`;
@@ -258,11 +258,10 @@ const LocationSection = () => {
                   whileTap={{ scale: 0.95 }}
                   onClick={() => {
                     const eventDate = "20241119T063000Z"; // November 19, 2024 at 06:30 AM UTC+7
-                    const eventTitle = "Nattapong & Nattaporn Wedding";
-                    const eventLocation =
-                      "Nong Chang District Community Hall, Uthai Thani";
+                    const eventTitle = "งานแต่ง ไก่ & โดนัท";
+                    const eventLocation = "ที่ว่าการอำเภอหนองฉาง, อุทัยธานี";
                     const eventDetails =
-                      "Wedding ceremony of Nattapong & Nattaporn";
+                      "เดินทางไปร่วมงานแต่งของ ณัฐพงษ์ & ณัฐพร (ไก่ & โดนัท)";
 
                     const calendarUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(
                       eventTitle

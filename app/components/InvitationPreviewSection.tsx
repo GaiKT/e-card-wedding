@@ -102,7 +102,7 @@ const InvitationPreviewSection = () => {
                   <motion.div
                     whileHover={{ scale: 1.05, rotateY: 5 }}
                     transition={{ duration: 0.3 }}
-                    className="relative shadow-2xl rounded-2xl overflow-hidden"
+                    className="relative shadow-2xl rounded-2xl overflow-hidden h-[500px] md:h-[700px] hover:shadow-2xl hover:shadow-black/30 transition-shadow duration-300"
                   >
                     <Image
                       src={`/wedding-card/wedding-card-${activeCard}.jpg`}
@@ -113,29 +113,12 @@ const InvitationPreviewSection = () => {
                       style={{
                         boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
                         filter: "drop-shadow(0 20px 30px rgba(0, 0, 0, 0.1))",
+                        height: "100%",
+                        objectFit: "cover",
                       }}
                     />
 
                     <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl" />
-
-                    <motion.div
-                      className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm rounded-full p-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                      whileHover={{ scale: 1.1 }}
-                    >
-                      <svg
-                        className="w-6 h-6 text-rose-500"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                        />
-                      </svg>
-                    </motion.div>
                   </motion.div>
                 </div>
               </motion.div>

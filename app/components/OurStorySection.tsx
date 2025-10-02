@@ -72,7 +72,7 @@ const OurStorySection = () => {
               : { opacity: 0, scale: 0.8, rotate: -10 }
           }
           transition={{ duration: 1.2, delay: 0.2 }}
-          className="absolute top-10 left-10 w-32 h-32 md:w-48 md:h-48 border-4"
+          className="absolute top-10 left-10 w-32 h-32 md:w-48 md:h-48"
           style={{
             backgroundImage: `url('/pre-wedding-no-bg/wedding-hero1.JPG')`,
             backgroundSize: "contain",
@@ -198,7 +198,7 @@ const OurStorySection = () => {
                   : { opacity: 0, x: item.position === "left" ? -100 : 100 }
               }
               transition={{ duration: 0.8, delay: index * 0.3 }}
-              className={`flex flex-col md:flex-row items-center mb-16 ${
+              className={`flex flex-col md:flex-row items-center mb-5 md:mb-16 ${
                 item.position === "right" ? "md:flex-row-reverse" : ""
               }`}
             >
@@ -220,10 +220,10 @@ const OurStorySection = () => {
                 </motion.div>
               </div>
 
-              <div className="md:w-1/2 flex justify-center items-center p-8">
+              <div className={`md:w-1/2 flex justify-center items-center p-8`}>
                 <motion.div
                   whileHover={{ scale: 1.1, rotate: 5 }}
-                  className="w-48 h-48 md:w-64 md:h-64 bg-gradient-to-br from-rose-200 to-pink-300 rounded-full flex items-center justify-center shadow-2xl p-4"
+                  className="w-64 h-64 bg-gradient-to-br from-rose-200 to-pink-300 rounded-full flex items-center justify-center shadow-2xl p-4"
                 >
                   {/* Image is set as background */}
                   <div

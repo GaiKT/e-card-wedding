@@ -50,9 +50,8 @@ body {
 
 /* Custom Swiper Styles */
 .wedding-swiper {
-  width: 100%;
+  width: 450px;
   height: auto;
-  padding: 20px;
 }
 
 .wedding-swiper .swiper-wrapper {
@@ -63,7 +62,6 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 24px;
   background: transparent;
 }
 
