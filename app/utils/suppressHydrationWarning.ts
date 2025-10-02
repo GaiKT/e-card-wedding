@@ -8,7 +8,7 @@ export function suppressHydrationWarning() {
   if (typeof window !== 'undefined') {
     const originalConsoleError = console.error;
     
-    console.error = (...args: any[]) => {
+    console.error = (...args: unknown[]) => {
       const message = args[0];
       
       // Skip hydration warnings for browser extension attributes

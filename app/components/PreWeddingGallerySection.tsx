@@ -347,13 +347,10 @@ const PreWeddingGallerySection = () => {
     },
   ];
 
-  // Memoize gallery images for better performance
-  const galleryImagesMemo = useMemo(() => galleryImages, []);
-
-  const carouselImages = useMemo(() => galleryImagesMemo, [galleryImagesMemo]);
+  const carouselImages = useMemo(() => galleryImages, [galleryImages]);
 
   // All images for grid view
-  const gridImages = galleryImagesMemo;
+  const gridImages = galleryImages;
 
   return (
     <section
@@ -562,13 +559,13 @@ const PreWeddingGallerySection = () => {
               <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-6 mb-6 border border-rose-100">
                 <div className="text-center mb-4">
                   <h3 className="font-playfair text-xl font-bold text-gray-800 mb-2">
-                    รูปภาพทั้งหมด {galleryImagesMemo.length} รูป
+                    รูปภาพทั้งหมด {galleryImages.length} รูป
                   </h3>
                 </div>
               </div>
 
               <SimpleVirtualScrollGallery
-                images={galleryImagesMemo}
+                images={galleryImages}
                 itemHeight={280}
                 containerHeight={700}
                 className="rounded-2xl border border-rose-100 bg-white/50 backdrop-blur-sm"
@@ -692,7 +689,7 @@ const PreWeddingGallerySection = () => {
             <div className="flex items-center justify-center space-x-4">
               <div className="flex items-center space-x-2 text-sm text-gray-500">
                 <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-                <span>แสดงรูปทั้งหมด {galleryImagesMemo.length} รูป</span>
+                <span>แสดงรูปทั้งหมด {galleryImages.length} รูป</span>
               </div>
             </div>
           </div>
