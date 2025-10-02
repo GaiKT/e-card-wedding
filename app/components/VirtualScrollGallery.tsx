@@ -119,17 +119,18 @@ const VirtualScrollGallery = ({
                 item.isFeature ? "ring-2 ring-rose-200" : ""
               }`}
             >
-              <div className="relative w-full h-[200px] overflow-hidden">
+              <div className="relative w-full h-[200px] overflow-hidden bg-rose-50">
                 <OptimizedImage
                   src={item.src}
                   alt={item.alt}
                   width={300}
                   height={200}
-                  fill
+                  fill={true}
                   priority={item.index < 6}
                   quality={item.isFeature ? 90 : 75}
                   sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
-                  className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-110"
+                  className="transition-transform duration-500 group-hover:scale-110"
+                  onLoad={() => console.log(`Loaded image: ${item.src}`)}
                 />
 
                 {/* Overlay */}

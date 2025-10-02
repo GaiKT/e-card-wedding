@@ -65,13 +65,14 @@ const OptimizedImage = ({
     onLoad?.();
   };
 
-  const handleError = () => {
+  const handleError = (error: any) => {
+    console.warn(`Failed to load image: ${src}`, error);
     setError(true);
     setIsLoading(false);
   };
 
-  // Generate blur placeholder
-  const blurDataURL = `data:image/svg+xml;base64,${Buffer.from(
+  // Generate blur placeholder - safer browser-compatible version
+  const blurDataURL = `data:image/svg+xml;base64,${btoa(
     `<svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg">
       <defs>
         <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -82,7 +83,7 @@ const OptimizedImage = ({
       </defs>
       <rect width="100%" height="100%" fill="url(#gradient)" />
     </svg>`
-  ).toString("base64")}`;
+  )}`;
 
   return (
     <div
@@ -107,13 +108,18 @@ const OptimizedImage = ({
         <Image
           src={src}
           alt={alt}
-          width={fill ? undefined : width}
-          height={fill ? undefined : height}
-          fill={fill}
+          {...(fill
+            ? {
+                fill: true,
+                sizes: sizes,
+              }
+            : {
+                width: width,
+                height: height,
+              })}
           priority={priority}
           quality={quality}
-          sizes={sizes}
-          className={`transition-opacity duration-300 ${
+          className={`transition-opacity duration-3000 ${
             isLoading ? "opacity-0" : "opacity-100"
           } object-cover`}
           onLoad={handleLoad}

@@ -27,6 +27,13 @@ const LocationSection = () => {
     <section
       ref={ref}
       className="py-20 bg-gradient-to-br from-gray-50 to-rose-50 relative overflow-hidden"
+      style={{
+        backgroundImage: `url('/bg/bg-3.png')`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundAttachment: "fixed",
+        backdropFilter: "blur(10px)",
+      }}
     >
       <div className="absolute inset-0 opacity-5">
         {/* <div className="absolute top-20 left-20 w-64 h-64 bg-rose-300 rounded-full blur-3xl" />

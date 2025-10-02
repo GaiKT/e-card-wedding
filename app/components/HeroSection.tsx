@@ -22,8 +22,12 @@ const HeroSection = () => {
   const preWeddingImages = [
     "/pre-wedding-no-bg/wedding-hero2.jpg",
     "/pre-wedding-no-bg/wedding-hero1.jpg",
+    "/pre-wedding-no-bg/wedding-hero3.JPG",
     "/pre-wedding-no-bg/wedding-hero4.JPG",
     "/pre-wedding-no-bg/wedding-hero6.jpg",
+    "/pre-wedding-no-bg/wedding-hero5.jpg",
+    "/pre-wedding-no-bg/wedding-hero7.jpg",
+    // "/pre-wedding-no-bg/wedding-hero8.jpg",
   ];
 
   return (
@@ -31,7 +35,7 @@ const HeroSection = () => {
       ref={ref}
       className="relative min-h-screen overflow-hidden py-16 md:pt-20"
       style={{
-        backgroundImage: `url('/bg/bg-2.png')`,
+        backgroundImage: `url('/bg/bg-bless.jpg')`,
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundAttachment: "scroll",
@@ -91,13 +95,6 @@ const HeroSection = () => {
                     {t("hero.married")}
                   </span>
                 </h1>
-                <Image
-                  src="/logo/logo.png"
-                  alt="logo"
-                  className="max-md:w-40 md:-rotate-8"
-                  width={250}
-                  height={250}
-                />
               </div>
             </motion.div>
 

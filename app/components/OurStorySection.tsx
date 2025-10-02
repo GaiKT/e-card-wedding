@@ -75,13 +75,24 @@ const OurStorySection = () => {
       id="story"
       ref={ref}
       className="py-12 md:py-20 bg-gradient-to-b from-rose-50 via-orange-50 to-pink-100 relative overflow-hidden min-h-screen"
+      style={{
+        backgroundImage: `url('/bg/bg-bless.jpg')`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundAttachment: "scroll",
+      }}
     >
       {/* Simplified decorative elements - Performance optimized */}
-      <div className="absolute inset-0 opacity-5 md:opacity-10 pointer-events-none">
-        <div className="absolute top-20 left-10 w-16 h-16 md:w-32 md:h-32 bg-rose-300 rounded-full blur-sm" />
-        <div className="absolute bottom-20 right-10 w-20 h-20 md:w-40 md:h-40 bg-pink-300 rounded-full blur-sm" />
-        <div className="absolute top-40 right-20 w-12 h-12 md:w-24 md:h-24 bg-rose-200 rounded-full blur-lg" />
-        <div className="absolute bottom-40 left-20 w-14 h-14 md:w-28 md:h-28 bg-pink-200 rounded-full blur-lg" />
+      <div className="absolute inset-0 pointer-events-none">
+        <div
+          className="absolute bottom-0 -right-25 h-[750px] w-[720px] lg:z-30 max-md:hidden"
+          style={{
+            backgroundImage: `url('/pre-wedding-no-bg/wedding-without-bg.png')`,
+            backgroundSize: "contain",
+            backgroundRepeat: "no-repeat",
+            backgroundPosition: "center",
+          }}
+        />
       </div>
 
       <div className="container mx-auto px-4 md:px-6 lg:px-4 relative z-10">
@@ -147,7 +158,7 @@ const OurStorySection = () => {
                   className="w-40 h-40 sm:w-48 sm:h-48 md:w-56 md:h-56 lg:w-64 lg:h-64 bg-gradient-to-br from-rose-200 to-pink-300 rounded-full flex items-center justify-center shadow-lg md:shadow-2xl p-2 md:p-3 lg:p-4"
                 >
                   {/* Next.js Image with lazy loading */}
-                  <div className="w-full h-full rounded-full overflow-hidden shadow-lg">
+                  <div className="w-full h-full rounded-xl overflow-hidden shadow-lg">
                     <Image
                       src={item.url}
                       alt={`Story ${index + 1}`}

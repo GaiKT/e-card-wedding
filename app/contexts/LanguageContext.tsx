@@ -18,7 +18,7 @@ const translations = {
     "hero.married": "Married!",
     "hero.names": "Natthapong & Natthapon",
     "hero.date": "Tuesday, 19th November 2025",
-    "hero.time": "07:00 AM",
+    "hero.time": "07:09 AM",
     "hero.description":
       "Join us as we celebrate the beginning of our forever journey. Your presence would make our special day even more magical.",
     "hero.viewInvitation": "View Invitation",
@@ -140,7 +140,7 @@ const translations = {
     "location.venue": "Venue",
     "location.name": "Nong Chang District Community Hall",
     "location.address": "123 Moo 5, Nong Chang, Uthai Thani 61110, Thailand",
-    "location.time": "07:00 AM - 12:00 PM",
+    "location.time": "07:09 AM - 12:00 PM",
     "location.additionalInfo": "Parking available at the venue.",
     "location.transport": "Transportation",
     "location.transportDesc":
@@ -199,7 +199,7 @@ const translations = {
     "hero.married": "แต่งงาน!",
     "hero.names": "ณัฐพงษ์ & ณัฐพร",
     "hero.date": "วันอังคาร ที่ 19 พฤศจิกายน 2568",
-    "hero.time": "07:00 น.",
+    "hero.time": "07:09 น.",
     "hero.description":
       "ร่วมเฉลิมฉลองการเริ่มต้นเส้นทางแห่งความรักนิรันดร์ของเรา การมาร่วมงานของคุณจะทำให้วันพิเศษของเราแสนวิเศษยิ่งขึ้น",
     "hero.viewInvitation": "ดูการ์ดเชิญ",

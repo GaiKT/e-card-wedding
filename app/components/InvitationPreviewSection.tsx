@@ -20,16 +20,15 @@ const InvitationPreviewSection = () => {
       ref={ref}
       className="py-20 relative overflow-hidden shadow-xl shadow-black"
       style={{
-        backgroundImage: `url('/bg/bg-3.png')`,
+        backgroundImage: `url('/bg/bg-2-2.png')`,
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundAttachment: "fixed",
-        backdropFilter: "blur(10px)",
       }}
     >
       {/* Bottom Left Pre-wedding Image */}
       <div
-        className="absolute bottom-0 left-[-100px] h-[720px] w-[720px] lg:z-99 max-md:hidden"
+        className="absolute bottom-0 left-[-100px] h-[720px] w-[720px] lg:z-30 max-md:hidden"
         style={{
           backgroundImage: `url('/pre-wedding-no-bg/wedding-without-bg2.png')`,
           backgroundSize: "contain",

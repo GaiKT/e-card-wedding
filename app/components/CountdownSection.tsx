@@ -21,16 +21,6 @@ const CountdownSection = () => {
 
   const [isExpired, setIsExpired] = useState(false);
 
-  // Remove heavy scroll tracking for better performance
-  // const [scrollY, setScrollY] = useState(0);
-
-  // Track scroll for parallax effects - REMOVED FOR PERFORMANCE
-  // useEffect(() => {
-  //   const handleScroll = () => setScrollY(window.scrollY);
-  //   window.addEventListener("scroll", handleScroll, { passive: true });
-  //   return () => window.removeEventListener("scroll", handleScroll);
-  // }, []);
-
   useEffect(() => {
     // Wedding date: November 19, 2025 at 4:00 PM
     const weddingDate = new Date("2025-11-19T16:00:00").getTime();
@@ -76,7 +66,13 @@ const CountdownSection = () => {
   return (
     <section
       ref={ref}
-      className="py-20 relative overflow-hidden bg-gradient-to-br from-rose-50 via-pink-50 to-rose-100"
+      className="py-20 relative overflow-hidden bg-gradient-to-br from-rose-50 via-orange-50 to-pink-100 shadow-2xl shadow-black"
+      // style={{
+      //   backgroundImage: `url('/bg/bg-2-2.png')`,
+      //   backgroundSize: "cover",
+      //   backgroundPosition: "center",
+      //   backgroundAttachment: "scroll",
+      // }}
     >
       {/* Simplified decorative elements for better performance */}
       <div className="absolute inset-0 opacity-10 pointer-events-none">

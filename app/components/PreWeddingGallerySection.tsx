@@ -17,6 +17,7 @@ import "swiper/css/pagination";
 import "swiper/css/effect-coverflow";
 import OptimizedImage from "./OptimizedImage";
 import VirtualScrollGallery from "./VirtualScrollGallery";
+import SimpleVirtualScrollGallery from "./SimpleVirtualScrollGallery";
 
 const PreWeddingGallerySection = () => {
   const { t } = useLanguage();
@@ -356,11 +357,7 @@ const PreWeddingGallerySection = () => {
     setLoadedImages((prev) => new Set([...prev, imageId]));
   };
 
-  // Get images for carousel (first 8 for performance)
-  const carouselImages = useMemo(
-    () => galleryImagesMemo.slice(0, 8),
-    [galleryImagesMemo]
-  );
+  const carouselImages = useMemo(() => galleryImagesMemo, [galleryImagesMemo]);
 
   // All images for grid view
   const gridImages = galleryImagesMemo;
@@ -370,10 +367,10 @@ const PreWeddingGallerySection = () => {
       ref={ref}
       className="py-20 relative overflow-hidden"
       style={{
-        backgroundImage: `linear-gradient(rgba(255, 250, 250, 0.95), rgba(255, 245, 245, 0.95))`,
+        backgroundImage: `url('/bg/bg-bless.jpg')`,
         backgroundSize: "cover",
         backgroundPosition: "center",
-        backgroundAttachment: "fixed",
+        backgroundAttachment: "scroll",
       }}
     >
       <div className="container mx-auto px-4">
@@ -530,16 +527,15 @@ const PreWeddingGallerySection = () => {
                           <OptimizedImage
                             src={image.src}
                             alt={image.alt}
-                            width={400}
+                            width={500}
                             height={550}
                             fill
-                            priority={index < 3}
+                            priority={index < 4}
                             quality={85}
                             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                            className="object-cover transition-transform duration-500 group-hover:scale-105"
+                            className="object-cover object-center w-full h-full transition-transform duration-500 group-hover:scale-110"
                             onLoad={() => handleImageLoad(image.id)}
                           />
-
                           {/* Overlay Effects */}
                           <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
@@ -576,13 +572,10 @@ const PreWeddingGallerySection = () => {
                   <h3 className="font-playfair text-xl font-bold text-gray-800 mb-2">
                     รูปภาพทั้งหมด {galleryImagesMemo.length} รูป
                   </h3>
-                  <p className="text-sm text-gray-600">
-                    โหลดเฉพาะรูปที่ต้องการเท่านั้น ประหยัด bandwidth และเร็วกว่า
-                  </p>
                 </div>
               </div>
 
-              <VirtualScrollGallery
+              <SimpleVirtualScrollGallery
                 images={galleryImagesMemo}
                 itemHeight={280}
                 containerHeight={700}
