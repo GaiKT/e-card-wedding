@@ -154,13 +154,6 @@ const LocationSection = () => {
                       >
                         {t("location.getDirections")}
                       </motion.a>
-                      <motion.button
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                        className="px-6 py-3 border-2 border-rose-300 text-rose-600 rounded-full font-inter font-semibold hover:bg-rose-50 transition-all duration-300"
-                      >
-                        {t("location.addToCalendar")}
-                      </motion.button>
                     </div>
                   </div>
                 </motion.div>

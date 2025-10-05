@@ -5,6 +5,8 @@ import { useInView } from "react-intersection-observer";
 import { useState, useEffect } from "react";
 import { useLanguage } from "../contexts/LanguageContext";
 import { Blessing, ApiResponse } from "@/types/blessing";
+import Image from "next/image";
+import toast from "react-hot-toast";
 
 const BlessUsSection = () => {
   const { t } = useLanguage();
@@ -17,12 +19,15 @@ const BlessUsSection = () => {
     name: "",
     email: "",
     message: "",
+    willAttend: null as boolean | null, // เพิ่ม field สำหรับการเข้าร่วมงาน
+    hasDonated: false as boolean, // เพิ่ม field สำหรับการบริจาค
   });
 
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [blessings, setBlessings] = useState<Blessing[]>([]);
   const [isLoadingBlessings, setIsLoadingBlessings] = useState(true);
+  const [showQRCode, setShowQRCode] = useState(false); // เพิ่ม state สำหรับแสดง QR Code
 
   // Fetch blessings on component mount
   useEffect(() => {
@@ -56,6 +61,14 @@ const BlessUsSection = () => {
     });
   };
 
+  // เพิ่ม function สำหรับจัดการ attendance selection
+  const handleAttendanceChange = (willAttend: boolean) => {
+    setFormData({
+      ...formData,
+      willAttend,
+    });
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -74,17 +87,27 @@ const BlessUsSection = () => {
 
       if (result.success) {
         setIsSubmitted(true);
-        setFormData({ name: "", email: "", message: "" });
+        setFormData({
+          name: "",
+          email: "",
+          message: "",
+          willAttend: null,
+          hasDonated: false,
+        });
 
         // Refresh blessings list
         await fetchBlessings();
       } else {
         console.error("Failed to submit blessing:", result.error);
-        alert("Failed to submit blessing. Please try again.");
+        toast.error("ไม่สามารถส่งคำอวยพรได้ กรุณาลองใหม่อีกครั้ง", {
+          icon: "😔",
+        });
       }
     } catch (error) {
       console.error("Error submitting blessing:", error);
-      alert("Failed to submit blessing. Please try again.");
+      toast.error("เกิดข้อผิดพลาดในการส่งคำอวยพร กรุณาลองใหม่อีกครั้ง", {
+        icon: "⚠️",
+      });
     } finally {
       setIsLoading(false);
     }
@@ -189,6 +212,52 @@ const BlessUsSection = () => {
                     />
                   </div>
 
+                  {/* เพิ่ม Attendance Selection */}
+                  <div>
+                    <label className="block font-inter font-semibold text-gray-700 mb-3">
+                      {t("blessings.willAttend")}
+                    </label>
+                    <div className="flex gap-4">
+                      <motion.button
+                        type="button"
+                        onClick={() => handleAttendanceChange(true)}
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                        className={`flex-1 py-3 px-4 rounded-xl border-2 transition-all duration-300 ${
+                          formData.willAttend === true
+                            ? "border-green-400 bg-green-50 text-green-700"
+                            : "border-gray-200 text-gray-600 hover:border-green-300"
+                        }`}
+                      >
+                        <div className="flex items-center justify-center space-x-2">
+                          <span className="text-2xl">✅</span>
+                          <span className="font-inter font-semibold">
+                            {t("blessings.willAttendYes")}
+                          </span>
+                        </div>
+                      </motion.button>
+
+                      <motion.button
+                        type="button"
+                        onClick={() => handleAttendanceChange(false)}
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                        className={`flex-1 py-3 px-4 rounded-xl border-2 transition-all duration-300 ${
+                          formData.willAttend === false
+                            ? "border-red-400 bg-red-50 text-red-700"
+                            : "border-gray-200 text-gray-600 hover:border-red-300"
+                        }`}
+                      >
+                        <div className="flex items-center justify-center space-x-2">
+                          <span className="text-2xl">❌</span>
+                          <span className="font-inter font-semibold">
+                            {t("blessings.willAttendNo")}
+                          </span>
+                        </div>
+                      </motion.button>
+                    </div>
+                  </div>
+
                   <div>
                     <label
                       htmlFor="message"
@@ -227,6 +296,19 @@ const BlessUsSection = () => {
                     ) : (
                       t("blessings.send")
                     )}
+                  </motion.button>
+
+                  {/* Donate Button */}
+                  <motion.button
+                    type="button"
+                    onClick={() => setShowQRCode(true)}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="w-full py-4 rounded-xl font-inter font-semibold text-lg transition-all duration-300 bg-gradient-to-r from-amber-400 to-orange-400 text-white hover:shadow-lg border-2 border-transparent hover:border-amber-300"
+                  >
+                    <div className="flex items-center justify-center space-x-2">
+                      <span>{t("blessings.showQRCode")}</span>
+                    </div>
                   </motion.button>
                 </form>
               )}
@@ -275,11 +357,39 @@ const BlessUsSection = () => {
                       transition={{ duration: 0.6, delay: 0.6 + index * 0.1 }}
                       className="bg-gradient-to-br from-rose-50 to-pink-50 p-6 rounded-2xl border border-rose-100"
                     >
-                      <div className="flex items-start justify-between mb-3">
-                        <h4 className="font-inter font-semibold text-gray-800">
-                          {blessing.name}
-                        </h4>
-                        <span className="text-sm text-gray-500 font-inter">
+                      <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-3 gap-2">
+                        <div className="flex flex-col sm:flex-row sm:items-center gap-2">
+                          <h4 className="font-inter font-semibold text-gray-800">
+                            {blessing.name}
+                          </h4>
+                          <div className="flex flex-wrap gap-1 sm:gap-2">
+                            {/* แสดงสถานะการเข้าร่วมงาน */}
+                            {blessing.willAttend !== null && (
+                              <span
+                                className={`text-xs px-2 py-1 rounded-full font-inter font-medium whitespace-nowrap ${
+                                  blessing.willAttend
+                                    ? "bg-green-100 text-green-700"
+                                    : "bg-red-100 text-pink-700"
+                                }`}
+                              >
+                                <span>
+                                  {blessing.willAttend
+                                    ? "ไปร่วมงาน"
+                                    : "ติดธุระ แต่ส่งใจไป"}
+                                </span>
+                                {blessing.willAttend ? " ✅" : " ❤️"}
+                              </span>
+                            )}
+                            {/* แสดง Badge สำหรับผู้บริจาค */}
+                            {blessing.hasDonated && (
+                              <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-gradient-to-r from-amber-100 to-yellow-100 text-amber-800 border border-amber-200 whitespace-nowrap">
+                                <span className="text-sm mr-1">🎁</span>
+                                <span>มอบของขวัญ</span>
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                        <span className="text-sm text-gray-500 font-inter whitespace-nowrap">
                           {new Date(blessing.createdAt).toLocaleDateString()}
                         </span>
                       </div>
@@ -291,7 +401,7 @@ const BlessUsSection = () => {
                 ) : (
                   <div className="text-center py-8 text-gray-500">
                     <p className="font-inter">
-                      No blessings yet. Be the first to send your wishes!
+                      ยังไม่มีคำอวยพรในขณะนี้ เริ่มอวยพรเป็นคนแรกกันเถอะ!
                     </p>
                   </div>
                 )}
@@ -326,6 +436,120 @@ const BlessUsSection = () => {
           </div>
         </motion.div>
       </div>
+
+      {/* QR Code Modal */}
+      {showQRCode && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+        >
+          <motion.div
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0.8, opacity: 0 }}
+            className="bg-white rounded-3xl shadow-2xl p-8 max-w-md w-full mx-4"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="text-center">
+              <h3 className="font-playfair text-3xl font-bold text-gray-800 mb-4">
+                💝 Wedding Gift
+              </h3>
+              <p className="font-inter text-gray-600 mb-6">
+                ขอบคุณสำหรับความใจดีของทุกคน 🙏
+                <br />
+                สแกน QR Code เพื่อส่งของขวัญให้บ่าวสาว
+              </p>
+
+              {/* QR Code Image - Replace with your actual QR code */}
+              <div className="bg-gray-100 rounded-2xl mb-6">
+                <div className="mx-auto bg-white rounded-xl border-2 border-gray-200 flex items-center justify-center p-2">
+                  {/* You can replace this with an actual QR code image */}
+                  <Image
+                    src="/logo/qrcode.png"
+                    alt="QR Code for Wedding Donation"
+                    width={256}
+                    height={256}
+                    className="object-cover object-center w-full h-full rounded-xl"
+                    priority
+                  />
+                </div>
+              </div>
+
+              {/* Bank Details */}
+              <div className="bg-gradient-to-br from-rose-50 to-pink-50 rounded-2xl p-4 mb-6 text-left">
+                <h4 className="font-inter font-bold text-gray-700 mb-2">
+                  🏦 รายละเอียดบัญชี
+                </h4>
+                <div className="space-y-1 text-sm text-gray-600">
+                  <p>
+                    <strong>ธนาคาร:</strong> ธนาคารกรุงไทย
+                  </p>
+                  <p>
+                    <strong>ชื่อบัญชี:</strong> นาย ณัฐพงษ์ คำทอง (เจ้าบ่าว)
+                  </p>
+                  <p>
+                    <strong>เลขบัญชี:</strong> 766-0-39416-9
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex gap-3">
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={() => setShowQRCode(false)}
+                  className="flex-1 py-3 px-4 rounded-xl border-2 border-gray-200 text-gray-600 hover:border-gray-300 font-inter font-semibold transition-all duration-300"
+                >
+                  ปิด
+                </motion.button>
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={() => {
+                    // Copy bank account number to clipboard
+                    navigator.clipboard.writeText("766-0-39416-9");
+                    toast.success("คัดลอกเลขบัญชีแล้ว! 📋", {
+                      icon: "✅",
+                    });
+                  }}
+                  className="flex-1 py-3 px-4 rounded-xl bg-gradient-to-r from-amber-400 to-orange-400 text-white font-inter font-semibold transition-all duration-300 hover:shadow-lg"
+                >
+                  📋 คัดลอกเลขบัญชี
+                </motion.button>
+              </div>
+              <p className="text-xs text-gray-400 mt-4">
+                📌 เมื่อส่งคำอวยพรและกดปุ่มด้านล่าง จะแสดงป้าย "มอบของขวัญ"
+                ให้เห็นด้วยนะ
+              </p>
+              {/* เพิ่มปุ่ม "ฉันได้บริจาคแล้ว" */}
+              <motion.button
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                onClick={() => {
+                  // Mark user as donated and close modal
+                  setFormData({ ...formData, hasDonated: true });
+                  setShowQRCode(false);
+                  toast.success(
+                    "ขอบคุณสำหรับการบริจาค! เมื่อส่งคำอวยพรจะแสดงป้าย 'มอบของขวัญ' ให้เห็น",
+                    {
+                      icon: "💝",
+                      duration: 5000,
+                    }
+                  );
+                }}
+                className="w-full mt-3 py-3 px-4 rounded-xl bg-gradient-to-r from-green-400 to-emerald-400 text-white font-inter font-semibold transition-all duration-300 hover:shadow-lg border-2 border-transparent hover:border-green-300"
+              >
+                <div className="flex items-center justify-center space-x-2">
+                  <span className="text-lg">💝</span>
+                  <span>มอบของขวัญเรียบร้อยแล้ว</span>
+                </div>
+              </motion.button>
+            </div>
+          </motion.div>
+        </motion.div>
+      )}
     </section>
   );
 };

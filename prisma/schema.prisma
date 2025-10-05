@@ -13,12 +13,14 @@ datasource db {
 
 // Blessing model for wedding blessings
 model Blessing {
-  id        String   @id @default(cuid())
-  name      String
-  email     String?
-  message   String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id         String   @id @default(cuid())
+  name       String
+  email      String?
+  message    String
+  willAttend Boolean? // เพิ่ม field สำหรับการเข้าร่วมงาน (nullable)
+  hasDonated Boolean? @default(false) // เพิ่ม field สำหรับการบริจาค (nullable)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 
   @@map("blessings")
 }

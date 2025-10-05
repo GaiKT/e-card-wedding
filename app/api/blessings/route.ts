@@ -7,6 +7,8 @@ const createBlessingSchema = z.object({
   name: z.string().min(1, 'Name is required').max(100, 'Name is too long'),
   email: z.string().email('Invalid email').optional().or(z.literal('')),
   message: z.string().min(1, 'Message is required').max(1000, 'Message is too long'),
+  willAttend: z.boolean().nullable().optional(), // เพิ่ม validation สำหรับ willAttend
+  hasDonated: z.boolean().nullable().optional(), // เพิ่ม validation สำหรับ hasDonated
 });
 
 // GET /api/blessings - Fetch all blessings
@@ -49,6 +51,8 @@ export async function POST(request: NextRequest) {
         name: validatedData.name,
         email: validatedData.email || null,
         message: validatedData.message,
+        willAttend: validatedData.willAttend, // เพิ่ม willAttend field
+        hasDonated: validatedData.hasDonated, // เพิ่ม hasDonated field
       }
     });
 

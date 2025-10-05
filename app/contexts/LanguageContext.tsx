@@ -174,11 +174,15 @@ const translations = {
     "blessings.namePlaceholder": "Enter your name",
     "blessings.email": "Email (Optional)",
     "blessings.emailPlaceholder": "Enter your email",
+    "blessings.willAttend": "Will you attend?",
+    "blessings.willAttendYes": "Yes, I'll be there!",
+    "blessings.willAttendNo": "No, I can't make it.",
     "blessings.message": "Your Blessing",
     "blessings.messagePlaceholder":
       "Share your wishes, blessings, or a special message for the couple...",
     "blessings.send": "Send Blessing 💕",
     "blessings.thankYou": "Thank You!",
+    "blessings.showQRCode": "Send a gift to the couple 💕",
     "blessings.received":
       "Your beautiful blessing has been received with love.",
     "blessings.recent": "Recent Blessings",
@@ -346,6 +350,9 @@ const translations = {
     "blessings.namePlaceholder": "กรอกชื่อของคุณ",
     "blessings.email": "อีเมล (ไม่บังคับ)",
     "blessings.emailPlaceholder": "กรอกอีเมลของคุณ (ไม่บังคับ)",
+    "blessings.willAttend": "จะมาร่วมงานไหมคะ?",
+    "blessings.willAttendYes": "จะมาแน่นอน!",
+    "blessings.willAttendNo": "ไม่สามารถมาได้",
     "blessings.message": "คำอวยพรของคุณ",
     "blessings.messagePlaceholder":
       "แบ่งปันความปรารถนาดี คำอวยพร หรือข้อความพิเศษสำหรับคู่บ่าวสาว...",
@@ -353,6 +360,7 @@ const translations = {
     "blessings.thankYou": "ขอบคุณ!",
     "blessings.thankYouDesc": "คำอวยพรของคุณมีความหมายกับเรามาก",
     "blessings.received": "คำอวยพรอันสวยงามของคุณได้รับด้วยความรักแล้ว",
+    "blessings.showQRCode": "มอบของขวัญให้บ่าวสาว 💕",
     "blessings.recent": "คำอวยพรล่าสุด",
     "blessings.viewAll": "ดูคำอวยพรทั้งหมด",
     "blessings.presence": "การมาร่วมงานของคุณคือของขวัญของเรา",
