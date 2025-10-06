@@ -182,6 +182,8 @@ const translations = {
       "Share your wishes, blessings, or a special message for the couple...",
     "blessings.send": "Send Blessing 💕",
     "blessings.thankYou": "Thank You!",
+    "blessings.thankYouDesc":
+      "Your kind words and blessings mean the world to us.",
     "blessings.showQRCode": "Send a gift to the couple 💕",
     "blessings.received":
       "Your beautiful blessing has been received with love.",

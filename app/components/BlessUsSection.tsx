@@ -28,6 +28,10 @@ const BlessUsSection = () => {
   const [blessings, setBlessings] = useState<Blessing[]>([]);
   const [isLoadingBlessings, setIsLoadingBlessings] = useState(true);
   const [showQRCode, setShowQRCode] = useState(false); // เพิ่ม state สำหรับแสดง QR Code
+  const [showConfirmation, setShowConfirmation] = useState(false); // เพิ่ม state สำหรับ confirmation popup
+  const [pendingFormData, setPendingFormData] = useState<
+    typeof formData | null
+  >(null); // เก็บ form data ชั่วคราว
 
   // Fetch blessings on component mount
   useEffect(() => {
@@ -71,7 +75,13 @@ const BlessUsSection = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    // เก็บ form data และแสดง confirmation popup
+    setPendingFormData(formData);
+    setShowConfirmation(true);
+  };
 
+  // Function สำหรับส่งคำอวยพรจริง
+  const submitBlessing = async (dataToSubmit: typeof formData) => {
     try {
       setIsLoading(true);
 
@@ -80,7 +90,7 @@ const BlessUsSection = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(dataToSubmit),
       });
 
       const result: ApiResponse<Blessing> = await response.json();
@@ -94,9 +104,15 @@ const BlessUsSection = () => {
           willAttend: null,
           hasDonated: false,
         });
+        setShowConfirmation(false);
+        setPendingFormData(null);
 
         // Refresh blessings list
         await fetchBlessings();
+
+        toast.success("ส่งคำอวยพรเรียบร้อยแล้ว! 💖", {
+          icon: "🎉",
+        });
       } else {
         console.error("Failed to submit blessing:", result.error);
         toast.error("ไม่สามารถส่งคำอวยพรได้ กรุณาลองใหม่อีกครั้ง", {
@@ -110,6 +126,32 @@ const BlessUsSection = () => {
       });
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  // Function สำหรับยืนยันการส่งคำอวยพรโดยไม่ donate
+  const confirmSendWithoutDonation = () => {
+    if (pendingFormData) {
+      submitBlessing(pendingFormData);
+    }
+  };
+
+  // Function สำหรับเปิด QR Code เพื่อ donate
+  const openDonationFlow = () => {
+    setShowConfirmation(false);
+    setShowQRCode(true);
+  };
+
+  // Function สำหรับยืนยัน donation และส่งคำอวยพร
+  const confirmDonationAndSubmit = () => {
+    if (pendingFormData) {
+      const updatedData = { ...pendingFormData, hasDonated: true };
+      setShowQRCode(false);
+      submitBlessing(updatedData);
+      toast.success("ขอบคุณสำหรับการบริจาค! 💝", {
+        icon: "🙏",
+        duration: 3000,
+      });
     }
   };
 
@@ -289,24 +331,11 @@ const BlessUsSection = () => {
                     {isLoading ? (
                       <div className="flex items-center justify-center space-x-2">
                         <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                        <span>Sending...</span>
+                        <span>กำลังส่ง...</span>
                       </div>
                     ) : (
                       t("blessings.send")
                     )}
-                  </motion.button>
-
-                  {/* Donate Button */}
-                  <motion.button
-                    type="button"
-                    onClick={() => setShowQRCode(true)}
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="w-full py-4 rounded-xl font-inter font-semibold text-lg transition-all duration-300 bg-gradient-to-r from-amber-400 to-orange-400 text-white hover:shadow-lg border-2 border-transparent hover:border-amber-300"
-                  >
-                    <div className="flex items-center justify-center space-x-2">
-                      <span>{t("blessings.showQRCode")}</span>
-                    </div>
                   </motion.button>
                 </form>
               )}
@@ -434,6 +463,93 @@ const BlessUsSection = () => {
           </div>
         </motion.div>
       </div>
+
+      {/* Confirmation Modal */}
+      {showConfirmation && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+        >
+          <motion.div
+            initial={{ scale: 0.8, opacity: 0, y: 50 }}
+            animate={{ scale: 1, opacity: 1, y: 0 }}
+            exit={{ scale: 0.8, opacity: 0, y: 50 }}
+            className="bg-white rounded-2xl sm:rounded-3xl shadow-2xl p-6 sm:p-8 max-w-md w-full mx-4"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="text-center">
+              <div className="text-4xl sm:text-5xl mb-4">💝</div>
+              <h3 className="font-playfair text-2xl sm:text-3xl font-bold text-gray-800 mb-4">
+                ส่งคำอวยพร
+              </h3>
+              <p className="font-inter text-gray-600 mb-6 leading-relaxed">
+                คุณต้องการส่งคำอวยพรหรือไม่?
+                <br />
+                <span className="text-sm text-gray-500">
+                  หรือต้องการมอบของขวัญให้บ่าวสาวด้วย?
+                </span>
+              </p>
+
+              <div className="space-y-3">
+                {/* ปุ่มส่งคำอวยพรโดยไม่ donate */}
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={confirmSendWithoutDonation}
+                  disabled={isLoading}
+                  className={`w-full py-3 px-4 rounded-xl font-inter font-semibold transition-all duration-300 ${
+                    isLoading
+                      ? "bg-gray-400 cursor-not-allowed"
+                      : "bg-gradient-to-r from-rose-400 to-pink-400 text-white hover:shadow-lg"
+                  }`}
+                >
+                  {isLoading ? (
+                    <div className="flex items-center justify-center space-x-2">
+                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                      <span>กำลังส่ง...</span>
+                    </div>
+                  ) : (
+                    <span className="flex items-center justify-center gap-2">
+                      <span>💌</span>
+                      <span>ส่งคำอวยพร</span>
+                    </span>
+                  )}
+                </motion.button>
+
+                {/* ปุ่มมอบของขวัญ */}
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={openDonationFlow}
+                  disabled={isLoading}
+                  className="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-amber-400 to-orange-400 text-white font-inter font-semibold transition-all duration-300 hover:shadow-lg"
+                >
+                  <span className="flex items-center justify-center gap-2">
+                    <span>🎁</span>
+                    <span>มอบของขวัญ + ส่งคำอวยพร</span>
+                  </span>
+                </motion.button>
+
+                {/* ปุ่มยกเลิก */}
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={() => {
+                    setShowConfirmation(false);
+                    setPendingFormData(null);
+                  }}
+                  disabled={isLoading}
+                  className="w-full py-3 px-4 rounded-xl border-2 border-gray-200 text-gray-600 hover:border-gray-300 font-inter font-semibold transition-all duration-300"
+                >
+                  ยกเลิก
+                </motion.button>
+              </div>
+            </div>
+          </motion.div>
+        </motion.div>
+      )}
 
       {/* QR Code Modal */}
       {showQRCode && (
@@ -564,28 +680,45 @@ const BlessUsSection = () => {
                   </p>
                 </div>
 
-                {/* Donation confirmation button */}
-                <motion.button
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  onClick={() => {
-                    setFormData({ ...formData, hasDonated: true });
-                    setShowQRCode(false);
-                    toast.success(
-                      "ขอบคุณสำหรับการบริจาค! เมื่อส่งคำอวยพรจะแสดงป้าย 'มอบของขวัญ' ให้เห็น",
-                      {
-                        icon: "💝",
-                        duration: 5000,
-                      }
-                    );
-                  }}
-                  className="w-full py-3 sm:py-4 px-4 rounded-xl bg-gradient-to-r from-green-400 to-emerald-400 text-white font-inter font-semibold transition-all duration-300 hover:shadow-lg border-2 border-transparent hover:border-green-300 text-sm sm:text-base"
-                >
-                  <div className="flex items-center justify-center space-x-2">
-                    <span className="text-base sm:text-lg">💝</span>
-                    <span>มอบของขวัญเรียบร้อยแล้ว</span>
-                  </div>
-                </motion.button>
+                {/* Donation confirmation buttons */}
+                <div className="flex flex-col gap-3">
+                  <motion.button
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    onClick={confirmDonationAndSubmit}
+                    disabled={isLoading}
+                    className={`w-full py-3 sm:py-4 px-4 rounded-xl font-inter font-semibold transition-all duration-300 hover:shadow-lg border-2 border-transparent text-sm sm:text-base ${
+                      isLoading
+                        ? "bg-gray-400 cursor-not-allowed"
+                        : "bg-gradient-to-r from-green-400 to-emerald-400 text-white hover:border-green-300"
+                    }`}
+                  >
+                    {isLoading ? (
+                      <div className="flex items-center justify-center space-x-2">
+                        <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                        <span>กำลังส่ง...</span>
+                      </div>
+                    ) : (
+                      <div className="flex items-center justify-center space-x-2">
+                        <span className="text-base sm:text-lg">💝</span>
+                        <span>ยืนยันการให้ของขวัญและส่งคำอวยพร</span>
+                      </div>
+                    )}
+                  </motion.button>
+
+                  <motion.button
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    onClick={() => {
+                      setShowQRCode(false);
+                      setShowConfirmation(true);
+                    }}
+                    disabled={isLoading}
+                    className="w-full py-2 px-4 rounded-xl border-2 border-gray-200 text-gray-600 hover:border-gray-300 font-inter font-medium transition-all duration-300 text-sm"
+                  >
+                    กลับไปเลือกใหม่
+                  </motion.button>
+                </div>
               </div>
             </div>
           </motion.div>
