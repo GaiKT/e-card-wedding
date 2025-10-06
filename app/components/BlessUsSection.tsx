@@ -230,7 +230,6 @@ const BlessUsSection = () => {
                         }`}
                       >
                         <div className="flex items-center justify-center space-x-2">
-                          <span className="text-2xl">✅</span>
                           <span className="font-inter font-semibold">
                             {t("blessings.willAttendYes")}
                           </span>
@@ -249,7 +248,6 @@ const BlessUsSection = () => {
                         }`}
                       >
                         <div className="flex items-center justify-center space-x-2">
-                          <span className="text-2xl">❌</span>
                           <span className="font-inter font-semibold">
                             {t("blessings.willAttendNo")}
                           </span>
@@ -443,109 +441,152 @@ const BlessUsSection = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-2 sm:p-4"
         >
           <motion.div
-            initial={{ scale: 0.8, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            exit={{ scale: 0.8, opacity: 0 }}
-            className="bg-white rounded-3xl shadow-2xl p-8 max-w-md w-full mx-4"
+            initial={{ scale: 0.8, opacity: 0, y: 50 }}
+            animate={{ scale: 1, opacity: 1, y: 0 }}
+            exit={{ scale: 0.8, opacity: 0, y: 50 }}
+            className="bg-white rounded-2xl sm:rounded-3xl shadow-2xl p-4 sm:p-6 lg:p-8 w-full max-w-sm sm:max-w-md md:max-w-4xl mx-2 sm:mx-4 max-h-[95vh] overflow-y-auto"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="text-center">
-              <h3 className="font-playfair text-3xl font-bold text-gray-800 mb-4">
+            {/* Close button for mobile */}
+            <div className="flex justify-end mb-2 md:hidden">
+              <motion.button
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+                onClick={() => setShowQRCode(false)}
+                className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-500 hover:bg-gray-200 transition-colors"
+              >
+                ✕
+              </motion.button>
+            </div>
+
+            {/* Header */}
+            <div className="text-center mb-4 sm:mb-6">
+              <h3 className="font-playfair text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-800 mb-2 sm:mb-4">
                 💝 Wedding Gift
               </h3>
-              <p className="font-inter text-gray-600 mb-6">
+              <p className="font-inter text-sm sm:text-base text-gray-600 leading-relaxed px-2">
                 ขอบคุณสำหรับความใจดีของทุกคน 🙏
-                <br />
+                <br className="hidden sm:block" />
+                <span className="sm:hidden"> </span>
                 สแกน QR Code เพื่อส่งของขวัญให้บ่าวสาว
               </p>
+            </div>
 
-              {/* QR Code Image - Replace with your actual QR code */}
-              <div className="bg-gray-100 rounded-2xl mb-6">
-                <div className="mx-auto bg-white rounded-xl border-2 border-gray-200 flex items-center justify-center p-2">
-                  {/* You can replace this with an actual QR code image */}
-                  <Image
-                    src="/logo/qrcode.png"
-                    alt="QR Code for Wedding Donation"
-                    width={256}
-                    height={256}
-                    className="object-cover object-center w-full h-full rounded-xl"
-                    priority
-                  />
+            {/* Content - 2 columns for md+ screens, 1 column for mobile */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+              {/* Left Column - QR Code */}
+              <div className="text-center">
+                <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl sm:rounded-2xl mb-4 sm:mb-6 p-3 sm:p-4">
+                  <div className="mx-auto bg-white rounded-lg sm:rounded-xl border-2 border-gray-200 shadow-lg flex items-center justify-center p-2 sm:p-3">
+                    <div className="w-48 h-48 sm:w-56 sm:h-56 lg:w-64 lg:h-64 relative">
+                      <Image
+                        src="/logo/qrcode.png"
+                        alt="QR Code for Wedding Donation"
+                        fill
+                        className="object-cover object-center rounded-lg"
+                        priority
+                        sizes="(max-width: 640px) 192px, (max-width: 1024px) 224px, 256px"
+                      />
+                    </div>
+                  </div>
                 </div>
               </div>
 
-              {/* Bank Details */}
-              <div className="bg-gradient-to-br from-rose-50 to-pink-50 rounded-2xl p-4 mb-6 text-left">
-                <h4 className="font-inter font-bold text-gray-700 mb-2">
-                  🏦 รายละเอียดบัญชี
-                </h4>
-                <div className="space-y-1 text-sm text-gray-600">
-                  <p>
-                    <strong>ธนาคาร:</strong> ธนาคารกรุงไทย
-                  </p>
-                  <p>
-                    <strong>ชื่อบัญชี:</strong> นาย ณัฐพงษ์ คำทอง (เจ้าบ่าว)
-                  </p>
-                  <p>
-                    <strong>เลขบัญชี:</strong> 766-0-39416-9
+              {/* Right Column - Bank Details & Actions */}
+              <div className="space-y-4 sm:space-y-6">
+                {/* Bank Details */}
+                <div className="bg-gradient-to-br from-rose-50 to-pink-50 rounded-xl sm:rounded-2xl p-3 sm:p-4 text-left border border-rose-100">
+                  <h4 className="font-inter font-bold text-gray-700 mb-2 sm:mb-3 text-sm sm:text-base flex items-center">
+                    <span className="text-lg sm:text-xl mr-2">🏦</span>
+                    รายละเอียดบัญชี
+                  </h4>
+                  <div className="space-y-1 sm:space-y-2">
+                    <div className="bg-white rounded-lg p-2 sm:p-3">
+                      <p className="text-xs sm:text-sm text-gray-600">
+                        <strong className="text-gray-700">ธนาคาร:</strong>{" "}
+                        ธนาคารกรุงไทย
+                      </p>
+                      <p className="text-xs sm:text-sm text-gray-600">
+                        <strong className="text-gray-700">ชื่อบัญชี:</strong>{" "}
+                        นาย ณัฐพงษ์ คำทอง (เจ้าบ่าว)
+                      </p>
+                      <p className="text-xs sm:text-sm text-gray-600">
+                        <strong className="text-gray-700">เลขบัญชี:</strong>
+                        <span className="font-mono font-bold text-blue-600 ml-1">
+                          766-0-39416-9
+                        </span>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Action Buttons */}
+                <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
+                  {/* Copy button - primary action */}
+                  <motion.button
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    onClick={() => {
+                      navigator.clipboard.writeText("766-0-39416-9");
+                      toast.success("คัดลอกเลขบัญชีแล้ว! 📋", {
+                        icon: "✅",
+                      });
+                    }}
+                    className="w-full sm:flex-1 py-3 px-4 rounded-xl bg-gradient-to-r from-amber-400 to-orange-400 text-white font-inter font-semibold transition-all duration-300 hover:shadow-lg text-sm sm:text-base"
+                  >
+                    <span className="flex items-center justify-center gap-2">
+                      <span>📋</span>
+                      <span>คัดลอกเลขบัญชี</span>
+                    </span>
+                  </motion.button>
+
+                  {/* Close button - desktop only */}
+                  <motion.button
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    onClick={() => setShowQRCode(false)}
+                    className="hidden md:block flex-1 py-3 px-4 rounded-xl border-2 border-gray-200 text-gray-600 hover:border-gray-300 font-inter font-semibold transition-all duration-300"
+                  >
+                    ปิด
+                  </motion.button>
+                </div>
+
+                {/* Note */}
+                <div className="bg-blue-50 rounded-lg p-3">
+                  <p className="text-xs sm:text-sm text-blue-600 text-center leading-relaxed">
+                    <span className="text-blue-500">📌</span>{" "}
+                    เมื่อส่งคำอวยพรและกดปุ่มด้านล่าง
+                    <br className="sm:hidden" />
+                    จะแสดงป้าย &quot;มอบของขวัญ&quot; ให้เห็นด้วยนะ
                   </p>
                 </div>
-              </div>
 
-              <div className="flex gap-3">
-                <motion.button
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  onClick={() => setShowQRCode(false)}
-                  className="flex-1 py-3 px-4 rounded-xl border-2 border-gray-200 text-gray-600 hover:border-gray-300 font-inter font-semibold transition-all duration-300"
-                >
-                  ปิด
-                </motion.button>
+                {/* Donation confirmation button */}
                 <motion.button
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   onClick={() => {
-                    // Copy bank account number to clipboard
-                    navigator.clipboard.writeText("766-0-39416-9");
-                    toast.success("คัดลอกเลขบัญชีแล้ว! 📋", {
-                      icon: "✅",
-                    });
+                    setFormData({ ...formData, hasDonated: true });
+                    setShowQRCode(false);
+                    toast.success(
+                      "ขอบคุณสำหรับการบริจาค! เมื่อส่งคำอวยพรจะแสดงป้าย 'มอบของขวัญ' ให้เห็น",
+                      {
+                        icon: "💝",
+                        duration: 5000,
+                      }
+                    );
                   }}
-                  className="flex-1 py-3 px-4 rounded-xl bg-gradient-to-r from-amber-400 to-orange-400 text-white font-inter font-semibold transition-all duration-300 hover:shadow-lg"
+                  className="w-full py-3 sm:py-4 px-4 rounded-xl bg-gradient-to-r from-green-400 to-emerald-400 text-white font-inter font-semibold transition-all duration-300 hover:shadow-lg border-2 border-transparent hover:border-green-300 text-sm sm:text-base"
                 >
-                  📋 คัดลอกเลขบัญชี
+                  <div className="flex items-center justify-center space-x-2">
+                    <span className="text-base sm:text-lg">💝</span>
+                    <span>มอบของขวัญเรียบร้อยแล้ว</span>
+                  </div>
                 </motion.button>
               </div>
-              <p className="text-xs text-gray-400 mt-4">
-                📌 เมื่อส่งคำอวยพรและกดปุ่มด้านล่าง จะแสดงป้าย
-                &quot;มอบของขวัญ&quot; ให้เห็นด้วยนะ
-              </p>
-              {/* เพิ่มปุ่ม "ฉันได้บริจาคแล้ว" */}
-              <motion.button
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                onClick={() => {
-                  // Mark user as donated and close modal
-                  setFormData({ ...formData, hasDonated: true });
-                  setShowQRCode(false);
-                  toast.success(
-                    "ขอบคุณสำหรับการบริจาค! เมื่อส่งคำอวยพรจะแสดงป้าย 'มอบของขวัญ' ให้เห็น",
-                    {
-                      icon: "💝",
-                      duration: 5000,
-                    }
-                  );
-                }}
-                className="w-full mt-3 py-3 px-4 rounded-xl bg-gradient-to-r from-green-400 to-emerald-400 text-white font-inter font-semibold transition-all duration-300 hover:shadow-lg border-2 border-transparent hover:border-green-300"
-              >
-                <div className="flex items-center justify-center space-x-2">
-                  <span className="text-lg">💝</span>
-                  <span>มอบของขวัญเรียบร้อยแล้ว</span>
-                </div>
-              </motion.button>
             </div>
           </motion.div>
         </motion.div>
