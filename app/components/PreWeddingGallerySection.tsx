@@ -17,7 +17,6 @@ import "swiper/css/pagination";
 import "swiper/css/effect-coverflow";
 import Image from "next/image";
 import { PhotoLike, ApiResponse } from "@/types/photo";
-import toast from "react-hot-toast";
 
 const PreWeddingGallerySection = () => {
   const { t } = useLanguage();
@@ -29,6 +28,10 @@ const PreWeddingGallerySection = () => {
   const [viewMode, setViewMode] = useState<"carousel" | "grid">("carousel");
   const [photoLikes, setPhotoLikes] = useState<{ [key: number]: number }>({});
   const [isLiking, setIsLiking] = useState<{ [key: number]: boolean }>({});
+  const [selectedImage, setSelectedImage] = useState<
+    (typeof galleryImages)[0] | null
+  >(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   // Fetch photo likes on component mount
   useEffect(() => {
@@ -103,6 +106,64 @@ const PreWeddingGallerySection = () => {
     },
     [isLiking]
   );
+
+  // Modal functions
+  const openModal = (image: (typeof galleryImages)[0]) => {
+    setSelectedImage(image);
+    setIsModalOpen(true);
+    document.body.style.overflow = "hidden"; // ป้องการ scroll ของ body
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedImage(null);
+    document.body.style.overflow = "unset"; // คืนค่า scroll
+  };
+
+  const navigateImage = useCallback(
+    (direction: "prev" | "next") => {
+      if (!selectedImage) return;
+
+      // ค้นหาใน galleryImages ปัจจุบัน
+      const currentIndex = galleryImages.findIndex(
+        (img) => img.id === selectedImage.id
+      );
+      let newIndex;
+
+      if (direction === "prev") {
+        newIndex =
+          currentIndex > 0 ? currentIndex - 1 : galleryImages.length - 1;
+      } else {
+        newIndex =
+          currentIndex < galleryImages.length - 1 ? currentIndex + 1 : 0;
+      }
+
+      setSelectedImage(galleryImages[newIndex]);
+    },
+    [selectedImage]
+  ); // เอา galleryImages ออกจาก dependency เพราะมันเป็น static array
+
+  // ตรวจสอบ keyboard events
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (!isModalOpen) return;
+
+      switch (e.key) {
+        case "Escape":
+          closeModal();
+          break;
+        case "ArrowLeft":
+          navigateImage("prev");
+          break;
+        case "ArrowRight":
+          navigateImage("next");
+          break;
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [isModalOpen, selectedImage, navigateImage]);
 
   // Your actual gallery images with beautiful captions and descriptions
   const galleryImages = [
@@ -556,7 +617,10 @@ const PreWeddingGallerySection = () => {
               >
                 {galleryImages.slice(0, 8).map((image, index) => (
                   <SwiperSlide key={image.id}>
-                    <motion.div className="group cursor-pointer">
+                    <motion.div
+                      className="group cursor-pointer"
+                      onClick={() => openModal(image)}
+                    >
                       <div className="relative bg-white md:rounded-3xl shadow-xl overflow-hidden border border-rose-100 h-[600px]">
                         <div className="relative h-[550px] overflow-hidden">
                           <Image
@@ -665,8 +729,9 @@ const PreWeddingGallerySection = () => {
                   >
                     <motion.div
                       whileHover={{ y: -4, scale: 1.01 }}
-                      className="relative bg-white rounded-2xl shadow-lg overflow-hidden border border-rose-100 h-full min-h-[250px]"
-                      style={{ isolation: "isolate" }} // สร้าง stacking context ใหม่
+                      className="relative bg-white rounded-2xl shadow-lg overflow-hidden border border-rose-100 h-full min-h-[250px] cursor-pointer"
+                      style={{ isolation: "isolate" }}
+                      onClick={() => openModal(image)}
                     >
                       <div className={`relative overflow-hidden w-full h-full`}>
                         <Image
@@ -797,6 +862,185 @@ const PreWeddingGallerySection = () => {
           </div>
         </motion.div>
       </div>
+
+      {/* Image Modal */}
+      {isModalOpen && selectedImage && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 bg-black/90 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+          onClick={closeModal}
+        >
+          <motion.div
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0.8, opacity: 0 }}
+            className="relative max-w-xl max-h-[90vh] w-full"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Close button */}
+            <motion.button
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              onClick={closeModal}
+              className="absolute top-4 right-4 z-10 bg-white/10 backdrop-blur-sm rounded-full p-3 text-white hover:bg-white/20 transition-all duration-300"
+            >
+              <svg
+                className="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </motion.button>
+
+            {/* Navigation buttons */}
+            <motion.button
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              onClick={() => navigateImage("prev")}
+              className="absolute left-4 top-1/2 transform -translate-y-1/2 z-10 bg-white/10 backdrop-blur-sm rounded-full p-3 text-white hover:bg-white/20 transition-all duration-300"
+            >
+              <svg
+                className="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M15 19l-7-7 7-7"
+                />
+              </svg>
+            </motion.button>
+
+            <motion.button
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              onClick={() => navigateImage("next")}
+              className="absolute right-4 top-1/2 transform -translate-y-1/2 z-10 bg-white/10 backdrop-blur-sm rounded-full p-3 text-white hover:bg-white/20 transition-all duration-300"
+            >
+              <svg
+                className="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M9 5l7 7-7 7"
+                />
+              </svg>
+            </motion.button>
+
+            {/* Image container */}
+            <div className="relative w-full h-full flex flex-col bg-gray-900 rounded-2xl overflow-hidden shadow-2xl">
+              <div className="relative flex-1 min-h-[60vh]">
+                <Image
+                  src={selectedImage.src}
+                  alt={selectedImage.alt}
+                  fill
+                  className="object-contain"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 80vw"
+                  priority
+                />
+
+                {/* Like button in modal */}
+                <motion.button
+                  className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm rounded-full p-3 shadow-lg transition-all duration-300"
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleLike(selectedImage.id, selectedImage.src);
+                  }}
+                  disabled={isLiking[selectedImage.id]}
+                >
+                  <motion.div
+                    animate={
+                      isLiking[selectedImage.id] ? { scale: [1, 1.3, 1] } : {}
+                    }
+                    transition={{ duration: 0.3 }}
+                    className="flex items-center space-x-2"
+                  >
+                    <svg
+                      className={`w-5 h-5 transition-colors duration-200 ${
+                        photoLikes[selectedImage.id] > 0
+                          ? "text-red-500"
+                          : "text-gray-400"
+                      }`}
+                      fill={
+                        photoLikes[selectedImage.id] > 0
+                          ? "currentColor"
+                          : "none"
+                      }
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                      />
+                    </svg>
+                    {photoLikes[selectedImage.id] > 0 && (
+                      <span className="text-sm font-semibold text-gray-700">
+                        {photoLikes[selectedImage.id]}
+                      </span>
+                    )}
+                  </motion.div>
+                </motion.button>
+              </div>
+
+              {/* Image info */}
+              <div className="p-6 bg-gradient-to-t from-white to-gray-50">
+                <div className="flex items-start justify-between mb-3">
+                  <div className="flex-1 pr-4">
+                    <h3 className="font-playfair text-xl md:text-2xl font-bold text-gray-800 mb-2">
+                      {selectedImage.caption}
+                    </h3>
+                    <p className="font-inter text-gray-600 leading-relaxed">
+                      {selectedImage.description}
+                    </p>
+                  </div>
+
+                  {/* Feature badge */}
+                  {selectedImage.isFeature && (
+                    <div className="bg-gradient-to-r from-rose-400 to-pink-400 text-white px-3 py-1 rounded-full text-sm font-medium">
+                      ✨ Featured
+                    </div>
+                  )}
+                </div>
+
+                {/* Image counter */}
+                <div className="flex items-center justify-between text-sm text-gray-500">
+                  <span>
+                    {galleryImages.findIndex(
+                      (img) => img.id === selectedImage.id
+                    ) + 1}{" "}
+                    of {galleryImages.length}
+                  </span>
+                  <span className="text-xs opacity-75">
+                    Press ESC to close • Use ← → to navigate
+                  </span>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        </motion.div>
+      )}
 
       {/* Custom CSS for Swiper and Grid */}
       <style jsx global>{`
