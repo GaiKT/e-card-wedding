@@ -24,3 +24,15 @@ model Blessing {
 
   @@map("blessings")
 }
+
+// Photo model for gallery images with likes
+model Photo {
+  id         String   @id @default(cuid())
+  imageId    Int      @unique // ไอดีของรูปจาก gallery
+  imagePath  String // path ของรูป
+  likesCount Int      @default(0) // จำนวน likes
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@map("photos")
+}

@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useLanguage } from "../contexts/LanguageContext";
 import { Swiper, SwiperSlide } from "swiper/react";
 import {
@@ -16,6 +16,8 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/effect-coverflow";
 import Image from "next/image";
+import { PhotoLike, ApiResponse } from "@/types/photo";
+import toast from "react-hot-toast";
 
 const PreWeddingGallerySection = () => {
   const { t } = useLanguage();
@@ -25,6 +27,82 @@ const PreWeddingGallerySection = () => {
   });
 
   const [viewMode, setViewMode] = useState<"carousel" | "grid">("carousel");
+  const [photoLikes, setPhotoLikes] = useState<{ [key: number]: number }>({});
+  const [isLiking, setIsLiking] = useState<{ [key: number]: boolean }>({});
+
+  // Fetch photo likes on component mount
+  useEffect(() => {
+    fetchPhotoLikes();
+  }, []);
+
+  const fetchPhotoLikes = async () => {
+    try {
+      const response = await fetch("/api/photos");
+      const result: ApiResponse<PhotoLike[]> = await response.json();
+
+      if (result.success && result.data) {
+        const likesMap: { [key: number]: number } = {};
+        result.data.forEach((photo) => {
+          likesMap[photo.imageId] = photo.likesCount;
+        });
+        setPhotoLikes(likesMap);
+      }
+    } catch (error) {
+      console.error("Error fetching photo likes:", error);
+    }
+  };
+
+  const handleLike = useCallback(
+    async (imageId: number, imagePath: string) => {
+      if (isLiking[imageId]) return; // ป้องกัน double click
+
+      setIsLiking((prev) => ({ ...prev, [imageId]: true }));
+
+      // อัพเดต UI ทันที
+      setPhotoLikes((prev) => ({
+        ...prev,
+        [imageId]: (prev[imageId] || 0) + 1,
+      }));
+
+      try {
+        const response = await fetch("/api/photos", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            imageId,
+            imagePath,
+          }),
+        });
+
+        const result: ApiResponse<PhotoLike> = await response.json();
+
+        if (result.success && result.data) {
+          setPhotoLikes((prev) => ({
+            ...prev,
+            [imageId]: result.data!.likesCount,
+          }));
+        } else {
+          // ย้อนกลับถ้ามี error
+          setPhotoLikes((prev) => ({
+            ...prev,
+            [imageId]: (prev[imageId] || 1) - 1,
+          }));
+        }
+      } catch (error) {
+        console.error("Error liking photo:", error);
+        // ย้อนกลับถ้ามี error
+        setPhotoLikes((prev) => ({
+          ...prev,
+          [imageId]: (prev[imageId] || 1) - 1,
+        }));
+      } finally {
+        setIsLiking((prev) => ({ ...prev, [imageId]: false }));
+      }
+    },
+    [isLiking]
+  );
 
   // Your actual gallery images with beautiful captions and descriptions
   const galleryImages = [
@@ -496,24 +574,52 @@ const PreWeddingGallerySection = () => {
                           {/* Overlay Effects */}
                           <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
-                          {/* <motion.div
-                            className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm rounded-full p-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                          {/* Like Button */}
+                          <motion.button
+                            className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm rounded-full p-3 opacity-0 group-hover:opacity-100 transition-all duration-300 shadow-lg"
                             whileHover={{ scale: 1.1 }}
+                            whileTap={{ scale: 0.9 }}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleLike(image.id, image.src);
+                            }}
+                            disabled={isLiking[image.id]}
                           >
-                            <svg
-                              className="w-5 h-5 text-rose-500"
-                              fill="none"
-                              stroke="currentColor"
-                              viewBox="0 0 24 24"
+                            <motion.div
+                              animate={
+                                isLiking[image.id] ? { scale: [1, 1.3, 1] } : {}
+                              }
+                              transition={{ duration: 0.3 }}
+                              className="flex items-center space-x-1"
                             >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                              />
-                            </svg>
-                          </motion.div> */}
+                              <svg
+                                className={`w-5 h-5 transition-colors duration-200 ${
+                                  photoLikes[image.id] > 0
+                                    ? "text-red-500"
+                                    : "text-gray-400"
+                                }`}
+                                fill={
+                                  photoLikes[image.id] > 0
+                                    ? "currentColor"
+                                    : "none"
+                                }
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth={2}
+                                  d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                                />
+                              </svg>
+                              {photoLikes[image.id] > 0 && (
+                                <span className="text-xs font-medium text-gray-700">
+                                  {photoLikes[image.id]}
+                                </span>
+                              )}
+                            </motion.div>
+                          </motion.button>
 
                           <div className="absolute bottom-4 left-4 right-4 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                             <p className="text-sm font-inter drop-shadow-lg">
@@ -558,8 +664,9 @@ const PreWeddingGallerySection = () => {
                     }`}
                   >
                     <motion.div
-                      whileHover={{ y: -8, scale: 1.02 }}
+                      whileHover={{ y: -4, scale: 1.01 }}
                       className="relative bg-white rounded-2xl shadow-lg overflow-hidden border border-rose-100 h-full min-h-[250px]"
+                      style={{ isolation: "isolate" }} // สร้าง stacking context ใหม่
                     >
                       <div className={`relative overflow-hidden w-full h-full`}>
                         <Image
@@ -578,11 +685,11 @@ const PreWeddingGallerySection = () => {
                           blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWEREiMxUf/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyojznyDzR+ya2Z3qBXSrKf8"
                         />
 
-                        {/* Enhanced Overlay Effects */}
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500" />
+                        {/* Enhanced Overlay Effects - ลด intensity */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300 z-10" />
 
                         {/* Floating Caption */}
-                        <div className="absolute bottom-4 left-4 right-4 text-white opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-4 group-hover:translate-y-0">
+                        <div className="absolute bottom-4 left-4 right-12 text-white opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-4 group-hover:translate-y-0 z-10">
                           <h4 className="font-inter font-semibold text-sm md:text-base drop-shadow-lg mb-1">
                             {image.caption}
                           </h4>
@@ -591,25 +698,57 @@ const PreWeddingGallerySection = () => {
                           </p>
                         </div>
 
-                        {/* Corner Icon */}
-                        <motion.div
-                          className="absolute top-3 right-3 bg-white/90 backdrop-blur-sm rounded-full p-2 opacity-0 group-hover:opacity-100 transition-all duration-300"
-                          whileHover={{ scale: 1.2, rotate: 15 }}
+                        {/* Corner Like Button */}
+                        <motion.button
+                          className="absolute top-3 right-3 bg-white/95 backdrop-blur-sm rounded-full p-2 shadow-lg z-20 transition-all duration-300 border border-white/50"
+                          style={{
+                            opacity: 1, // แสดงตลอดเวลา
+                            pointerEvents: "auto", // รับคลิกได้เสมอ
+                          }}
+                          whileHover={{ scale: 1.15 }}
+                          whileTap={{ scale: 0.9 }}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            handleLike(image.id, image.src);
+                          }}
+                          disabled={isLiking[image.id]}
                         >
-                          <svg
-                            className="w-4 h-4 text-rose-500"
-                            fill={isFeatureCard ? "currentColor" : "none"}
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
+                          <motion.div
+                            animate={
+                              isLiking[image.id] ? { scale: [1, 1.3, 1] } : {}
+                            }
+                            transition={{ duration: 0.3 }}
+                            className="flex items-center space-x-1"
                           >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-                            />
-                          </svg>
-                        </motion.div>
+                            <svg
+                              className={`w-4 h-4 transition-colors duration-200 ${
+                                photoLikes[image.id] > 0
+                                  ? "text-red-500"
+                                  : "text-gray-500"
+                              }`}
+                              fill={
+                                photoLikes[image.id] > 0
+                                  ? "currentColor"
+                                  : "none"
+                              }
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                              />
+                            </svg>
+                            {photoLikes[image.id] > 0 && (
+                              <span className="text-xs font-bold text-gray-800 min-w-[12px] text-center">
+                                {photoLikes[image.id]}
+                              </span>
+                            )}
+                          </motion.div>
+                        </motion.button>
 
                         {/* Feature Card Badge */}
                         {isFeatureCard && (
