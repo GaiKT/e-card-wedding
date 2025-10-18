@@ -23,14 +23,14 @@ const MusicPlayer = () => {
   // รายการเพลง - คุณสามารถเพิ่มเพลงได้ที่นี่
   const playlist: Song[] = [
     {
-      title: "Her",
-      artist: "JVKE",
-      src: "/music/Her.mp3",
-    },
-    {
       title: "Until I Found You",
       artist: "Stephen Sanchez",
       src: "/music/Until_I_Found_You.mp3",
+    },
+    {
+      title: "Her",
+      artist: "JVKE",
+      src: "/music/Her.mp3",
     },
     {
       title: "Perfect",
