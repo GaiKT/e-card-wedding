@@ -269,7 +269,7 @@ const MusicPlayer = () => {
                   className="p-2 rounded-full bg-white/50 hover:bg-white/80 transition-all duration-200 shadow-md"
                 >
                   <svg
-                    className="w-6 h-6 text-rose-600"
+                    className="w-6 h-6 text-rose-600 rotate-180"
                     fill="currentColor"
                     viewBox="0 0 24 24"
                   >
