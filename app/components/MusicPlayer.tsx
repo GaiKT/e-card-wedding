@@ -23,6 +23,11 @@ const MusicPlayer = () => {
   // รายการเพลง - คุณสามารถเพิ่มเพลงได้ที่นี่
   const playlist: Song[] = [
     {
+      title: "Perfect",
+      artist: "Ed Sheeran",
+      src: "/music/Perfect.mp3",
+    },
+    {
       title: "At Last",
       artist: "Etta James",
       src: "/music/At_Last.mp3",
@@ -31,11 +36,6 @@ const MusicPlayer = () => {
       title: "Marry You",
       artist: "Bruno Mars",
       src: "/music/Marry_You.mp3",
-    },
-    {
-      title: "Perfect",
-      artist: "Ed Sheeran",
-      src: "/music/Perfect.mp3",
     },
   ];
 
