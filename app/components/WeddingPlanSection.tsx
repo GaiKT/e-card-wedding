@@ -248,23 +248,23 @@ const WeddingPlanSection = () => {
                 {/* Color indicators */}
                 <div className="flex justify-center flex-wrap md:gap-8 gap-3">
                   <div className="flex items-center space-x-1">
-                    <div className="w-8 h-8 bg-[#993F0D] rounded-full"></div>
+                    <div className="w-8 h-8 bg-[#A2480A] rounded-full"></div>
                     <span className="text-xs text-gray-500"></span>
                   </div>
                   <div className="flex items-center space-x-1">
-                    <div className="w-8 h-8 bg-[#C0654C] rounded-full"></div>
+                    <div className="w-8 h-8 bg-[#CF6C4D] rounded-full"></div>
                     <span className="text-xs text-gray-500"></span>
                   </div>
                   <div className="flex items-center space-x-1">
-                    <div className="w-8 h-8 bg-[#C78344] rounded-full"></div>
+                    <div className="w-8 h-8 bg-[#D88A48] rounded-full"></div>
                     <span className="text-xs text-gray-500"></span>
                   </div>
                   <div className="flex items-center space-x-1">
-                    <div className="w-8 h-8 bg-[#E28955] rounded-full"></div>
+                    <div className="w-8 h-8 bg-[#EC9462] rounded-full"></div>
                     <span className="text-xs text-gray-500"></span>
                   </div>
                   <div className="flex items-center space-x-1">
-                    <div className="w-8 h-8 bg-[#D9B9AE] rounded-full"></div>
+                    <div className="w-8 h-8 bg-[#EBC5BA] rounded-full"></div>
                     <span className="text-xs text-gray-500"></span>
                   </div>
                 </div>
