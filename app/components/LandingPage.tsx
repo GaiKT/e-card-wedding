@@ -121,7 +121,7 @@ const LandingPage = ({ onEnter }: LandingPageProps) => {
                 transition={{ delay: 0.5 }}
                 className="mt-12 text-white/70 font-inter text-sm"
               >
-                <p>วันอังคารที่ 19 พฤศจิกายน 2567</p>
+                <p>วันพุธที่ 19 พฤศจิกายน 2568</p>
                 <p>เวลา 06:30 น.</p>
               </motion.div>
             </motion.div>
