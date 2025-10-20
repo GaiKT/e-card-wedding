@@ -18,7 +18,7 @@ export async function GET() {
       orderBy: {
         createdAt: 'desc'
       },
-      take: 50 // Limit to 50 most recent blessings
+      take: 200
     });
 
     return NextResponse.json({

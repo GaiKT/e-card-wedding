@@ -45,6 +45,8 @@ const BlessUsSection = () => {
       const response = await fetch("/api/blessings");
       const result: ApiResponse<Blessing[]> = await response.json();
 
+      console.log("Fetched blessings:", result);
+
       if (result.success && result.data) {
         setBlessings(result.data);
       } else {
@@ -354,7 +356,7 @@ const BlessUsSection = () => {
                 {t("blessings.recent")}
               </h3>
 
-              <div className="space-y-6 max-h-96 overflow-y-auto custom-scrollbar">
+              <div className="space-y-6 max-h-[500px] overflow-y-auto custom-scrollbar">
                 {isLoadingBlessings ? (
                   // Loading skeleton
                   <div className="space-y-4">
