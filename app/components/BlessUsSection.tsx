@@ -7,6 +7,7 @@ import { useLanguage } from "../contexts/LanguageContext";
 import { Blessing, ApiResponse } from "@/types/blessing";
 import Image from "next/image";
 import toast from "react-hot-toast";
+import Link from "next/link";
 
 const BlessUsSection = () => {
   const { t } = useLanguage();
@@ -390,6 +391,13 @@ const BlessUsSection = () => {
                             {blessing.name}
                           </h4>
                           <div className="flex flex-wrap gap-1 sm:gap-2">
+                            {/* แสดงสัญลักษณ์ Facebook (ตรวจสอบจาก email pattern) */}
+                            {blessing.email?.startsWith("facebook_") && (
+                              <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-gradient-to-r from-blue-100 to-indigo-100 text-blue-700 border border-blue-200 whitespace-nowrap">
+                                <span className="text-sm mr-1">📘</span>
+                                <span>Facebook</span>
+                              </span>
+                            )}
                             {/* แสดงสถานะการเข้าร่วมงาน */}
                             {blessing.willAttend !== null && (
                               <span
@@ -435,17 +443,54 @@ const BlessUsSection = () => {
               </div>
 
               <div className="text-center mt-6">
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="border-2 border-rose-300 text-rose-600 px-6 py-3 rounded-full font-inter font-semibold hover:bg-rose-50 transition-all duration-300"
-                >
-                  {t("blessings.viewAll")}
-                </motion.button>
+                <Link href="/blessings">
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="border-2 border-rose-300 text-rose-600 px-6 py-3 rounded-full font-inter font-semibold hover:bg-rose-50 transition-all duration-300"
+                  >
+                    {t("blessings.viewAll")}
+                  </motion.button>
+                </Link>
               </div>
             </div>
           </motion.div>
         </div>
+
+        {/* Facebook Post Section */}
+        {/* <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+          transition={{ duration: 0.8, delay: 1.0 }}
+          className="mt-16 max-w-2xl mx-auto"
+        >
+          <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl p-6 sm:p-8 border border-rose-100">
+            <div className="text-center mb-6">
+              <h3 className="font-playfair text-2xl md:text-3xl font-bold text-gray-800 mb-3">
+                💌 คำอวยพรจากเพื่อนๆ
+              </h3>
+              <p className="font-inter text-sm sm:text-base text-gray-600">
+                ดูโพสต์คำอวยพรจากเพื่อนๆ ของเราได้ที่นี่บน Facebook!
+              </p>
+            </div>
+
+            <div className="flex justify-center items-center">
+              <div className="w-full max-w-[500px] overflow-hidden rounded-xl shadow-lg">
+                <iframe
+                  src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fnatthaporn.nakpong.315%2Fposts%2Fpfbid02UGU2iqgf5CSeyNi9HJFumDoiTGZskEEgchp9FCboh4FPRyFJ5LurMRYtMVb8A5fDl&show_text=true&width=500"
+                  width="500"
+                  height="696"
+                  style={{ border: "none", overflow: "hidden" }}
+                  scrolling="no"
+                  frameBorder="0"
+                  allowFullScreen={true}
+                  allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+                  className="w-full"
+                ></iframe>
+              </div>
+            </div>
+          </div>
+        </motion.div> */}
 
         <motion.div
           initial={{ opacity: 0, y: 30 }}

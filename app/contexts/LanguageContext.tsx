@@ -17,7 +17,7 @@ const translations = {
     "hero.weAreGetting": "We're Getting",
     "hero.married": "Married!",
     "hero.names": "Natthapong & Natthapon",
-    "hero.date": "Tuesday, 19th November 2025",
+    "hero.date": "Wednesday, 19th November 2025",
     "hero.time": "07:09 AM",
     "hero.description":
       "Join us as we celebrate the beginning of our forever journey. Your presence would make our special day even more magical.",
@@ -204,7 +204,7 @@ const translations = {
     "hero.weAreGetting": "เรากำลังจะ",
     "hero.married": "แต่งงาน!",
     "hero.names": "ณัฐพงษ์ & ณัฐพร",
-    "hero.date": "วันอังคาร ที่ 19 พฤศจิกายน 2568",
+    "hero.date": "วันพุธ ที่ 19 พฤศจิกายน 2568",
     "hero.time": "07:09 น.",
     "hero.description":
       "ร่วมเฉลิมฉลองการเริ่มต้นเส้นทางแห่งความรักนิรันดร์ของเรา การมาร่วมงานของคุณจะทำให้วันพิเศษของเราแสนวิเศษยิ่งขึ้น",
@@ -383,7 +383,7 @@ const LanguageContext = createContext<LanguageContextType | undefined>(
 export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [language, setLanguage] = useState<Language>("en");
+  const [language, setLanguage] = useState<Language>("th");
 
   useEffect(() => {
     const savedLanguage = localStorage.getItem("wedding-language") as Language;
